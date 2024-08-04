@@ -1,17 +1,29 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import { createRoot } from "react-dom/client";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { SnackbarProvider } from "notistack";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+import "bootstrap/dist/css/bootstrap.min.css";
+
+import Login from "./pages/auth/Login";
+import Dashboard from "./pages/dashboard/Dashboard";
+import LecturerProfile from "./pages/lecturer-profile/LecturerProfile";
+import Research from "./pages/research/Research";
+import AddResearch from "./pages/research/AddResearch";
+
+const roots = document.getElementById("root");
+const root = createRoot(roots);
+
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <Router>
+    <SnackbarProvider maxSnack={3}>
+      <Routes>
+        <Route path="/login" element={<Login />}></Route>
+        <Route path="/dashboard" element={<Dashboard />}></Route>
+        <Route path="/lecturer-profile" element={<LecturerProfile />}></Route>
+        <Route path="/research" element={<Research />}></Route>
+        <Route path="/add-research" element={<AddResearch />}></Route>
+      </Routes>
+    </SnackbarProvider>
+  </Router>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

@@ -1,0 +1,226 @@
+/* ============================================ */
+
+/* ------ General Content ------*/
+
+*{
+    padding: 0;
+    margin: 0;
+    position: relative;
+    font-family: 'Inter', sans-serif;
+    
+}
+
+body, html {
+    background-color: #F5F6F8;
+}
+
+:root{
+    --font-color-white: #FFFFFF;
+    --font-color-black: #292929;
+    --font-color-grey: #989898;
+    --font-color-red: #EA4D55;
+    --background-sidebar-hover: #FEF2F3;
+    --button-color-red: #D62C35;
+    --button-color-yellow: #FDBE1B;
+}
+
+/* ------ End General Content ------*/
+
+/* ============================================ */
+
+
+/* ============================================ */
+
+/* ------ Side Bar Content ------*/
+
+#side-bar-content .sub-menu{
+    margin-top: 40px;
+    color: var(--font-color-grey);
+}
+
+#side-bar-content .side-bar-menu-item{
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: var(--font-color-grey);
+}
+
+#side-bar-content .side-bar-menu-item .dashboard,
+#side-bar-content .side-bar-menu-item .lecturer-profile,
+#side-bar-content .side-bar-menu-item .research{
+    :hover{
+        background-color: var(--background-sidebar-hover);
+        color: var(--font-color-red);
+        border-radius: 8px;
+    }
+}
+
+#side-bar-content .side-bar-menu-item .active{
+    background-color: var(--background-sidebar-hover);
+    color: var(--font-color-red);
+    border-radius: 8px;
+}
+
+/* ------ End Side Bar Content ------*/
+
+/* ============================================ */
+
+
+
+/* ============================================ */
+
+/* ------ Login Content ------*/
+
+#login-content{
+    position: relative;
+    background: #FFFFFF;
+}
+
+#login-content .login-background{
+    position: absolute;
+    height: 100vh;
+    width: 1000px;
+}
+
+#login-content .form-login{
+    height: 100vh;
+    align-items: center;
+}
+
+#login-content .form-login img{
+    width: 180px;
+}
+
+#login-content .form-login h1{
+    margin-top: 40px;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+#login-content .form-login p{
+    margin-top: 8px;
+    font-size: 14px;
+    color: var(--font-color-grey);
+}
+
+#login-content .form-login .form-input{
+    margin-top: 40px;
+}
+
+#login-content .form-login .form-input .form-control{
+    font-size: 14px;
+    color: var(--font-color-grey);
+    height: 45px;
+}
+
+#login-content .form-login .form-btn-login{
+    margin-top: 40px;
+}
+
+#login-content .form-login .form-btn-login button{
+    width: 100%;
+    background-color: var(--button-color-red);
+    border: 1px solid #D62C35;
+    border-radius: 8px;
+}
+
+/* ------ End Login Content ------*/
+
+/* ============================================ */
+
+
+
+/* ============================================ */
+
+/* ------ Research Content ------*/
+
+#research-content{
+    margin-top: 20px;
+}
+
+#research-content .add-research-content button{
+    width: 100%;
+    padding: 8px 10px;
+    background-color: var(--button-color-red);
+    border: none;
+    border-radius: 8px;
+}
+
+#research-content .research-table-content{
+    margin-top: 16px;
+    padding: 8px;
+    background-color: #FFFFFF;
+    border-radius: 8px;
+}
+
+#research-content .research-table-content .table-head{
+    padding: 16px;
+}
+
+#research-content .research-table-content .table-head h6{
+    font-size: 14px;
+    font-weight: 700;
+    margin: auto 0;
+}
+
+#research-content .research-table-content .table-body{
+    padding: 16px;
+    align-items: center;
+    margin-top: -10px;
+}
+
+#research-content .research-table-content .table-body h6{
+    font-size: 14px;
+    margin: auto 0;
+}
+
+#research-content .research-table-content .table-body .view img{
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--button-color-yellow);
+    border-radius: 4px;
+    padding: 8px;
+}
+
+#research-content .research-table-content .table-body .delete img{
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--button-color-red);
+    border-radius: 4px;
+    padding: 8px;
+}
+
+#add-research-content{
+    margin-top: 20px;
+}
+
+#add-research-content .add-research-title h1{
+    font-size: 16px;
+    font-weight: 700;
+    margin: auto 0;
+}
+
+#add-research-content .form-research{
+    margin-top: 20px;
+}
+
+#add-research-content .form-research h1{
+    font-size: 14px;
+    font-weight: 700;
+    margin-top: 0;
+}
+
+#add-research-content .form-research .form-research-input{
+    margin-top: 20px;
+}
+
+#add-research-content .form-research .form-research-input .form-control{ 
+    height: 45px;
+}
+
+/* ------ End Research Content ------*/
+
+/* ============================================ */
