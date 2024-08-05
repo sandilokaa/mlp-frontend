@@ -10,6 +10,8 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import LecturerProfile from "./pages/lecturer-profile/LecturerProfile";
 import Research from "./pages/research/Research";
 import AddResearch from "./pages/research/AddResearch";
+import UpdateResearch from "./pages/research/UpdateResearch";
+import UpdateProfile from "./pages/lecturer-profile/UpdateProfile";
 
 const roots = document.getElementById("root");
 const root = createRoot(roots);
@@ -23,6 +25,8 @@ root.render(
         <Route path="/lecturer-profile" element={<LecturerProfile />}></Route>
         <Route path="/research" element={<Research />}></Route>
         <Route path="/add-research" element={<AddResearch />}></Route>
+        <Route path="/update-research" element={<UpdateResearch />}></Route>
+        <Route path="/update-profile" element={<UpdateProfile />}></Route>
       </Routes>
     </SnackbarProvider>
   </Router>

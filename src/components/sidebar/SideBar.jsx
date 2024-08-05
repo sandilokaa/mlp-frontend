@@ -30,6 +30,8 @@ const MySideBar = () => {
             setActiveItem('lecturer-profile');
         } else if (path.includes('/research')) {
             setActiveItem('research');
+        } else {
+            setActiveItem(null);
         }
     }, [location]);
 
@@ -42,8 +44,8 @@ const MySideBar = () => {
 
     return (
 
-        <Sidebar id='side-bar-content' style={{ height: '100vh', border: 'none' }}>
-            <Menu className='menu-content p-3' style={{ height: '100vh', border: 'none', backgroundColor: '#FFFFFF' }}>
+        <Sidebar id='side-bar-content' style={{ height: '100%', border: 'none' }}>
+            <Menu className='menu-content p-3' style={{ height: '100%', border: 'none', backgroundColor: '#FFFFFF' }}>
                 <Image src={LogoTelkom} alt='logoImage' style={{ width: '180px' }} />
                 <div className='sub-menu'>
                     <span>Menu</span>
@@ -68,7 +70,7 @@ const MySideBar = () => {
                         </div>
                     </MenuItem>
                     <MenuItem
-                        className={`research ${activeItem === 'research' ? 'active' : 'add-research' ? 'active' : ''}`}
+                        className={`research ${activeItem === 'research' ? 'active' : ''}`}
                         onClick={() => handleClick('research', '/research')}
                     >
                         <div className='d-flex align-items-center'>

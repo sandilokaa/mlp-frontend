@@ -12,6 +12,7 @@ import DashboardLayout from "../../layouts/dashboard/DashboardLayout";
 
 import ViewIcon from "../../assets/images/icons/eye.svg";
 import DeleteIcon from "../../assets/images/icons/trash.svg";
+import EditIcon from "../../assets/images/icons/edit-2.svg";
 
 import "../../assets/css/style.css";
 
@@ -64,13 +65,18 @@ const Research = () => {
                                 <h6>TBA</h6>
                             </Col>
                             <Col xl={2} className="text-center">
-                                <Row>
-                                    <Col xl={6} className="d-flex justify-content-end">
+                                <Row style={{display: 'flex', padding: '0', margin: '0'}}>
+                                    <Col xl={4} className="d-flex justify-content-end p-0">
                                         <span className="view">
                                             <Image src={ViewIcon} />
                                         </span>
                                     </Col>
-                                    <Col xl={6} className="d-flex justify-content-start">
+                                    <Col xl={4} className="d-flex justify-content-center p-0">
+                                        <span className="edit">
+                                            <Image src={EditIcon} />
+                                        </span>
+                                    </Col>
+                                    <Col xl={4} className="d-flex justify-content-start p-0">
                                         <span className="delete">
                                             <Image src={DeleteIcon} />
                                         </span>

@@ -22,6 +22,7 @@ body, html {
     --background-sidebar-hover: #FEF2F3;
     --button-color-red: #D62C35;
     --button-color-yellow: #FDBE1B;
+    --button-color-blue: #2181E8;
 }
 
 /* ------ End General Content ------*/
@@ -96,6 +97,7 @@ body, html {
     margin-top: 40px;
     font-size: 20px;
     font-weight: 700;
+    color: var(--font-color-black);
 }
 
 #login-content .form-login p{
@@ -123,9 +125,119 @@ body, html {
     background-color: var(--button-color-red);
     border: 1px solid #D62C35;
     border-radius: 8px;
+    font-size: 16px;
 }
 
 /* ------ End Login Content ------*/
+
+/* ============================================ */
+
+
+/* ============================================ */
+
+/* ------ Lecture Profile Content ------*/
+
+#lecturer-profile-content{
+    margin-top: 20px;
+    height: 100vh;
+}
+
+#lecturer-profile-content .row{
+    display: flex;
+    gap: 16px;
+    flex-wrap: nowrap;
+}
+
+#lecturer-profile-content .profile-personal{
+    margin-top: 12px;
+}
+
+#lecturer-profile-content .profile-personal .profile-general-information h5,
+#lecturer-profile-content .profile-personal .profile-other-information h5,
+#lecturer-profile-content .profile-personal .profile-contact-information h5{
+    font-size: 12px;
+    color: var(--font-color-red);
+}
+
+#lecturer-profile-content .profile-personal .profile-general-information-describe,
+#lecturer-profile-content .profile-personal .profile-other-information-describe,
+#lecturer-profile-content .profile-personal .profile-contact-information{
+    margin-top: 8px;
+}
+
+#lecturer-profile-content .profile-personal .profile-general-information-describe h6,
+#lecturer-profile-content .profile-personal .profile-other-information-describe h6,
+#lecturer-profile-content .profile-personal .profile-contact-information h6{
+    font-size: 10px;
+    color: var(--font-color-grey);
+}
+
+#lecturer-profile-content .profile-personal .profile-general-information-describe p,
+#lecturer-profile-content .profile-personal .profile-other-information-describe p,
+#lecturer-profile-content .profile-personal .profile-contact-information p{
+    font-size: 14px;
+    color: var(--font-color-black);
+    margin-top: -5px;
+}
+
+#lecturer-profile-content .profile-personal .profile-other-information,
+#lecturer-profile-content .profile-personal .profile-contact-information{
+    margin-top: 20px;
+}
+
+#lecturer-profile-content .education-history{
+    margin-top: 0px;
+    padding: 10px;
+    border-radius: 8px;
+    height: auto;
+}
+
+#lecturer-profile-content .education-history h6{
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--font-color-black);
+}
+
+#lecturer-profile-content .education-history h5{
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--font-color-black);
+}
+
+#lecturer-profile-content .education-history p{
+    font-size: 12px;
+    color: var(--font-color-grey);
+}
+
+#update-profile-content{
+    margin-top: 20px;
+    height: 100%;
+    margin-bottom: 20px;
+}
+
+#update-profile-content .update-profile-title h1{
+    font-size: 16px;
+    font-weight: 700;
+    margin: auto 0;
+    color: var(--font-color-black);
+}
+
+#update-profile-content .form-update-profile{
+    margin-top: 20px;
+}
+
+#update-profile-content .form-update-profile h1{
+    font-size: 14px;
+    font-weight: 700;
+    margin-top: 0;
+    color: var(--font-color-black);
+}
+
+#update-profile-content .form-control{ 
+    height: 45px;
+}
+
+/* ------ End Lecture Profile Content ------*/
 
 /* ============================================ */
 
@@ -137,6 +249,7 @@ body, html {
 
 #research-content{
     margin-top: 20px;
+    height: 100vh;
 }
 
 #research-content .add-research-content button{
@@ -145,6 +258,7 @@ body, html {
     background-color: var(--button-color-red);
     border: none;
     border-radius: 8px;
+    font-size: 16px;
 }
 
 #research-content .research-table-content{
@@ -162,6 +276,7 @@ body, html {
     font-size: 14px;
     font-weight: 700;
     margin: auto 0;
+    color: var(--font-color-black);
 }
 
 #research-content .research-table-content .table-body{
@@ -173,15 +288,27 @@ body, html {
 #research-content .research-table-content .table-body h6{
     font-size: 14px;
     margin: auto 0;
+    color: var(--font-color-black);
 }
 
 #research-content .research-table-content .table-body .view img{
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    background-color: var(--button-color-blue);
+    border-radius: 4px;
+    padding: 8px;
+    cursor: pointer;
+}
+
+#research-content .research-table-content .table-body .edit img{
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     background-color: var(--button-color-yellow);
     border-radius: 4px;
     padding: 8px;
+    cursor: pointer;
 }
 
 #research-content .research-table-content .table-body .delete img{
@@ -191,16 +318,19 @@ body, html {
     background-color: var(--button-color-red);
     border-radius: 4px;
     padding: 8px;
+    cursor: pointer;
 }
 
 #add-research-content{
     margin-top: 20px;
+    height: 100vh;
 }
 
 #add-research-content .add-research-title h1{
     font-size: 16px;
     font-weight: 700;
     margin: auto 0;
+    color: var(--font-color-black);
 }
 
 #add-research-content .form-research{
@@ -211,6 +341,7 @@ body, html {
     font-size: 14px;
     font-weight: 700;
     margin-top: 0;
+    color: var(--font-color-black);
 }
 
 #add-research-content .form-research .form-research-input{

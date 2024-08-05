@@ -17,7 +17,7 @@ import CloseIcon from "../../assets/images/icons/Close.svg";
 
 import "../../assets/css/style.css";
 
-const AddResearch = () => {
+const UpdateResearch = () => {
 
     const navigate = useNavigate();
 
@@ -151,7 +151,7 @@ const AddResearch = () => {
                                         </Row>
                                         <Row className="mt-4">
                                             <Col xl={12} className="d-flex justify-content-end">
-                                                <Button style={{ background: '#D62C35', border: 'none', fontSize: '16px' }}> Tambah Penelitian </Button>
+                                                <Button style={{ background: '#D62C35', border: 'none', fontSize: '16px' }}> Simpan Perubahan </Button>
                                             </Col>
                                         </Row>
                                     </Form>
@@ -167,4 +167,4 @@ const AddResearch = () => {
 
 };
 
-export default AddResearch;
+export default UpdateResearch;
