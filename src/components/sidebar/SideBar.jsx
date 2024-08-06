@@ -24,8 +24,8 @@ const MySideBar = () => {
 
     useEffect(() => {
         const path = location.pathname;
-        if (path.includes('/dashboard')) {
-            setActiveItem('dashboard');
+        if (path.includes('/lecturer-dashboard')) {
+            setActiveItem('lecturer-dashboard');
         } else if (path.includes('/lecturer-profile')) {
             setActiveItem('lecturer-profile');
         } else if (path.includes('/research')) {
@@ -52,8 +52,8 @@ const MySideBar = () => {
                 </div>
                 <div className='side-bar-menu-item'>
                     <MenuItem
-                        className={`dashboard ${activeItem === 'dashboard' ? 'active' : ''}`}
-                        onClick={() => handleClick('dashboard', '/dashboard')}
+                        className={`dashboard ${activeItem === 'lecturer-dashboard' ? 'active' : ''}`}
+                        onClick={() => handleClick('lecturer-dashboard', '/lecturer-dashboard')}
                     >
                         <div className='d-flex align-items-center'>
                             <Image className='icon'/>

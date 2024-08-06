@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import {
     Container,
     Row,
@@ -6,8 +7,9 @@ import {
     Image,
     Button
 } from "react-bootstrap";
+import axios from "axios";
 
-import DashboardLayout from "../../layouts/dashboard/DashboardLayout";
+import LecturerDashboardLayout from "../../layouts/dashboard/LecturerDashboardLayout";
 
 import EducationIcon from "../../assets/images/icons/briefcase.svg";
 
@@ -15,9 +17,50 @@ import "../../assets/css/style.css";
 
 const LecturerProfile = () => {
 
+    const navigate = useNavigate();
+
+    /* ================ Get Lecturer Data ================ */
+
+    const [lecturerData, setLecturerData] = useState([]);
+
+    const lecturerDetailData = async () => {
+
+        try {
+
+            const token = localStorage.getItem("token");
+
+            const getDataRequest = await axios.get(
+                `http://localhost:8080/api/v1/lecturer`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Access-Control-Allo-Origin": "*"
+                    }
+                }
+            );
+
+            const getDataResponse = await getDataRequest.data.data.getDetailLecture;
+
+            setLecturerData(getDataResponse);
+
+        } catch (err) {
+            console.log(err);
+        }
+
+    };
+
+    useEffect(() => {
+
+        lecturerDetailData();
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    /* ================ End Get Lecturer Data ================ */
+
     return (
 
-        <DashboardLayout>
+        <LecturerDashboardLayout>
             <div id="lecturer-profile-content">
                 <Container fluid style={{ padding: '0 32px' }}>
                     <Row>
@@ -28,9 +71,14 @@ const LecturerProfile = () => {
                             <div className="profile-personal">
                                 <Row>
                                     <Col xl={3}>
-                                        <div className="photo-wrapper" style={{height: '150px', width: '100%', background: '#989898'}}></div>
-                                        <div className="mt-3" style={{marginLeft: '8px', marginRight: '8px'}}>
-                                            <Button style={{fontSize: '14px', border: 'none', backgroundColor: '#D62C35', width: '100%'}}>Edit Profile</Button>
+                                        <div className="photo-wrapper" style={{ height: '150px', width: '100%', background: '#989898' }}></div>
+                                        <div className="mt-3" style={{ marginLeft: '4px', marginRight: '4px' }}>
+                                            <Button 
+                                                onClick={() => navigate(`/update-lecturer-profile/${lecturerData ? lecturerData.lecturerId : null}`)}
+                                                style={{ fontSize: '14px', border: 'none', backgroundColor: '#D62C35', width: '100%' }}
+                                            >
+                                                Edit Profile
+                                            </Button>
                                         </div>
                                     </Col>
                                     <Col xl={8}>
@@ -40,19 +88,19 @@ const LecturerProfile = () => {
                                                 <Row>
                                                     <Col xl={12}>
                                                         <h6>Nomor Induk Pegawai</h6>
-                                                        <p>1234567890</p>
+                                                        <p>{lecturerData.LecturerPersonal ? lecturerData.LecturerPersonal.nip : null}</p>
                                                     </Col>
                                                 </Row>
                                                 <Row>
                                                     <Col xl={12}>
                                                         <h6>Nama Dosen</h6>
-                                                        <p>Cecep Bagus Surya Dinata K.A</p>
+                                                        <p>{lecturerData.Lecturer ? lecturerData.Lecturer.name : null}</p>
                                                     </Col>
                                                 </Row>
                                                 <Row>
                                                     <Col xl={6}>
                                                         <h6>Jurusan</h6>
-                                                        <p>Ilmu Komputer</p>
+                                                        <p>{lecturerData.LecturerEducation ? lecturerData.LecturerEducation.major : null}</p>
                                                     </Col>
                                                     <Col xl={6}>
                                                         <h6>Pendidikan Terakhir</h6>
@@ -62,7 +110,7 @@ const LecturerProfile = () => {
                                                 <Row>
                                                     <Col xl={12}>
                                                         <h6>Keahlian</h6>
-                                                        <p>Artificial Intelligence, Cloud Computing, Human and Computer Interactions, Cryptography</p>
+                                                        <p>{lecturerData.LecturerEducation ? lecturerData.LecturerEducation.expertise : null}</p>
                                                     </Col>
                                                 </Row>
                                             </div>
@@ -73,19 +121,19 @@ const LecturerProfile = () => {
                                                 <Row>
                                                     <Col xl={12}>
                                                         <h6>Jenis Kelamin</h6>
-                                                        <p>Laki - Laki</p>
+                                                        <p>{lecturerData.LecturerPersonal ? lecturerData.LecturerPersonal.gender : null}</p>
                                                     </Col>
                                                 </Row>
                                                 <Row>
                                                     <Col xl={12}>
                                                         <h6>Tempat, Tanggal Lahir</h6>
-                                                        <p>Lampung Utara, 13 Juni 2001</p>
+                                                        <p>{lecturerData.LecturerPersonal ? lecturerData.LecturerPersonal.birth : null}</p>
                                                     </Col>
                                                 </Row>
                                                 <Row>
                                                     <Col xl={12}>
                                                         <h6>Alamat</h6>
-                                                        <p>Jl. Taman Siswa No.71 B, Sekaran, Gunung Pati</p>
+                                                        <p>{lecturerData.LecturerPersonal ? lecturerData.LecturerPersonal.address : null}</p>
                                                     </Col>
                                                 </Row>
                                             </div>
@@ -96,13 +144,13 @@ const LecturerProfile = () => {
                                                 <Row>
                                                     <Col xl={12}>
                                                         <h6>Email</h6>
-                                                        <p>cecepbagus.personal@mail.com</p>
+                                                        <p>{lecturerData.Lecturer ? lecturerData.Lecturer.email : null}</p>
                                                     </Col>
                                                 </Row>
                                                 <Row>
                                                     <Col xl={12}>
                                                         <h6>No. HP</h6>
-                                                        <p>082258937031</p>
+                                                        <p>{lecturerData.LecturerPersonal ? lecturerData.LecturerPersonal.phoneNumber : null}</p>
                                                     </Col>
                                                 </Row>
                                             </div>
@@ -118,25 +166,25 @@ const LecturerProfile = () => {
                             <div className="education-history">
                                 <Row>
                                     <Col xl={12}>
-                                        <Image src={EducationIcon}/>
+                                        <Image src={EducationIcon} />
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col xl={12}>
-                                        <h6>S3 - Computer Science</h6>
+                                        <h6>S3 - {lecturerData.LecturerEducation?.doctor ? JSON.parse(lecturerData.LecturerEducation.doctor)?.department : null}</h6>
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col xl={12}>
-                                        <h5>Oxford University</h5>
+                                        <h5>{lecturerData.LecturerEducation?.doctor ? JSON.parse(lecturerData.LecturerEducation.doctor)?.university : null}</h5>
                                     </Col>
                                 </Row>
                                 <Row className="mt-1">
                                     <Col xl={2}>
-                                        <p>Thesis</p>
+                                        <p>Disertasi</p>
                                     </Col>
                                     <Col xl={9}>
-                                        <p>Analisis User Interface dan User Experience Menggunakan Metode SUS dan Design Thinking</p>
+                                        <p>{lecturerData.LecturerEducation?.doctor ? JSON.parse(lecturerData.LecturerEducation.doctor)?.title : null}</p>
                                     </Col>
                                 </Row>
                                 <Row>
@@ -144,7 +192,73 @@ const LecturerProfile = () => {
                                         <p>Expertise</p>
                                     </Col>
                                     <Col xl={9}>
-                                        <p>Artificial Intelligence, Cloud Computing, Human and Computer Interactions, Cryptography</p>
+                                        <p>{lecturerData.LecturerEducation?.doctor ? JSON.parse(lecturerData.LecturerEducation.doctor)?.expertise.join(', ') : null}</p>
+                                    </Col>
+                                </Row>
+                            </div>
+                            <div className="education-history" style={{ backgroundColor: '#FAFAFA' }}>
+                                <Row>
+                                    <Col xl={12}>
+                                        <Image src={EducationIcon} />
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col xl={12}>
+                                        <h6>S2 - {lecturerData.LecturerEducation?.magister ? JSON.parse(lecturerData.LecturerEducation.magister)?.department : null}</h6>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col xl={12}>
+                                        <h5>{lecturerData.LecturerEducation?.magister ? JSON.parse(lecturerData.LecturerEducation.magister)?.university : null}</h5>
+                                    </Col>
+                                </Row>
+                                <Row className="mt-1">
+                                    <Col xl={2}>
+                                        <p>Disertasi</p>
+                                    </Col>
+                                    <Col xl={9}>
+                                        <p>{lecturerData.LecturerEducation?.magister ? JSON.parse(lecturerData.LecturerEducation.magister)?.title : null}</p>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col xl={2}>
+                                        <p>Expertise</p>
+                                    </Col>
+                                    <Col xl={9}>
+                                        <p>{lecturerData.LecturerEducation?.magister ? JSON.parse(lecturerData.LecturerEducation.magister)?.expertise.join(', ') : null}</p>
+                                    </Col>
+                                </Row>
+                            </div>
+                            <div className="education-history">
+                                <Row>
+                                    <Col xl={12}>
+                                        <Image src={EducationIcon} />
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col xl={12}>
+                                        <h6>S1 - {lecturerData.LecturerEducation?.bachelor ? JSON.parse(lecturerData.LecturerEducation.bachelor)?.department : null}</h6>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col xl={12}>
+                                        <h5>{lecturerData.LecturerEducation?.bachelor ? JSON.parse(lecturerData.LecturerEducation.bachelor)?.university : null}</h5>
+                                    </Col>
+                                </Row>
+                                <Row className="mt-1">
+                                    <Col xl={2}>
+                                        <p>Disertasi</p>
+                                    </Col>
+                                    <Col xl={9}>
+                                        <p>{lecturerData.LecturerEducation?.bachelor ? JSON.parse(lecturerData.LecturerEducation.bachelor)?.title : null}</p>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col xl={2}>
+                                        <p>Expertise</p>
+                                    </Col>
+                                    <Col xl={9}>
+                                        <p>{lecturerData.LecturerEducation?.bachelor ? JSON.parse(lecturerData.LecturerEducation.bachelor)?.expertise.join(', ') : null}</p>
                                     </Col>
                                 </Row>
                             </div>
@@ -152,7 +266,7 @@ const LecturerProfile = () => {
                     </Row>
                 </Container>
             </div>
-        </DashboardLayout>
+        </LecturerDashboardLayout>
 
     );
 

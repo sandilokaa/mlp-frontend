@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
 import {
     Container,
     Row,
@@ -8,8 +9,9 @@ import {
     Image,
     Form
 } from "react-bootstrap";
+import axios from "axios";
 
-import DashboardLayout from "../../layouts/dashboard/DashboardLayout";
+import LecturerDashboardLayout from "../../layouts/dashboard/LecturerDashboardLayout";
 
 import ArrowLeft from "../../assets/images/icons/arrow-left.svg";
 import UploadIcon from "../../assets/images/icons/document-upload.svg";
@@ -19,40 +21,104 @@ import "../../assets/css/style.css";
 
 const AddResearch = () => {
 
+    /* -------------------- Global Variable -------------------- */
+
     const navigate = useNavigate();
+    const { enqueueSnackbar } = useSnackbar();
+
+    /* -------------------- End Global Variable -------------------- */
+
 
     /* --------- Upload File ---------*/
 
-    const [fileNames, setFileNames] = useState('');
+    const [files, setFiles] = useState([]);
 
     const handleDrop = (e) => {
         e.preventDefault();
         e.stopPropagation();
 
-        const files = e.dataTransfer.files;
-        handleFiles(files);
+        const droppedFiles = e.dataTransfer.files;
+        handleFiles(droppedFiles);
     };
 
     const handleFileChange = (e) => {
-        const files = e.target.files;
-        handleFiles(files);
+        const selectedFiles = e.target.files;
+        handleFiles(selectedFiles);
     };
 
-    const handleFiles = (files) => {
-        const fileNames = Array.from(files).map(file => file.name).join(', ');
-        setFileNames(fileNames);
+    const handleFiles = (newFiles) => {
+        setFiles(prevFiles => [...prevFiles, ...Array.from(newFiles)]);
     };
 
-    const handleRemoveFile = (e) => {
-        e.stopPropagation();
-        setFileNames('');
+    const handleRemoveFile = (fileName) => {
+        setFiles(prevFiles => prevFiles.filter(file => file.name !== fileName));
     };
 
     /* --------- End Upload File ---------*/
+    
+
+    /* -------------------- Handle Create Mandatory Saving -------------------- */
+
+    const titleField = useRef();
+    const categoryField = useRef();
+    const periodField = useRef();
+    const taField = useRef();
+
+    const onCreateResearch = async () => {
+
+        try {
+
+            const token = localStorage.getItem("token");
+
+            const researchPayload = new FormData();
+            researchPayload.append("title", titleField.current.value);
+            researchPayload.append("category", categoryField.current.value);
+            researchPayload.append("period", periodField.current.value);
+            researchPayload.append("ta", taField.current.value);
+            files.forEach((file) => {
+                researchPayload.append(`researchFile`, file);
+            });
+            
+            console.log(researchPayload);
+            
+
+            const researchPayloadRequest = await axios.post(
+                `http://localhost:8080/api/v1/lecturer/research`,
+                researchPayload,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Access-Control-Allow-Origin": "*",
+                        "Content-Type": "multipart/form-data"
+                    },
+                }
+            );
+
+
+            const researchPayloadResponse = researchPayloadRequest.data;
+
+            enqueueSnackbar(researchPayloadResponse.message, { variant: 'success', anchorOrigin: { vertical: 'top', horizontal: 'center' }, autoHideDuration: 2000 });
+
+            if (researchPayloadResponse.status) {
+
+                window.location.reload("/research");
+
+            }
+
+        } catch (err) {
+
+            enqueueSnackbar('Cek ulang data anda (:', { variant: 'error', anchorOrigin: { vertical: 'top', horizontal: 'center' }, autoHideDuration: 2000 });
+
+        }
+
+    };
+
+    /* -------------------- End Handle Create Mandatory Saving -------------------- */
+
 
     return (
 
-        <DashboardLayout>
+        <LecturerDashboardLayout>
             <div id="add-research-content">
                 <Container fluid style={{ padding: '0 32px' }}>
                     <Row className="add-research-title">
@@ -72,7 +138,7 @@ const AddResearch = () => {
                                                 <div>
                                                     <Form.Group controlId="exampleForm.ControlInput1">
                                                         <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Judul Penelitian <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
-                                                        <Form.Control type="text" placeholder="Masukan Judul Penelitian" autoComplete="off" style={{ fontSize: '14px' }} />
+                                                        <Form.Control type="text" placeholder="Masukan Judul Penelitian" autoComplete="off" style={{ fontSize: '14px' }} ref={titleField}/>
                                                     </Form.Group>
                                                 </div>
                                             </Col>
@@ -80,25 +146,25 @@ const AddResearch = () => {
                                         <Row className="mt-3">
                                             <Col xl={4}>
                                                 <div>
-                                                    <Form.Group controlId="exampleForm.ControlInput1">
+                                                    <Form.Group controlId="exampleForm.ControlInput2">
                                                         <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Kategori Penelitian <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
-                                                        <Form.Control type="text" placeholder="Masukan Kategori Penelitian" autoComplete="off" style={{ fontSize: '14px' }} />
+                                                        <Form.Control type="text" placeholder="Masukan Kategori Penelitian" autoComplete="off" style={{ fontSize: '14px' }} ref={categoryField}/>
                                                     </Form.Group>
                                                 </div>
                                             </Col>
                                             <Col xl={4}>
                                                 <div>
-                                                    <Form.Group controlId="exampleForm.ControlInput1">
+                                                    <Form.Group controlId="exampleForm.ControlInput3">
                                                         <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Periode Penelitian <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
-                                                        <Form.Control type="text" placeholder="Masukan Periode Penelitian" autoComplete="off" style={{ fontSize: '14px' }} />
+                                                        <Form.Control type="text" placeholder="Masukan Periode Penelitian" autoComplete="off" style={{ fontSize: '14px' }} ref={periodField}/>
                                                     </Form.Group>
                                                 </div>
                                             </Col>
                                             <Col xl={4}>
                                                 <div>
-                                                    <Form.Group controlId="exampleForm.ControlInput1">
+                                                    <Form.Group controlId="exampleForm.ControlInput4">
                                                         <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Tahun Ajaran <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
-                                                        <Form.Control type="text" placeholder="Masukan Tahun Ajaran" autoComplete="off" style={{ fontSize: '14px' }} />
+                                                        <Form.Control type="text" placeholder="Masukan Tahun Ajaran" autoComplete="off" style={{ fontSize: '14px' }} ref={taField}/>
                                                     </Form.Group>
                                                 </div>
                                             </Col>
@@ -106,7 +172,7 @@ const AddResearch = () => {
                                         <Row className="mt-3">
                                             <Col xl={12}>
                                                 <div>
-                                                    <Form.Group controlId="exampleForm.ControlInput1">
+                                                    <Form.Group>
                                                         <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Upload Dokumen Penelitian <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
                                                         <div
                                                             className="form-upload"
@@ -118,18 +184,17 @@ const AddResearch = () => {
                                                             <Form.Control
                                                                 type="file"
                                                                 id="fileInput"
-                                                                multiple
                                                                 onChange={handleFileChange}
                                                                 style={{ display: 'none' }}
                                                             />
                                                             <Row>
                                                                 {
-                                                                    fileNames ? (
+                                                                    files.length > 0 ? (
                                                                         <Col xl={12} className="d-flex justify-content-start">
                                                                             <div style={{display:'flex', gap: '10px' , padding: '5px 10px', background: '#FAFAFA', borderRadius: '4px', zIndex: '999'}}>
                                                                                 <Image src={UploadIcon} style={{width: '15px'}}/>
-                                                                                <p style={{ margin: 'auto 0', color: '#292929' }}>{fileNames}</p>
-                                                                                <Image onClick={handleRemoveFile} src={CloseIcon} style={{width: '15px', marginLeft: '40px'}}/>
+                                                                                <p style={{ margin: 'auto 0', color: '#292929' }}>{files.map(file => file.name).join(', ')}</p>
+                                                                                <Image key={files.name} onClick={() => handleRemoveFile(files.name)} src={CloseIcon} style={{width: '15px', marginLeft: '40px'}}/>
                                                                             </div>
                                                                         </Col>
                                                                     ) : (
@@ -151,7 +216,7 @@ const AddResearch = () => {
                                         </Row>
                                         <Row className="mt-4">
                                             <Col xl={12} className="d-flex justify-content-end">
-                                                <Button style={{ background: '#D62C35', border: 'none', fontSize: '16px' }}> Tambah Penelitian </Button>
+                                                <Button onClick={onCreateResearch} style={{ background: '#D62C35', border: 'none', fontSize: '16px' }}> Tambah Penelitian </Button>
                                             </Col>
                                         </Row>
                                     </Form>
@@ -161,7 +226,7 @@ const AddResearch = () => {
                     </Row>
                 </Container>
             </div>
-        </DashboardLayout>
+        </LecturerDashboardLayout>
 
     );
 

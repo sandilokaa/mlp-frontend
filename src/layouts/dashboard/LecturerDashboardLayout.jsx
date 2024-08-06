@@ -1,7 +1,7 @@
 import React from "react";
 
 import MySideBar from "../../components/sidebar/SideBar";
-import NavbarDashboard from "../../components/navbar/Navbar";
+import Lecturer from "../../components/navbar/LecturerNavbar";
 
 const DashboardLayout = ({ children }) => {
 
@@ -13,7 +13,7 @@ const DashboardLayout = ({ children }) => {
             </div>
             <div style={{ width: '100%', backgroundColor: '#FAFAFA' }}>
                 <div style={{ backgroundColor: '#FFFFFF' }}>
-                    <NavbarDashboard />
+                    <Lecturer />
                 </div>
                 <div>
                     {children}

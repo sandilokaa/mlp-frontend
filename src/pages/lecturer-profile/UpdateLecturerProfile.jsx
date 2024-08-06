@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from 'react-router-dom';
 import {
     Container,
@@ -9,19 +9,19 @@ import {
     Form
 } from "react-bootstrap";
 
-import DashboardLayout from "../../layouts/dashboard/DashboardLayout";
+import LecturerDashboardLayout from "../../layouts/dashboard/LecturerDashboardLayout";
 
 import ArrowLeft from "../../assets/images/icons/arrow-left.svg";
 
 import "../../assets/css/style.css";
 
-const UpdateProfile = () => {
+const UpdateLecturerProfile = () => {
 
     const navigate = useNavigate();
 
     return (
 
-        <DashboardLayout>
+        <LecturerDashboardLayout>
             <div id="update-profile-content">
                 <Container fluid style={{ padding: '0 32px' }}>
                     <Row className="update-profile-title">
@@ -283,10 +283,10 @@ const UpdateProfile = () => {
                     </Row>
                 </Container>
             </div>
-        </DashboardLayout>
+        </LecturerDashboardLayout>
 
     );
 
 };
 
-export default UpdateProfile;
+export default UpdateLecturerProfile;

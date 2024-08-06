@@ -9,7 +9,7 @@ import {
     Form
 } from "react-bootstrap";
 
-import DashboardLayout from "../../layouts/dashboard/DashboardLayout";
+import LecturerDashboardLayout from "../../layouts/dashboard/LecturerDashboardLayout";
 
 import ArrowLeft from "../../assets/images/icons/arrow-left.svg";
 import UploadIcon from "../../assets/images/icons/document-upload.svg";
@@ -52,7 +52,7 @@ const UpdateResearch = () => {
 
     return (
 
-        <DashboardLayout>
+        <LecturerDashboardLayout>
             <div id="add-research-content">
                 <Container fluid style={{ padding: '0 32px' }}>
                     <Row className="add-research-title">
@@ -161,7 +161,7 @@ const UpdateResearch = () => {
                     </Row>
                 </Container>
             </div>
-        </DashboardLayout>
+        </LecturerDashboardLayout>
 
     );
 

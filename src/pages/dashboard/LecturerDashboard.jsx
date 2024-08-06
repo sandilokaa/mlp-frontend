@@ -5,24 +5,24 @@ import {
     Col
 } from "react-bootstrap";
 
-import DashboardLayout from "../../layouts/dashboard/DashboardLayout";
+import LecturerDashboardLayout from "../../layouts/dashboard/LecturerDashboardLayout";
 
 import "../../assets/css/style.css";
 
-const Dashboard = () => {
+const LecturerDashboard = () => {
 
     return (
 
-        <DashboardLayout>
+        <LecturerDashboardLayout>
             <Container fluid style={{ padding: '0 32px' }}>
                 <Row>
                     <Col> HALOO </Col>
                 </Row>
             </Container>
-        </DashboardLayout>
+        </LecturerDashboardLayout>
 
     );
 
 };
 
-export default Dashboard;
+export default LecturerDashboard;

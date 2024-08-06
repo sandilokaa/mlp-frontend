@@ -112,7 +112,7 @@ body, html {
 
 #login-content .form-login .form-input .form-control{
     font-size: 14px;
-    color: var(--font-color-grey);
+    color: var(--font-color-black);
     height: 45px;
 }
 
@@ -143,8 +143,9 @@ body, html {
 }
 
 #lecturer-profile-content .row{
+    max-width: 100%;
     display: flex;
-    gap: 16px;
+    gap: 10px;
     flex-wrap: nowrap;
 }
 
@@ -186,7 +187,7 @@ body, html {
 }
 
 #lecturer-profile-content .education-history{
-    margin-top: 0px;
+    margin-top: 10px;
     padding: 10px;
     border-radius: 8px;
     height: auto;
