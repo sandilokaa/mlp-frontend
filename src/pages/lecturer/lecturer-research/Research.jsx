@@ -10,17 +10,17 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 
-import LecturerDashboardLayout from "../../layouts/dashboard/LecturerDashboardLayout";
+import LecturerDashboardLayout from "../../../layouts/dashboard/LecturerDashboardLayout";
 
-import ViewIcon from "../../assets/images/icons/eye.svg";
-import DeleteIcon from "../../assets/images/icons/trash.svg";
-import EditIcon from "../../assets/images/icons/edit-2.svg";
+import ViewIcon from "../../../assets/images/icons/eye.svg";
+import DeleteIcon from "../../../assets/images/icons/trash.svg";
+import EditIcon from "../../../assets/images/icons/edit-2.svg";
 
-import "../../assets/css/style.css";
+import "../../../assets/css/style.css";
 
-const Research = () => {
+const LectureResearch = () => {
 
-    
+
     /* -------------------- Global Variable -------------------- */
 
     const navigate = useNavigate();
@@ -28,7 +28,7 @@ const Research = () => {
 
     /* -------------------- End Global Variable -------------------- */
 
-    
+
     /* ================ Get Research Data ================ */
 
     const [researchData, setResearchData] = useState([]);
@@ -92,7 +92,7 @@ const Research = () => {
 
             if (researchResponse.status) {
 
-                window.location.reload("/research")
+                window.location.reload("/lecturer/research")
 
             }
 
@@ -115,7 +115,7 @@ const Research = () => {
                     <div className="add-research-content">
                         <Row>
                             <Col xl={3}>
-                                <Button onClick={() => navigate('/add-research')}>Tambah Penelitian</Button>
+                                <Button onClick={() => navigate('/lecturer/research/create')}>Tambah Penelitian</Button>
                             </Col>
                         </Row>
                     </div>
@@ -137,42 +137,58 @@ const Research = () => {
                                 <h6>Action</h6>
                             </Col>
                         </Row>
-                        <hr style={{ marginTop: '0px' }} />
-                        {researchData.map((research, index) =>
-                            <Row className="table-body" key={research.id}>
-                                <Col xl={1}>
-                                    <h6>0{index + 1}</h6>
-                                </Col>
-                                <Col xl={5}>
-                                    <h6>{research.title}</h6>
-                                </Col>
-                                <Col xl={2} className="text-center">
-                                    <h6>{research.category}</h6>
-                                </Col>
-                                <Col xl={2} className="text-center">
-                                    <h6>?</h6>
-                                </Col>
-                                <Col xl={2} className="text-center">
-                                    <Row style={{ display: 'flex', padding: '0', margin: '0' }}>
-                                        <Col xl={4} className="d-flex justify-content-end p-0">
-                                            <span className="view" onClick={() => window.open(`http://localhost:8080/${research.researchFile}`)}>
-                                                <Image src={ViewIcon} />
-                                            </span>
+                        <hr style={{ marginTop: '10px' }} />
+                        {researchData.map((research, index) => {
+
+                            const colStyle = {
+                                backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FAFAFA',
+                                padding: '16px 10px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                borderRadius: '8px',
+                                marginLeft: '5px'
+                            };
+
+                            const displayIndex = (index + 1).toString().padStart(2, '0');
+
+                            return (
+                                <Row className="table-body" key={research.id}>
+                                    <div style={colStyle}>
+                                        <Col xl={1}>
+                                            <h6>{displayIndex}</h6>
                                         </Col>
-                                        <Col xl={4} className="d-flex justify-content-center p-0">
-                                            <span className="edit" onClick={() => navigate(`/update-research/${research.id}`)}>
-                                                <Image src={EditIcon} />
-                                            </span>
+                                        <Col xl={5}>
+                                            <h6>{research.title}</h6>
                                         </Col>
-                                        <Col xl={4} className="d-flex justify-content-start p-0">
-                                            <span className="delete">
-                                                <Image src={DeleteIcon} onClick={() => onDeleteResearch(research.id)}/>
-                                            </span>
+                                        <Col xl={2} className="text-center">
+                                            <h6>{research.category}</h6>
                                         </Col>
-                                    </Row>
-                                </Col>
-                            </Row>
-                        )}
+                                        <Col xl={2} className="text-center">
+                                            <h6>?</h6>
+                                        </Col>
+                                        <Col xl={2} className="text-center" style={{marginLeft: '4px'}}>
+                                            <Row style={{ display: 'flex', padding: '0', margin: '0' }}>
+                                                <Col xl={4} className="d-flex justify-content-end p-0">
+                                                    <span className="view" onClick={() => navigate(`/lecturer/research/detail/${research.id}`)}>
+                                                        <Image src={ViewIcon} />
+                                                    </span>
+                                                </Col>
+                                                <Col xl={4} className="d-flex justify-content-center p-0">
+                                                    <span className="edit" onClick={() => navigate(`/lecturer/research/update/${research.id}`)}>
+                                                        <Image src={EditIcon} />
+                                                    </span>
+                                                </Col>
+                                                <Col xl={4} className="d-flex justify-content-start p-0">
+                                                    <span className="delete">
+                                                        <Image src={DeleteIcon} onClick={() => onDeleteResearch(research.id)} />
+                                                    </span>
+                                                </Col>
+                                            </Row>
+                                        </Col>
+                                    </div>
+                                </Row>
+                            )
+                        })}
                     </div>
                 </Container>
             </div>
@@ -182,4 +198,4 @@ const Research = () => {
 
 };
 
-export default Research;
+export default LectureResearch;

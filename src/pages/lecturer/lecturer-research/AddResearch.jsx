@@ -11,13 +11,13 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 
-import LecturerDashboardLayout from "../../layouts/dashboard/LecturerDashboardLayout";
+import LecturerDashboardLayout from "../../../layouts/dashboard/LecturerDashboardLayout";
 
-import ArrowLeft from "../../assets/images/icons/arrow-left.svg";
-import UploadIcon from "../../assets/images/icons/document-upload.svg";
-import CloseIcon from "../../assets/images/icons/Close.svg";
+import ArrowLeft from "../../../assets/images/icons/arrow-left.svg";
+import UploadIcon from "../../../assets/images/icons/document-upload.svg";
+import CloseIcon from "../../../assets/images/icons/Close.svg";
 
-import "../../assets/css/style.css";
+import "../../../assets/css/style.css";
 
 const AddResearch = () => {
 
@@ -57,7 +57,7 @@ const AddResearch = () => {
     /* --------- End Upload File ---------*/
     
 
-    /* -------------------- Handle Create Mandatory Saving -------------------- */
+    /* -------------------- Handle Create Research -------------------- */
 
     const titleField = useRef();
     const categoryField = useRef();
@@ -78,9 +78,6 @@ const AddResearch = () => {
             files.forEach((file) => {
                 researchPayload.append(`researchFile`, file);
             });
-            
-            console.log(researchPayload);
-            
 
             const researchPayloadRequest = await axios.post(
                 `http://localhost:8080/api/v1/lecturer/research`,
@@ -94,14 +91,13 @@ const AddResearch = () => {
                 }
             );
 
-
             const researchPayloadResponse = researchPayloadRequest.data;
 
             enqueueSnackbar(researchPayloadResponse.message, { variant: 'success', anchorOrigin: { vertical: 'top', horizontal: 'center' }, autoHideDuration: 2000 });
 
             if (researchPayloadResponse.status) {
 
-                window.location.reload("/research");
+                navigate("/lecturer/research");
 
             }
 
@@ -113,7 +109,7 @@ const AddResearch = () => {
 
     };
 
-    /* -------------------- End Handle Create Mandatory Saving -------------------- */
+    /* -------------------- End Handle Create Research -------------------- */
 
 
     return (
@@ -123,7 +119,7 @@ const AddResearch = () => {
                 <Container fluid style={{ padding: '0 32px' }}>
                     <Row className="add-research-title">
                         <Col xl={12} className="d-flex align-items-center">
-                            <Image onClick={() => navigate('/research')} src={ArrowLeft} style={{ marginRight: '16px', cursor: 'pointer' }} />
+                            <Image onClick={() => navigate('/lecturer/research')} src={ArrowLeft} style={{ marginRight: '16px', cursor: 'pointer' }} />
                             <h1>Tambah Penelitan</h1>
                         </Col>
                     </Row>

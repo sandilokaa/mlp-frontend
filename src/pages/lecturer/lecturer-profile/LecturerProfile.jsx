@@ -9,11 +9,11 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 
-import LecturerDashboardLayout from "../../layouts/dashboard/LecturerDashboardLayout";
+import LecturerDashboardLayout from "../../../layouts/dashboard/LecturerDashboardLayout";
 
-import EducationIcon from "../../assets/images/icons/briefcase.svg";
+import EducationIcon from "../../../assets/images/icons/briefcase.svg";
 
-import "../../assets/css/style.css";
+import "../../../assets/css/style.css";
 
 const LecturerProfile = () => {
 
@@ -56,6 +56,7 @@ const LecturerProfile = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+
     /* ================ End Get Lecturer Data ================ */
 
     return (
@@ -73,8 +74,8 @@ const LecturerProfile = () => {
                                     <Col xl={3}>
                                         <div className="photo-wrapper" style={{ height: '150px', width: '100%', background: '#989898' }}></div>
                                         <div className="mt-3" style={{ marginLeft: '4px', marginRight: '4px' }}>
-                                            <Button 
-                                                onClick={() => navigate(`/update-lecturer-profile/${lecturerData ? lecturerData.lecturerId : null}`)}
+                                            <Button
+                                                onClick={() => navigate(`/lecturer/profile/update/${lecturerData ? lecturerData.lecturerId : null}`)}
                                                 style={{ fontSize: '14px', border: 'none', backgroundColor: '#D62C35', width: '100%' }}
                                             >
                                                 Edit Profile
@@ -104,13 +105,20 @@ const LecturerProfile = () => {
                                                     </Col>
                                                     <Col xl={6}>
                                                         <h6>Pendidikan Terakhir</h6>
-                                                        <p>Doktoral</p>
+                                                        <p>
+                                                            {
+                                                                (lecturerData.LecturerEducation?.doctor && JSON.parse(lecturerData.LecturerEducation.doctor)) ? 'Doctor'
+                                                                    : (lecturerData.LecturerEducation?.magister && JSON.parse(lecturerData.LecturerEducation.magister)) ? 'Magister'
+                                                                        : (lecturerData.LecturerEducation?.bachelor && JSON.parse(lecturerData.LecturerEducation.bachelor)) ? 'Bachelor'
+                                                                            : 'Tidak ada data'
+                                                            }
+                                                        </p>
                                                     </Col>
                                                 </Row>
                                                 <Row>
                                                     <Col xl={12}>
                                                         <h6>Keahlian</h6>
-                                                        <p>{lecturerData.LecturerEducation ? lecturerData.LecturerEducation.expertise : null}</p>
+                                                        <p>Machine Learmbud</p>
                                                     </Col>
                                                 </Row>
                                             </div>
@@ -127,7 +135,7 @@ const LecturerProfile = () => {
                                                 <Row>
                                                     <Col xl={12}>
                                                         <h6>Tempat, Tanggal Lahir</h6>
-                                                        <p>{lecturerData.LecturerPersonal ? lecturerData.LecturerPersonal.birth : null}</p>
+                                                        <p>{lecturerData.LecturerPersonal ? lecturerData.LecturerPersonal.placeOfBirth : null}, {lecturerData.LecturerPersonal ? lecturerData.LecturerPersonal.dateOfBirth : null}</p>
                                                     </Col>
                                                 </Row>
                                                 <Row>
@@ -171,7 +179,7 @@ const LecturerProfile = () => {
                                 </Row>
                                 <Row>
                                     <Col xl={12}>
-                                        <h6>S3 - {lecturerData.LecturerEducation?.doctor ? JSON.parse(lecturerData.LecturerEducation.doctor)?.department : null}</h6>
+                                        <h6>S3 - {lecturerData.LecturerEducation ? lecturerData.LecturerEducation.major : null}</h6>
                                     </Col>
                                 </Row>
                                 <Row>
@@ -192,7 +200,7 @@ const LecturerProfile = () => {
                                         <p>Expertise</p>
                                     </Col>
                                     <Col xl={9}>
-                                        <p>{lecturerData.LecturerEducation?.doctor ? JSON.parse(lecturerData.LecturerEducation.doctor)?.expertise.join(', ') : null}</p>
+                                        <p>{lecturerData.LecturerEducation?.doctor ? JSON.parse(lecturerData.LecturerEducation.doctor)?.expertise : null}</p>
                                     </Col>
                                 </Row>
                             </div>
@@ -204,7 +212,7 @@ const LecturerProfile = () => {
                                 </Row>
                                 <Row>
                                     <Col xl={12}>
-                                        <h6>S2 - {lecturerData.LecturerEducation?.magister ? JSON.parse(lecturerData.LecturerEducation.magister)?.department : null}</h6>
+                                        <h6>S2 - {lecturerData.LecturerEducation ? lecturerData.LecturerEducation.major : null}</h6>
                                     </Col>
                                 </Row>
                                 <Row>
@@ -225,7 +233,7 @@ const LecturerProfile = () => {
                                         <p>Expertise</p>
                                     </Col>
                                     <Col xl={9}>
-                                        <p>{lecturerData.LecturerEducation?.magister ? JSON.parse(lecturerData.LecturerEducation.magister)?.expertise.join(', ') : null}</p>
+                                        <p>{lecturerData.LecturerEducation?.magister ? JSON.parse(lecturerData.LecturerEducation.magister)?.expertise : null}</p>
                                     </Col>
                                 </Row>
                             </div>
@@ -237,7 +245,7 @@ const LecturerProfile = () => {
                                 </Row>
                                 <Row>
                                     <Col xl={12}>
-                                        <h6>S1 - {lecturerData.LecturerEducation?.bachelor ? JSON.parse(lecturerData.LecturerEducation.bachelor)?.department : null}</h6>
+                                        <h6>S1 - {lecturerData.LecturerEducation ? lecturerData.LecturerEducation.major : null}</h6>
                                     </Col>
                                 </Row>
                                 <Row>
@@ -258,7 +266,7 @@ const LecturerProfile = () => {
                                         <p>Expertise</p>
                                     </Col>
                                     <Col xl={9}>
-                                        <p>{lecturerData.LecturerEducation?.bachelor ? JSON.parse(lecturerData.LecturerEducation.bachelor)?.expertise.join(', ') : null}</p>
+                                        <p>{lecturerData.LecturerEducation?.bachelor ? JSON.parse(lecturerData.LecturerEducation.bachelor)?.expertise : null}</p>
                                     </Col>
                                 </Row>
                             </div>

@@ -13,14 +13,13 @@ import UserProfile from "../../assets/images/icons/profile.svg";
 import "../../assets/css/style.css";
 
 const NavbarDashboard = () => {
-
-
+    
     /* ================ Get Current User ================ */
 
     const navigate = useNavigate();
 
     const [isLoggedIn, setIsLoggedIn] = useState(true);
-    const [lecturer, setLecturer] = useState({});
+    const [superadmin, setSuperadmin] = useState({});
     const [isRefresh, setIsRefresh] = useState(false);
 
     useEffect(() => {
@@ -31,8 +30,8 @@ const NavbarDashboard = () => {
 
                 const token = localStorage.getItem("token");
 
-                const currentLecturerRequest = await axios.get(
-                    `http://localhost:8080/api/v1/auth/lecturer/me`,
+                const currentSuperadminRequest = await axios.get(
+                    `http://localhost:8080/api/v1/auth/superadmin/me`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -40,11 +39,11 @@ const NavbarDashboard = () => {
                     }
                 );
 
-                const currentLecturerResponse = currentLecturerRequest.data;
+                const currentSuperadminResponse = currentSuperadminRequest.data;
 
-                if (currentLecturerResponse.status) {
+                if (currentSuperadminResponse.status) {
 
-                    setLecturer(currentLecturerResponse.data.currentUser);
+                    setSuperadmin(currentSuperadminResponse.data.currentUser);
 
                 }
 
@@ -63,7 +62,6 @@ const NavbarDashboard = () => {
     }, [isRefresh]);
 
     /* ================ Get Current User ================ */
-    
 
     return isLoggedIn ? (
 
@@ -75,7 +73,7 @@ const NavbarDashboard = () => {
                     </div>
                     <div className="d-flex align-items-center" style={{ margin: 'auto 0', padding: ' 5px 10px', background: '#292929', color: '#FFFFFF', borderRadius: '4px', gap: '8px' }}>
                         <Image src={UserProfile} />
-                        <p style={{ margin: 'auto 0', fontSize: '14px' }}>{lecturer.name}</p>
+                        <p style={{ margin: 'auto 0', fontSize: '14px' }}>{superadmin.name}</p>
                     </div>
                     <div className="d-flex align-items-center" style={{ margin: 'auto 0', padding: ' 5px 10px', background: '#292929', color: '#FFFFFF', borderRadius: '4px', gap: '8px' }}>
                         <p style={{ margin: 'auto 0', fontSize: '14px' }}>Production and Manufacturing System</p>
@@ -84,7 +82,7 @@ const NavbarDashboard = () => {
             </Row>
         </Container>
 
-    ) : (navigate("/lecturer/login"));
+    ) : (navigate("/superadmin/login"));
 
 };
 

@@ -18,7 +18,7 @@ import SuggestIcon from "../../assets/images/icons/arrow-right.svg"
 
 import "../../assets/css/style.css";
 
-const LecturerLogin = () => {
+const SuperadminLogin = () => {
 
     /* ================ Function Login ================ */
 
@@ -42,7 +42,7 @@ const LecturerLogin = () => {
 
 
             const loginRequest = await axios.post(
-                `http://localhost:8080/api/v1/auth/lecturer/login`,
+                `http://localhost:8080/api/v1/auth/superadmin/login`,
                 loginPayload
             );
 
@@ -54,7 +54,7 @@ const LecturerLogin = () => {
 
                 localStorage.setItem("token", loginResponse.data.token);
 
-                navigate("/lecturer/dashboard");
+                navigate("/superadmin/dashboard");
 
             }
         } catch (err) {
@@ -119,13 +119,13 @@ const LecturerLogin = () => {
                             </Row>
                         </div>
                         <div 
-                            onClick={() => navigate('/superadmin/login')}
+                            onClick={() => navigate('/lecturer/login')}
                             className="suggest-superadmin" 
                             style={{marginTop: '40px', cursor: 'pointer'}}
                         >
                             <Row>
                                 <Col xl={12} className="d-flex align-items-center">
-                                    <span style={{fontSize: '14px', color: '#EA4D55'}}>Login sebagai Admin</span>
+                                    <span style={{fontSize: '14px', color: '#EA4D55'}}>Login sebagai Dosen</span>
                                     <Image src={SuggestIcon} style={{width: '20px', marginLeft: '12px'}}/>
                                 </Col>
                             </Row>
@@ -139,4 +139,4 @@ const LecturerLogin = () => {
 
 };
 
-export default LecturerLogin;
+export default SuperadminLogin;

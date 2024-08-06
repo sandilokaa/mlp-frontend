@@ -47,9 +47,17 @@ body, html {
     color: var(--font-color-grey);
 }
 
+.menu-item:hover .sidebar-icon{
+    background-color: var(--button-color-red);
+}
+
 #side-bar-content .side-bar-menu-item .dashboard,
+#side-bar-content .side-bar-menu-item .lecturer-research,
 #side-bar-content .side-bar-menu-item .lecturer-profile,
-#side-bar-content .side-bar-menu-item .research{
+#side-bar-content .side-bar-menu-item .superadmin-profile,
+#side-bar-content .side-bar-menu-item .superadmin-research,
+#side-bar-content .side-bar-menu-item .superadmin-lecturer,
+#side-bar-content .side-bar-menu-item .superadmin-report{
     :hover{
         background-color: var(--background-sidebar-hover);
         color: var(--font-color-red);
@@ -283,7 +291,7 @@ body, html {
 #research-content .research-table-content .table-body{
     padding: 16px;
     align-items: center;
-    margin-top: -10px;
+    margin-top: -15px;
 }
 
 #research-content .research-table-content .table-body h6{
@@ -322,36 +330,57 @@ body, html {
     cursor: pointer;
 }
 
-#add-research-content{
+#add-research-content,
+#update-research-content,
+#detail-research-content{
     margin-top: 20px;
     height: 100vh;
 }
 
-#add-research-content .add-research-title h1{
+#add-research-content .add-research-title h1,
+#update-research-content .update-research-title h1,
+#detail-research-content .detail-research-title h1{
     font-size: 16px;
     font-weight: 700;
     margin: auto 0;
     color: var(--font-color-black);
 }
 
-#add-research-content .form-research{
+#add-research-content .form-research,
+#update-research-content .form-research,
+#detail-research-content .form-research{
     margin-top: 20px;
 }
 
-#add-research-content .form-research h1{
+#add-research-content .form-research h1,
+#update-research-content .form-research h1{
     font-size: 14px;
     font-weight: 700;
     margin-top: 0;
     color: var(--font-color-black);
 }
 
-#add-research-content .form-research .form-research-input{
+#add-research-content .form-research .form-research-input,
+#update-research-content .form-research .form-research-input{
     margin-top: 20px;
 }
 
-#add-research-content .form-research .form-research-input .form-control{ 
+#add-research-content .form-research .form-research-input .form-control,
+#update-research-content .form-research .form-research-input .form-control{ 
     height: 45px;
 }
+
+#detail-research-content .detail-research-wrapper h6{
+    font-size: 14px;
+    color: var(--font-color-grey);
+}
+
+#detail-research-content .detail-research-wrapper p{
+    font-size: 16px;
+    color: var(--font-color-black);
+}
+
+
 
 /* ------ End Research Content ------*/
 
