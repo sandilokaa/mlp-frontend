@@ -17,6 +17,13 @@ import LecturerDetailResearch from "./pages/lecturer/lecturer-research/DetailRes
 import SuperadminLogin from "./pages/auth/SuperadminLogin";
 import SuperadminDashboard from "./pages/dashboard/SuperadminDashboard";
 import SuperadminResearch from "./pages/superadmin/superadmin-research/SuperadminResearch";
+import SuperadminDetailResearch from "./pages/superadmin/superadmin-research/DetailResearch";
+import SuperadminLecturerList from "./pages/superadmin/superadmin-lecturer-list/LecturerList";
+import SuperadminAddLecturer from "./pages/superadmin/superadmin-lecturer-list/AddLecturer";
+import SuperadminProfile from "./pages/superadmin/superadmin-profile/SuperadminProfile";
+import SuperadminUpdateProfile from "./pages/superadmin/superadmin-profile/UpdateSuperadminProfile";
+import SuperadminReport from "./pages/superadmin/superadmin-report/Report";
+import SuperadminAddReport from "./pages/superadmin/superadmin-report/AddReport";
 
 const roots = document.getElementById("root");
 const root = createRoot(roots);
@@ -25,7 +32,7 @@ root.render(
   <Router>
     <SnackbarProvider maxSnack={3}>
       <Routes>
-        <Route path="/" element={<Navigate to="/lecturer/dashboard" replace />} />
+        <Route path="/" element={<Navigate to="/lecturer/login" replace />} />
         
         <Route path="/lecturer/dashboard" element={<LecturerDashboard />}></Route>
         <Route path="/lecturer/login" element={<LecturerLogin />}></Route>
@@ -45,6 +52,17 @@ root.render(
         <Route path="/superadmin/login" element={<SuperadminLogin />}></Route>
         <Route path="/superadmin/dashboard" element={<SuperadminDashboard />}></Route>
         <Route path="/superadmin/research" element={<SuperadminResearch />}></Route>
+        <Route path="/superadmin/research/detail/" element={<SuperadminDetailResearch />}>
+          <Route path=":id" element={<SuperadminDetailResearch />}/>
+        </Route>
+        <Route path="/superadmin/lecturer/list" element={<SuperadminLecturerList />}></Route>
+        <Route path="/superadmin/lecturer/create" element={<SuperadminAddLecturer />}></Route>
+        <Route path="/superadmin/profile" element={<SuperadminProfile />}></Route>
+        <Route path="/superadmin/profile/update" element={<SuperadminUpdateProfile />}>
+          <Route path=":id" element={<SuperadminUpdateProfile />}/>
+        </Route>
+        <Route path="/superadmin/report" element={<SuperadminReport />}></Route>
+        <Route path="/superadmin/report/create" element={<SuperadminAddReport />}></Route>
       </Routes>
     </SnackbarProvider>
   </Router>

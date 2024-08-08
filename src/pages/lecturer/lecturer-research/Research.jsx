@@ -164,9 +164,13 @@ const LectureResearch = () => {
                                             <h6>{research.category}</h6>
                                         </Col>
                                         <Col xl={2} className="text-center">
-                                            <h6>?</h6>
+                                            {research.ResearchValue && research.ResearchValue.value ? (
+                                                <h6>{research.ResearchValue.value}</h6>
+                                            ) : (
+                                                <h6>?</h6>
+                                            )}
                                         </Col>
-                                        <Col xl={2} className="text-center" style={{marginLeft: '4px'}}>
+                                        <Col xl={2} className="text-center" style={{ marginLeft: '4px' }}>
                                             <Row style={{ display: 'flex', padding: '0', margin: '0' }}>
                                                 <Col xl={4} className="d-flex justify-content-end p-0">
                                                     <span className="view" onClick={() => navigate(`/lecturer/research/detail/${research.id}`)}>

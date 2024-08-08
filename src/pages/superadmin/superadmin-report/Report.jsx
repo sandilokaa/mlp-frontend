@@ -13,11 +13,11 @@ import axios from "axios";
 import SuperadminDashboardLayout from "../../../layouts/dashboard/SuperadminDashboardLayout";
 
 import ViewIcon from "../../../assets/images/icons/eye.svg";
-import ExportIcon from "../../../assets/images/icons/export.svg";
+import AddIcon from "../../../assets/images/icons/add.svg";
 
 import "../../../assets/css/style.css";
 
-const SuperadminResearch = () => {
+const SuperadminReport = () => {
 
 
     /* -------------------- Global Variable -------------------- */
@@ -25,7 +25,6 @@ const SuperadminResearch = () => {
     const navigate = useNavigate();
 
     /* -------------------- End Global Variable -------------------- */
-
 
     /* ================ Get Current User ================ */
 
@@ -74,18 +73,18 @@ const SuperadminResearch = () => {
     /* ================ Get Current User ================ */
 
 
-    /* ================ Get Research Data ================ */
+    /* ================ Get Report Data ================ */
 
-    const [researchData, setResearchData] = useState([]);
+    const [reportData, setReportData] = useState([]);
 
-    const getResearchData = async () => {
+    const getReportData = async () => {
 
         try {
 
             const token = localStorage.getItem("token");
 
             const getDataRequest = await axios.get(
-                `http://localhost:8080/api/v1/superadmin/${superadmin.id}/research`,
+                `http://localhost:8080/api/v1/superadmin/${superadmin.id}/report`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -94,9 +93,9 @@ const SuperadminResearch = () => {
                 }
             );
 
-            const getDataResponse = await getDataRequest.data.data.getResearch;
+            const getDataResponse = await getDataRequest.data.data.getedReport;
 
-            setResearchData(getDataResponse);
+            setReportData(getDataResponse);
 
         } catch (err) {
             console.log(err);
@@ -106,15 +105,15 @@ const SuperadminResearch = () => {
 
     useEffect(() => {
 
-        getResearchData();
+        if (superadmin.id) {
+            getReportData();
+        }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [superadmin.id]);
 
-    /* ================ End Get Research Data ================ */
+    /* ================ End Get Report Data ================ */
 
-
-    /* ================ Pagination ================ */
 
     /* ================ Pagination ================ */
 
@@ -123,16 +122,14 @@ const SuperadminResearch = () => {
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = researchData.slice(indexOfFirstItem, indexOfLastItem);
+    const currentItems = reportData.slice(indexOfFirstItem, indexOfLastItem);
 
     const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
     const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(researchData.length / itemsPerPage); i++) {
+    for (let i = 1; i <= Math.ceil(reportData.length / itemsPerPage); i++) {
         pageNumbers.push(i);
     }
-
-    /* ================ Pagination ================ */
 
     /* ================ End Pagination ================ */
 
@@ -145,15 +142,18 @@ const SuperadminResearch = () => {
                     <div className="add-research-content">
                         <Row>
                             <Col xl={12}>
-                                <h1 style={{ fontSize: '16px', fontWeight: '700' }}>Daftar Penelitian</h1>
+                                <h1 style={{ fontSize: '16px', fontWeight: '700' }}>Daftar Laporan</h1>
                             </Col>
                         </Row>
                         <Row>
-                            <Col xl={2} className="mt-4">
-                                <Button style={{ width: '120px', fontSize: '14px' }}>Export <Image src={ExportIcon} style={{ marginLeft: '8px', width: '20px', }} /></Button>
-                            </Col>
-                            <Col xl={{ span: 3, offset: 7 }} className="mt-4 d-flex justify-content-end">
-                                <p>Search Query</p>
+                            <Col xl={4} className="mt-4 d-flex align-items-center">
+                                <Button
+                                    style={{ width: '190px', height: '48px', fontSize: '14px' }}
+                                    onClick={() => navigate('/superadmin/report/create')}
+                                >
+                                    Tambah Laporan
+                                    <Image src={AddIcon} style={{ marginLeft: '20px' }} />
+                                </Button>
                             </Col>
                         </Row>
                     </div>
@@ -163,52 +163,64 @@ const SuperadminResearch = () => {
                                 <h6>No</h6>
                             </Col>
                             <Col xl={4}>
-                                <h6>Judul Penelitian</h6>
+                                <h6>Judul Laporan</h6>
                             </Col>
                             <Col xl={2} className="text-center">
-                                <h6>Nama Dosen</h6>
+                                <h6>Period</h6>
                             </Col>
                             <Col xl={2} className="text-center">
-                                <h6>Kategori</h6>
+                                <h6>Tahun Ajaran</h6>
                             </Col>
                             <Col xl={2} className="text-center">
-                                <h6>Skor</h6>
+                                <h6>Status</h6>
                             </Col>
                             <Col xl={1} className="text-center">
                                 <h6>Action</h6>
                             </Col>
                         </Row>
                         <hr style={{ marginTop: '10px' }} />
-                        {currentItems.map((research, index) => {
+                        {currentItems.map((report, index) => {
 
                             const displayIndex = (index + 1).toString().padStart(2, '0');
 
                             return (
-                                <Row className="table-body" key={research.id}>
-                                    <div className="d-flex align-items-center" style={{ padding: '16px', backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FAFAFA' }}>
+                                <Row className="table-body" key={report.id}>
+                                    <div className="d-flex align-items-center" style={{ padding: '16px 15px', backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FAFAFA' }}>
                                         <Col xl={1}>
                                             <h6>{displayIndex}</h6>
                                         </Col>
                                         <Col xl={4}>
-                                            <h6>{research.title}</h6>
+                                            <h6>{report.reportTitle}</h6>
                                         </Col>
                                         <Col xl={2} className="text-center">
-                                            <h6>{research.Lecturer.name}</h6>
-                                        </Col>
-                                        <Col xl={2} className="text-center" style={{ marginLeft: '8px' }}>
-                                            <h6>{research.category}</h6>
+                                            <h6>{report.period}</h6>
                                         </Col>
                                         <Col xl={2} className="text-center" style={{ marginLeft: '5px' }}>
-                                            {research.ResearchValue && research.ResearchValue.value ? (
-                                                <h6>{research.ResearchValue.value}</h6>
-                                            ) : (
-                                                <h6>Perlu dinilai</h6>
-                                            )}
+                                            <h6>{report.ta}</h6>
                                         </Col>
-                                        <Col xl={1} className="text-center" style={{ marginLeft: '4px' }}>
+                                        <Col xl={2} className="text-center d-flex justify-content-center" style={{ marginLeft: '5px' }}>
+                                            {
+                                                report.reportStatus === "Selesai" ? (
+                                                    <div style={{ backgroundColor: '#EEFBF2', padding: '10px' }}>
+                                                        <h6 style={{ fontSize: '10px', color: '#24A560' }}>Selesai</h6>
+                                                    </div>
+                                                ) :
+                                                    report.reportStatus === "New Comment" ?
+                                                        (
+                                                            <h6 style={{ fontSize: '10px', color: '#24A560', backgroundColor: '#EEFBF2', padding: '4px' }}>New Comment</h6>
+                                                        ) :
+                                                        report.reportStatus === "Dalam Review" ? (
+                                                            <div style={{ backgroundColor: '#F6F3FF', padding: '10px', borderRadius: '6px', width: 'fit-content' }}>
+                                                                <h6 style={{ fontSize: '10px', color: '#8951F0' }}>Dalam Review</h6>
+                                                            </div>
+                                                        ) :
+                                                            null
+                                            }
+                                        </Col>
+                                        <Col xl={1} className="text-center" style={{ marginLeft: '5px' }}>
                                             <Row style={{ display: 'flex', padding: '0', margin: '0' }}>
                                                 <Col xl={12} className="d-flex justify-content-center p-0">
-                                                    <span className="view" onClick={() => navigate(`/superadmin/research/detail/${research.id}`)}>
+                                                    <span className="view" onClick={() => navigate(`/superadmin/report/detail/${report.id}`)}>
                                                         <Image src={ViewIcon} />
                                                     </span>
                                                 </Col>
@@ -239,4 +251,4 @@ const SuperadminResearch = () => {
 
 };
 
-export default SuperadminResearch;
+export default SuperadminReport;

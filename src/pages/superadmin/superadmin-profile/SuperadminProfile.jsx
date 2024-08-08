@@ -9,28 +9,28 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 
-import LecturerDashboardLayout from "../../../layouts/dashboard/LecturerDashboardLayout";
+import SuperadminDashboardLayout from "../../../layouts/dashboard/SuperadminDashboardLayout";
 
 import EducationIcon from "../../../assets/images/icons/briefcase-2.svg";
 
 import "../../../assets/css/style.css";
 
-const LecturerProfile = () => {
+const SuperadminProfile = () => {
 
     const navigate = useNavigate();
 
-    /* ================ Get Lecturer Data ================ */
+    /* ================ Get Superadmin Data ================ */
 
-    const [lecturerData, setLecturerData] = useState([]);
+    const [superadminData, setSuperadminData] = useState([]);
 
-    const lecturerDetailData = async () => {
+    const superadminDetailData = async () => {
 
         try {
 
             const token = localStorage.getItem("token");
 
             const getDataRequest = await axios.get(
-                `http://localhost:8080/api/v1/lecturer`,
+                `http://localhost:8080/api/v1/superadmin`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -39,9 +39,9 @@ const LecturerProfile = () => {
                 }
             );
 
-            const getDataResponse = await getDataRequest.data.data.getDetailLecture;
+            const getDataResponse = await getDataRequest.data.data.getDetailSuperAdmin;
 
-            setLecturerData(getDataResponse);
+            setSuperadminData(getDataResponse);
 
         } catch (err) {
             console.log(err);
@@ -51,17 +51,17 @@ const LecturerProfile = () => {
 
     useEffect(() => {
 
-        lecturerDetailData();
+        superadminDetailData();
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
 
-    /* ================ End Get Lecturer Data ================ */
+    /* ================ End Get Superadmin Data ================ */
 
     return (
 
-        <LecturerDashboardLayout>
+        <SuperadminDashboardLayout>
             <div id="lecturer-profile-content">
                 <Container fluid style={{ padding: '0 32px' }}>
                     <Row>
@@ -75,7 +75,7 @@ const LecturerProfile = () => {
                                         <div className="photo-wrapper" style={{ height: '150px', width: '100%', background: '#989898' }}></div>
                                         <div className="mt-3" style={{ marginLeft: '4px', marginRight: '4px' }}>
                                             <Button
-                                                onClick={() => navigate(`/lecturer/profile/update/${lecturerData ? lecturerData.lecturerId : null}`)}
+                                                onClick={() => navigate(`/superadmin/profile/update/${superadminData ? superadminData.superAdminId : null}`)}
                                                 style={{ fontSize: '14px', border: 'none', backgroundColor: '#D62C35', width: '100%' }}
                                             >
                                                 Edit Profile
@@ -89,27 +89,27 @@ const LecturerProfile = () => {
                                                 <Row>
                                                     <Col xl={12}>
                                                         <h6>Nomor Induk Pegawai</h6>
-                                                        <p>{lecturerData.LecturerPersonal ? lecturerData.LecturerPersonal.nip : null}</p>
+                                                        <p>{superadminData.SuperAdminPersonal ? superadminData.SuperAdminPersonal.nip : null}</p>
                                                     </Col>
                                                 </Row>
                                                 <Row>
                                                     <Col xl={12}>
                                                         <h6>Nama Dosen</h6>
-                                                        <p>{lecturerData.Lecturer ? lecturerData.Lecturer.name : null}</p>
+                                                        <p>{superadminData.SuperAdmin ? superadminData.SuperAdmin.name : null}</p>
                                                     </Col>
                                                 </Row>
                                                 <Row>
                                                     <Col xl={6}>
                                                         <h6>Jurusan</h6>
-                                                        <p>{lecturerData.LecturerEducation ? lecturerData.LecturerEducation.major : null}</p>
+                                                        <p>{superadminData.SuperAdminEducation ? superadminData.SuperAdminEducation.major : null}</p>
                                                     </Col>
                                                     <Col xl={6}>
                                                         <h6>Pendidikan Terakhir</h6>
                                                         <p>
                                                             {
-                                                                (lecturerData.LecturerEducation?.doctor && JSON.parse(lecturerData.LecturerEducation.doctor)) ? 'Doctor'
-                                                                    : (lecturerData.LecturerEducation?.magister && JSON.parse(lecturerData.LecturerEducation.magister)) ? 'Magister'
-                                                                        : (lecturerData.LecturerEducation?.bachelor && JSON.parse(lecturerData.LecturerEducation.bachelor)) ? 'Bachelor'
+                                                                (superadminData.SuperAdminEducation?.doctor && JSON.parse(superadminData.SuperAdminEducation.doctor)) ? 'Doctor'
+                                                                    : (superadminData.SuperAdminEducation?.magister && JSON.parse(superadminData.SuperAdminEducation.magister)) ? 'Magister'
+                                                                        : (superadminData.SuperAdminEducation?.bachelor && JSON.parse(superadminData.SuperAdminEducation.bachelor)) ? 'Bachelor'
                                                                             : 'Tidak ada data'
                                                             }
                                                         </p>
@@ -129,19 +129,19 @@ const LecturerProfile = () => {
                                                 <Row>
                                                     <Col xl={12}>
                                                         <h6>Jenis Kelamin</h6>
-                                                        <p>{lecturerData.LecturerPersonal ? lecturerData.LecturerPersonal.gender : null}</p>
+                                                        <p>{superadminData.SuperAdminPersonal ? superadminData.SuperAdminPersonal.gender : null}</p>
                                                     </Col>
                                                 </Row>
                                                 <Row>
                                                     <Col xl={12}>
                                                         <h6>Tempat, Tanggal Lahir</h6>
-                                                        <p>{lecturerData.LecturerPersonal ? lecturerData.LecturerPersonal.placeOfBirth : null}, {lecturerData.LecturerPersonal ? lecturerData.LecturerPersonal.dateOfBirth : null}</p>
+                                                        <p>{superadminData.SuperAdminPersonal ? superadminData.SuperAdminPersonal.placeOfBirth : null}, {superadminData.SuperAdminPersonal ? superadminData.SuperAdminPersonal.dateOfBirth : null}</p>
                                                     </Col>
                                                 </Row>
                                                 <Row>
                                                     <Col xl={12}>
                                                         <h6>Alamat</h6>
-                                                        <p>{lecturerData.LecturerPersonal ? lecturerData.LecturerPersonal.address : null}</p>
+                                                        <p>{superadminData.SuperAdminPersonal ? superadminData.SuperAdminPersonal.address : null}</p>
                                                     </Col>
                                                 </Row>
                                             </div>
@@ -152,13 +152,13 @@ const LecturerProfile = () => {
                                                 <Row>
                                                     <Col xl={12}>
                                                         <h6>Email</h6>
-                                                        <p>{lecturerData.Lecturer ? lecturerData.Lecturer.email : null}</p>
+                                                        <p>{superadminData.SuperAdmin ? superadminData.SuperAdmin.email : null}</p>
                                                     </Col>
                                                 </Row>
                                                 <Row>
                                                     <Col xl={12}>
                                                         <h6>No. HP</h6>
-                                                        <p>{lecturerData.LecturerPersonal ? lecturerData.LecturerPersonal.phoneNumber : null}</p>
+                                                        <p>{superadminData.SuperAdminPersonal ? superadminData.SuperAdminPersonal.phoneNumber : null}</p>
                                                     </Col>
                                                 </Row>
                                             </div>
@@ -179,12 +179,12 @@ const LecturerProfile = () => {
                                 </Row>
                                 <Row>
                                     <Col xl={12}>
-                                        <h6>S3 - {lecturerData.LecturerEducation ? lecturerData.LecturerEducation.major : null}</h6>
+                                        <h6>S3 - {superadminData.SuperAdminEducation ? superadminData.SuperAdminEducation.major : null}</h6>
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col xl={12}>
-                                        <h5>{lecturerData.LecturerEducation?.doctor ? JSON.parse(lecturerData.LecturerEducation.doctor)?.university : null}</h5>
+                                        <h5>{superadminData.SuperAdminEducation?.doctor ? JSON.parse(superadminData.SuperAdminEducation.doctor)?.university : null}</h5>
                                     </Col>
                                 </Row>
                                 <Row className="mt-1">
@@ -192,7 +192,7 @@ const LecturerProfile = () => {
                                         <p>Disertasi</p>
                                     </Col>
                                     <Col xl={9}>
-                                        <p>{lecturerData.LecturerEducation?.doctor ? JSON.parse(lecturerData.LecturerEducation.doctor)?.title : null}</p>
+                                        <p>{superadminData.SuperAdminEducation?.doctor ? JSON.parse(superadminData.SuperAdminEducation.doctor)?.title : null}</p>
                                     </Col>
                                 </Row>
                                 <Row>
@@ -200,7 +200,7 @@ const LecturerProfile = () => {
                                         <p>Expertise</p>
                                     </Col>
                                     <Col xl={9}>
-                                        <p>{lecturerData.LecturerEducation?.doctor ? JSON.parse(lecturerData.LecturerEducation.doctor)?.expertise : null}</p>
+                                        <p>{superadminData.SuperAdminEducation?.doctor ? JSON.parse(superadminData.SuperAdminEducation.doctor)?.expertise : null}</p>
                                     </Col>
                                 </Row>
                             </div>
@@ -212,12 +212,12 @@ const LecturerProfile = () => {
                                 </Row>
                                 <Row>
                                     <Col xl={12}>
-                                        <h6>S2 - {lecturerData.LecturerEducation ? lecturerData.LecturerEducation.major : null}</h6>
+                                        <h6>S2 - {superadminData.SuperAdminEducation ? superadminData.SuperAdminEducation.major : null}</h6>
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col xl={12}>
-                                        <h5>{lecturerData.LecturerEducation?.magister ? JSON.parse(lecturerData.LecturerEducation.magister)?.university : null}</h5>
+                                        <h5>{superadminData.SuperAdminEducation?.magister ? JSON.parse(superadminData.SuperAdminEducation.magister)?.university : null}</h5>
                                     </Col>
                                 </Row>
                                 <Row className="mt-1">
@@ -225,7 +225,7 @@ const LecturerProfile = () => {
                                         <p>Thesis</p>
                                     </Col>
                                     <Col xl={9}>
-                                        <p>{lecturerData.LecturerEducation?.magister ? JSON.parse(lecturerData.LecturerEducation.magister)?.title : null}</p>
+                                        <p>{superadminData.SuperAdminEducation?.magister ? JSON.parse(superadminData.SuperAdminEducation.magister)?.title : null}</p>
                                     </Col>
                                 </Row>
                                 <Row>
@@ -233,7 +233,7 @@ const LecturerProfile = () => {
                                         <p>Expertise</p>
                                     </Col>
                                     <Col xl={9}>
-                                        <p>{lecturerData.LecturerEducation?.magister ? JSON.parse(lecturerData.LecturerEducation.magister)?.expertise : null}</p>
+                                        <p>{superadminData.SuperAdminEducation?.magister ? JSON.parse(superadminData.SuperAdminEducation.magister)?.expertise : null}</p>
                                     </Col>
                                 </Row>
                             </div>
@@ -245,12 +245,12 @@ const LecturerProfile = () => {
                                 </Row>
                                 <Row>
                                     <Col xl={12}>
-                                        <h6>S1 - {lecturerData.LecturerEducation ? lecturerData.LecturerEducation.major : null}</h6>
+                                        <h6>S1 - {superadminData.SuperAdminEducation ? superadminData.SuperAdminEducation.major : null}</h6>
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col xl={12}>
-                                        <h5>{lecturerData.LecturerEducation?.bachelor ? JSON.parse(lecturerData.LecturerEducation.bachelor)?.university : null}</h5>
+                                        <h5>{superadminData.SuperAdminEducation?.bachelor ? JSON.parse(superadminData.SuperAdminEducation.bachelor)?.university : null}</h5>
                                     </Col>
                                 </Row>
                                 <Row className="mt-1">
@@ -258,7 +258,7 @@ const LecturerProfile = () => {
                                         <p>Skripsi</p>
                                     </Col>
                                     <Col xl={9}>
-                                        <p>{lecturerData.LecturerEducation?.bachelor ? JSON.parse(lecturerData.LecturerEducation.bachelor)?.title : null}</p>
+                                        <p>{superadminData.SuperAdminEducation?.bachelor ? JSON.parse(superadminData.SuperAdminEducation.bachelor)?.title : null}</p>
                                     </Col>
                                 </Row>
                                 <Row>
@@ -266,7 +266,7 @@ const LecturerProfile = () => {
                                         <p>Expertise</p>
                                     </Col>
                                     <Col xl={9}>
-                                        <p>{lecturerData.LecturerEducation?.bachelor ? JSON.parse(lecturerData.LecturerEducation.bachelor)?.expertise : null}</p>
+                                        <p>{superadminData.SuperAdminEducation?.bachelor ? JSON.parse(superadminData.SuperAdminEducation.bachelor)?.expertise : null}</p>
                                     </Col>
                                 </Row>
                             </div>
@@ -274,10 +274,10 @@ const LecturerProfile = () => {
                     </Row>
                 </Container>
             </div>
-        </LecturerDashboardLayout>
+        </SuperadminDashboardLayout>
 
     );
 
 };
 
-export default LecturerProfile;
+export default SuperadminProfile;
