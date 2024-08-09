@@ -172,7 +172,7 @@ const SuperadminDetailResearch = () => {
                                             <h6>Nama Dosen</h6>
                                         </Col>
                                         <Col xl={12}>
-                                            <p>{researchData ? researchData.Lecturer.name : null}</p>
+                                            <p>{researchData ? researchData.LecturerDetail.Lecturer.name : null}</p>
                                         </Col>
                                     </Row>
                                     <Row>

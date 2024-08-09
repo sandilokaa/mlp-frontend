@@ -37,6 +37,7 @@ body, html {
 #side-bar-content .sub-menu{
     margin-top: 40px;
     color: var(--font-color-grey);
+    font-size: 14px;
 }
 
 #side-bar-content .side-bar-menu-item{
@@ -44,6 +45,11 @@ body, html {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    color: var(--font-color-grey);
+    font-size: 14px;
+}
+
+#side-bar-content .logout-icon{
     color: var(--font-color-grey);
 }
 
@@ -277,11 +283,13 @@ body, html {
     border-radius: 8px;
 }
 
-#research-content .research-table-content .table-head{
+#research-content .research-table-content .table-head,
+.detail-research-wrapper .research-table-content .table-head{
     padding: 16px;
 }
 
-#research-content .research-table-content .table-head h6{
+#research-content .research-table-content .table-head h6,
+.detail-research-wrapper .research-table-content .table-head h6{
     font-size: 14px;
     font-weight: 700;
     margin: auto 0;

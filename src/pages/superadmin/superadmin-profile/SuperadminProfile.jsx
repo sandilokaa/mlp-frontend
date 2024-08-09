@@ -59,6 +59,32 @@ const SuperadminProfile = () => {
 
     /* ================ End Get Superadmin Data ================ */
 
+
+    /* ================ Get Expertise Data ================ */
+
+    const getExpertise = (educationLevel) => {
+        try {
+            const educationData = JSON.parse(superadminData.SuperAdminEducation?.[educationLevel] || '{}');
+            return educationData.expertise ? educationData.expertise.split(', ').map(exp => exp.trim()) : [];
+        } catch (error) {
+            console.error('Parsing error:', error);
+            return [];
+        }
+    };
+
+    const doctorExpertise = getExpertise('doctor');
+    const magisterExpertise = getExpertise('magister');
+    const bachelorExpertise = getExpertise('bachelor');
+
+    const allExpertise = [...doctorExpertise, ...magisterExpertise, ...bachelorExpertise];
+
+    const uniqueExpertise = Array.from(new Set(allExpertise));
+
+    const expertiseString = uniqueExpertise.join(', ');
+
+    /* ================ End Get Expertise Data ================ */
+
+
     return (
 
         <SuperadminDashboardLayout>
@@ -118,7 +144,13 @@ const SuperadminProfile = () => {
                                                 <Row>
                                                     <Col xl={12}>
                                                         <h6>Keahlian</h6>
-                                                        <p>Machine Learmbud</p>
+                                                        {
+                                                            expertiseString ? (
+                                                                <p>{expertiseString}</p>
+                                                            ) : (
+                                                                <p>-</p>
+                                                            )
+                                                        }                                                       
                                                     </Col>
                                                 </Row>
                                             </div>

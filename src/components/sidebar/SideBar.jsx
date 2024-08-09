@@ -55,43 +55,45 @@ const MySideBar = () => {
 
     return (
 
-        <Sidebar id='side-bar-content' style={{ height: '100%', border: 'none', position: 'relative' }}>
+        <Sidebar id='side-bar-content' style={{ height: '100%', border: 'none' }}>
             <Menu className='menu-content p-3' style={{ height: '100%', border: 'none', backgroundColor: '#FFFFFF' }}>
                 <Image src={LogoTelkom} alt='logoImage' style={{ width: '180px' }} />
                 <div className='sub-menu'>
                     <span>Menu</span>
                 </div>
-                <div className='side-bar-menu-item'>
-                    <MenuItem
-                        className={`dashboard ${activeItem === 'lecturer-dashboard' ? 'active' : ''}`}
-                        onClick={() => handleClick('lecturer-dashboard', '/lecturer/dashboard')}
-                    >
-                        <div className='d-flex align-items-center'>
-                            <DashboardIcon className='sidebar-icon' />
-                            <span style={{ marginLeft: '13px' }}> Dashboard </span>
+                <div>
+                    <div className='side-bar-menu-item'>
+                        <MenuItem
+                            className={`dashboard ${activeItem === 'lecturer-dashboard' ? 'active' : ''}`}
+                            onClick={() => handleClick('lecturer-dashboard', '/lecturer/dashboard')}
+                        >
+                            <div className='d-flex align-items-center'>
+                                <DashboardIcon className='sidebar-icon' />
+                                <span style={{ marginLeft: '13px' }}> Dashboard </span>
+                            </div>
+                        </MenuItem>
+                        <MenuItem
+                            className={`lecturer-profile ${activeItem === 'lecturer-profile' ? 'active' : ''}`}
+                            onClick={() => handleClick('lecturer-profile', '/lecturer/profile')}
+                        >
+                            <div className='d-flex align-items-center'>
+                                <ProfileIcon className='sidebar-icon' />
+                                <span style={{ marginLeft: '13px' }}> Profile Dosen </span>
+                            </div>
+                        </MenuItem>
+                        <MenuItem
+                            className={`lecturer-research ${activeItem === 'lecturer-research' ? 'active' : ''}`}
+                            onClick={() => handleClick('lecturer-research', '/lecturer/research')}
+                        >
+                            <div className='d-flex align-items-center'>
+                                <ProfileIcon className='sidebar-icon' />
+                                <span style={{ marginLeft: '13px' }}> Penelitian </span>
+                            </div>
+                        </MenuItem>
+                        <div className='d-flex align-items-center' style={{ cursor: 'pointer', padding: '15px 0', backgroundColor: '#FFFFFF', width: '100%' }} onClick={onLogout}>
+                            <LogoutIcon className='logout-icon' />
+                            <span style={{ marginLeft: '13px', fontSize: '14px', color: '#989898' }}>Log out</span>
                         </div>
-                    </MenuItem>
-                    <MenuItem
-                        className={`lecturer-profile ${activeItem === 'lecturer-profile' ? 'active' : ''}`}
-                        onClick={() => handleClick('lecturer-profile', '/lecturer/profile')}
-                    >
-                        <div className='d-flex align-items-center'>
-                            <ProfileIcon className='sidebar-icon' />
-                            <span style={{ marginLeft: '13px' }}> Profile Dosen </span>
-                        </div>
-                    </MenuItem>
-                    <MenuItem
-                        className={`lecturer-research ${activeItem === 'lecturer-research' ? 'active' : ''}`}
-                        onClick={() => handleClick('lecturer-research', '/lecturer/research')}
-                    >
-                        <div className='d-flex align-items-center'>
-                            <ProfileIcon className='sidebar-icon' />
-                            <span style={{ marginLeft: '13px' }}> Penelitian </span>
-                        </div>
-                    </MenuItem>
-                    <div className='logout d-flex align-items-center' style={{ cursor: 'pointer' }} onClick={onLogout}>
-                        <LogoutIcon className='sidebar-icon' />
-                        <span style={{ marginLeft: '13px' }}>Log out</span>
                     </div>
                 </div>
             </Menu>

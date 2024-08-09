@@ -1,5 +1,5 @@
-import React, { useState, useRef } from "react";
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useRef, useEffect } from "react";
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 import {
     Container,
@@ -19,7 +19,7 @@ import CloseIcon from "../../../assets/images/icons/Close.svg";
 
 import "../../../assets/css/style.css";
 
-const SuperadminAddReport = () => {
+const SuperadminUpdateReport = () => {
 
     /* -------------------- Global Variable -------------------- */
 
@@ -27,6 +27,49 @@ const SuperadminAddReport = () => {
     const { enqueueSnackbar } = useSnackbar();
 
     /* -------------------- End Global Variable -------------------- */
+
+
+    /* --------- Get Report By Id ---------*/
+
+    const [reportData, setReportData] = useState();
+
+    const params = useLocation();
+
+    const id = (params.pathname).split('/')[4];
+
+    useEffect(() => {
+
+        const onReportById = async () => {
+
+            try {
+
+                const token = localStorage.getItem("token");
+
+                const getReportRequest = await axios.get(
+                    `http://localhost:8080/api/v1/superadmin/report/${id}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            "Access-Control-Allow-Origin": "*"
+                        }
+                    }
+                );
+
+                const getReportResponse = getReportRequest.data;
+
+                setReportData(getReportResponse.data.getReport);
+
+            } catch (err) {
+                alert(err.message);
+            }
+
+        };
+
+        onReportById();
+
+    }, [id]);
+
+    /* --------- End Get Report By Id ---------*/
 
 
     /* --------- Upload File ---------*/
@@ -57,13 +100,13 @@ const SuperadminAddReport = () => {
     /* --------- End Upload File ---------*/
 
 
-    /* -------------------- Create New Report -------------------- */
+    /* -------------------- Update Report -------------------- */
 
     const reportTitleField = useRef();
     const periodField = useRef();
     const taField = useRef();
 
-    const onCreateReport = async () => {
+    const onUpdateReport = async () => {
 
         try {
 
@@ -77,8 +120,8 @@ const SuperadminAddReport = () => {
                 reportPayload.append(`reportFile`, file);
             });
 
-            const createReportRequest = await axios.post(
-                `http://localhost:8080/api/v1/superadmin/report`,
+            const updateReportRequest = await axios.put(
+                `http://localhost:8080/api/v1/superadmin/report/${id}`,
                 reportPayload,
                 {
                     headers: {
@@ -90,11 +133,11 @@ const SuperadminAddReport = () => {
             );
             
 
-            const createReportResponse = createReportRequest.data;
+            const updateReportResponse = updateReportRequest.data;
 
-            enqueueSnackbar(createReportResponse.message, { variant: 'success', anchorOrigin: { vertical: 'top', horizontal: 'center' }, autoHideDuration: 2000 });
+            enqueueSnackbar(updateReportResponse.message, { variant: 'success', anchorOrigin: { vertical: 'top', horizontal: 'center' }, autoHideDuration: 2000 });
 
-            if (createReportResponse.status) {
+            if (updateReportResponse.status) {
 
                 navigate("/superadmin/report");
 
@@ -108,7 +151,7 @@ const SuperadminAddReport = () => {
 
     };
     
-    /* -------------------- End Create New Report -------------------- */
+    /* -------------------- End Update Report -------------------- */
 
     return (
 
@@ -118,13 +161,13 @@ const SuperadminAddReport = () => {
                     <Row className="add-research-title">
                         <Col xl={12} className="d-flex align-items-center">
                             <Image onClick={() => navigate('/superadmin/report')} src={ArrowLeft} style={{ marginRight: '16px', cursor: 'pointer' }} />
-                            <h1>Tambah Laporan</h1>
+                            <h1>Edit Laporan</h1>
                         </Col>
                     </Row>
                     <Row className="form-research">
                         <Col xl={12}>
                             <div style={{ background: '#FFFFFF', padding: '16px', borderRadius: '8px' }}>
-                                <h1>Form Penambahan Laporan</h1>
+                                <h1>Form Edit Laporan</h1>
                                 <div className="form-research-input">
                                     <Form>
                                         <Row className="mt-3">
@@ -132,7 +175,7 @@ const SuperadminAddReport = () => {
                                                 <div>
                                                     <Form.Group controlId="exampleForm.ControlInput2">
                                                         <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Judul Laporan <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
-                                                        <Form.Control type="text" placeholder="Contoh: Perbandingan Metode X terhadap Y" autoComplete="off" style={{ fontSize: '14px' }} ref={reportTitleField} required/>
+                                                        <Form.Control type="text" placeholder="Contoh: Perbandingan Metode X terhadap Y" autoComplete="off" style={{ fontSize: '14px' }} defaultValue={reportData ? reportData.reportTitle : null} ref={reportTitleField}/>
                                                     </Form.Group>
                                                 </div>
                                             </Col>
@@ -140,7 +183,7 @@ const SuperadminAddReport = () => {
                                                 <div>
                                                     <Form.Group controlId="exampleForm.ControlInput3">
                                                         <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Periode <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
-                                                        <Form.Control type="email" placeholder="Contoh: Genap" autoComplete="off" style={{ fontSize: '14px' }} ref={periodField} required/>
+                                                        <Form.Control type="email" placeholder="Contoh: Genap" autoComplete="off" style={{ fontSize: '14px' }} defaultValue={reportData ? reportData.period : null} ref={periodField}/>
                                                     </Form.Group>
                                                 </div>
                                             </Col>
@@ -148,7 +191,7 @@ const SuperadminAddReport = () => {
                                                 <div>
                                                     <Form.Group controlId="exampleForm.ControlInput4">
                                                         <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Tahun Ajaran <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
-                                                        <Form.Control type="text" placeholder="Contoh: 2024" autoComplete="off" style={{ fontSize: '14px' }} ref={taField} required/>
+                                                        <Form.Control type="text" placeholder="Contoh: 2024" autoComplete="off" style={{ fontSize: '14px' }} defaultValue={reportData ? reportData.ta : null} ref={taField}/>
                                                     </Form.Group>
                                                 </div>
                                             </Col>
@@ -172,23 +215,40 @@ const SuperadminAddReport = () => {
                                                                 style={{ display: 'none' }}
                                                             />
                                                             <Row>
-                                                                {
+                                                            {
                                                                     files.length > 0 ? (
                                                                         <Col xl={12} className="d-flex justify-content-start">
-                                                                            <div style={{display:'flex', gap: '10px' , padding: '5px 10px', background: '#FAFAFA', borderRadius: '4px', zIndex: '999'}}>
-                                                                                <Image src={UploadIcon} style={{width: '15px'}}/>
+                                                                            <div style={{ display: 'flex', gap: '10px', padding: '5px 10px', background: '#FAFAFA', borderRadius: '4px', zIndex: '999' }}>
+                                                                                <Image src={UploadIcon} style={{ width: '15px' }} />
                                                                                 <p style={{ margin: 'auto 0', color: '#292929' }}>{files.map(file => file.name).join(', ')}</p>
-                                                                                <Image key={files.name} onClick={() => handleRemoveFile(files.name)} src={CloseIcon} style={{width: '15px', marginLeft: '40px'}}/>
+                                                                                <Image key={files.name} onClick={() => handleRemoveFile(files.name)} src={CloseIcon} style={{ width: '15px', marginLeft: '40px' }} />
                                                                             </div>
                                                                         </Col>
                                                                     ) : (
                                                                         <>
-                                                                            <Col xl={12} className="d-flex justify-content-center">
-                                                                                <Image src={UploadIcon} />
-                                                                            </Col>
-                                                                            <Col xl={{ span: 2, offset: 5 }} className="text-center mt-2">
-                                                                                <p style={{ margin: 'auto 0', color: '#292929', fontSize: '14px' }}>Drag and drop filemu atau <span style={{ color: '#2181E8' }}>telusuri</span></p>
-                                                                            </Col>
+                                                                            {reportData ? (
+                                                                                <Col xl={12} className="d-flex justify-content-start">
+                                                                                    <div style={{ display: 'flex', gap: '10px', padding: '5px 10px', background: '#FAFAFA', borderRadius: '4px', zIndex: '999' }}>
+                                                                                        <Image src={UploadIcon} style={{ width: '15px' }} />
+                                                                                        <p style={{ margin: 'auto 0', color: '#292929' }}>
+                                                                                            {reportData
+                                                                                                ? reportData.reportFile
+                                                                                                : files.map(file => file.name).join(', ')
+                                                                                            }
+                                                                                        </p>
+                                                                                        <Image key={files.name} onClick={() => handleRemoveFile(files.name)} src={CloseIcon} style={{ width: '15px', marginLeft: '40px' }} />
+                                                                                    </div>
+                                                                                </Col>
+                                                                            ) : (
+                                                                                <>
+                                                                                    <Col xl={12} className="d-flex justify-content-center">
+                                                                                        <Image src={UploadIcon} />
+                                                                                    </Col>
+                                                                                    <Col xl={{ span: 2, offset: 5 }} className="text-center mt-2">
+                                                                                        <p style={{ margin: 'auto 0', color: '#292929', fontSize: '14px' }}>Drag and drop filemu atau <span style={{ color: '#2181E8' }}>telusuri</span></p>
+                                                                                    </Col>
+                                                                                </>
+                                                                            )}
                                                                         </>
                                                                     )
                                                                 }
@@ -200,7 +260,7 @@ const SuperadminAddReport = () => {
                                         </Row>
                                         <Row className="mt-4">
                                             <Col xl={12} className="d-flex justify-content-end">
-                                                <Button onClick={onCreateReport} style={{ background: '#D62C35', border: 'none', fontSize: '16px' }}> Tambah Laporan </Button>
+                                                <Button onClick={onUpdateReport} style={{ background: '#D62C35', border: 'none', fontSize: '16px' }}> Simpan Perubahan </Button>
                                             </Col>
                                         </Row>
                                     </Form>
@@ -216,4 +276,4 @@ const SuperadminAddReport = () => {
 
 };
 
-export default SuperadminAddReport;
+export default SuperadminUpdateReport;

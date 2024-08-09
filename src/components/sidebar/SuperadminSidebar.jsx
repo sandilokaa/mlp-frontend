@@ -11,6 +11,7 @@ import {
 import axios from "axios";
 
 import LogoTelkom from "../../assets/images/logo.png";
+import { ReactComponent as LogoutIcon } from "../../assets/images/icons/logout.svg";
 
 import '../../assets/css/style.css';
 
@@ -96,6 +97,14 @@ const LeaderSideBar = () => {
 
     /* ================ Active Side Bar ================ */
 
+    const onLogout = () => {
+
+        localStorage.removeItem('token');
+
+        navigate('/superadmin/login')
+
+    };
+
     return isLoggedIn ? (
 
         <Sidebar id='side-bar-content' style={{ height: '100%', border: 'none' }}>
@@ -104,96 +113,103 @@ const LeaderSideBar = () => {
                 <div className='sub-menu'>
                     <span>Menu</span>
                 </div>
-                <div className='side-bar-menu-item'>
-                    {superadmin.role === 'expertiseGroup' && (
-                        <>
-                            <MenuItem
-                                className={`dashboard ${activeItem === 'superadmin-dashboard' ? 'active' : ''}`}
-                                onClick={() => handleClick('superadmin-dashboard', '/superadmin/dashboard')}
-                            >
-                                <div className='d-flex align-items-center'>
-                                    <Image className='icon' />
-                                    <span style={{ marginLeft: '6%' }}> Dashboard </span>
+                <div>
+                    <div className='side-bar-menu-item'>
+                        {superadmin.role === 'expertiseGroup' && (
+                            <>
+                                <MenuItem
+                                    className={`dashboard ${activeItem === 'superadmin-dashboard' ? 'active' : ''}`}
+                                    onClick={() => handleClick('superadmin-dashboard', '/superadmin/dashboard')}
+                                >
+                                    <div className='d-flex align-items-center'>
+                                        <Image className='icon' />
+                                        <span style={{ marginLeft: '6%' }}> Dashboard </span>
+                                    </div>
+                                </MenuItem>
+                                <MenuItem
+                                    className={`superadmin-lecturer ${activeItem === 'superadmin-lecturer' ? 'active' : ''}`}
+                                    onClick={() => handleClick('superadmin-lecturer', '/superadmin/lecturer/list')}
+                                >
+                                    <div className='d-flex align-items-center'>
+                                        <Image className='icon' />
+                                        <span style={{ marginLeft: '6%' }}> Dosen </span>
+                                    </div>
+                                </MenuItem>
+                                <MenuItem
+                                    className={`superadmin-research ${activeItem === 'superadmin-research' ? 'active' : ''}`}
+                                    onClick={() => handleClick('superadmin-research', '/superadmin/research')}
+                                >
+                                    <div className='d-flex align-items-center'>
+                                        <Image className='icon' />
+                                        <span style={{ marginLeft: '6%' }}> Penelitian </span>
+                                    </div>
+                                </MenuItem>
+                                <MenuItem
+                                    className={`superadmin-profile ${activeItem === 'superadmin-profile' ? 'active' : ''}`}
+                                    onClick={() => handleClick('superadmin-profile', '/superadmin/profile')}
+                                >
+                                    <div className='d-flex align-items-center'>
+                                        <Image className='icon' />
+                                        <span style={{ marginLeft: '6%' }}> My profile </span>
+                                    </div>
+                                </MenuItem>
+                                <MenuItem
+                                    className={`superadmin-report ${activeItem === 'superadmin-report' ? 'active' : ''}`}
+                                    onClick={() => handleClick('superadmin-report', '/superadmin/report')}
+                                >
+                                    <div className='d-flex align-items-center'>
+                                        <Image className='icon' />
+                                        <span style={{ marginLeft: '6%' }}> Laporan </span>
+                                    </div>
+                                </MenuItem>
+                                <div className='logout d-flex align-items-center' style={{ cursor: 'pointer', padding: '15px 0' }} onClick={onLogout}>
+                                    <LogoutIcon className='sidebar-icon' />
+                                    <span style={{ marginLeft: '13px' }}>Log out</span>
                                 </div>
-                            </MenuItem>
-                            <MenuItem
-                                className={`superadmin-lecturer ${activeItem === 'superadmin-lecturer' ? 'active' : ''}`}
-                                onClick={() => handleClick('superadmin-lecturer', '/superadmin/lecturer/list')}
-                            >
-                                <div className='d-flex align-items-center'>
-                                    <Image className='icon' />
-                                    <span style={{ marginLeft: '6%' }}> Dosen </span>
-                                </div>
-                            </MenuItem>
-                            <MenuItem
-                                className={`superadmin-research ${activeItem === 'superadmin-research' ? 'active' : ''}`}
-                                onClick={() => handleClick('superadmin-research', '/superadmin/research')}
-                            >
-                                <div className='d-flex align-items-center'>
-                                    <Image className='icon' />
-                                    <span style={{ marginLeft: '6%' }}> Penelitian </span>
-                                </div>
-                            </MenuItem>
-                            <MenuItem
-                                className={`superadmin-profile ${activeItem === 'superadmin-profile' ? 'active' : ''}`}
-                                onClick={() => handleClick('superadmin-profile', '/superadmin/profile')}
-                            >
-                                <div className='d-flex align-items-center'>
-                                    <Image className='icon' />
-                                    <span style={{ marginLeft: '6%' }}> My profile </span>
-                                </div>
-                            </MenuItem>
-                            <MenuItem
-                                className={`superadmin-report ${activeItem === 'superadmin-report' ? 'active' : ''}`}
-                                onClick={() => handleClick('superadmin-report', '/superadmin/report')}
-                            >
-                                <div className='d-flex align-items-center'>
-                                    <Image className='icon' />
-                                    <span style={{ marginLeft: '6%' }}> Laporan </span>
-                                </div>
-                            </MenuItem>
-                        </>
-                    )}
-                    {superadmin.role === 'facultyDean' && (
-                        <>
-                            <MenuItem
-                                className={`superadmin-profile ${activeItem === 'superadmin-profile' ? 'active' : ''}`}
-                                onClick={() => handleClick('superadmin-profile', '/superadmin/profile')}
-                            >
-                                <div className='d-flex align-items-center'>
-                                    <Image className='icon' />
-                                    <span style={{ marginLeft: '6%' }}> Dashboard </span>
-                                </div>
-                            </MenuItem>
-                            <MenuItem
-                                className={`superadmin-profile ${activeItem === 'superadmin-profile' ? 'active' : ''}`}
-                                onClick={() => handleClick('superadmin-profile', '/superadmin/profile')}
-                            >
-                                <div className='d-flex align-items-center'>
-                                    <Image className='icon' />
-                                    <span style={{ marginLeft: '6%' }}> Daftar Dosen </span>
-                                </div>
-                            </MenuItem>
-                            <MenuItem
-                                className={`superadmin-profile ${activeItem === 'superadmin-profile' ? 'active' : ''}`}
-                                onClick={() => handleClick('superadmin-profile', '/superadmin/profile')}
-                            >
-                                <div className='d-flex align-items-center'>
-                                    <Image className='icon' />
-                                    <span style={{ marginLeft: '6%' }}> My profile </span>
-                                </div>
-                            </MenuItem>
-                            <MenuItem
-                                className={`superadmin-profile ${activeItem === 'superadmin-profile' ? 'active' : ''}`}
-                                onClick={() => handleClick('superadmin-profile', '/superadmin/profile')}
-                            >
-                                <div className='d-flex align-items-center'>
-                                    <Image className='icon' />
-                                    <span style={{ marginLeft: '6%' }}> Laporan </span>
-                                </div>
-                            </MenuItem>
-                        </>
-                    )}
+                            </>
+                        )}
+                        
+                        {superadmin.role === 'facultyDean' && (
+                            <>
+                                <MenuItem
+                                    className={`superadmin-profile ${activeItem === 'superadmin-profile' ? 'active' : ''}`}
+                                    onClick={() => handleClick('superadmin-profile', '/superadmin/profile')}
+                                >
+                                    <div className='d-flex align-items-center'>
+                                        <Image className='icon' />
+                                        <span style={{ marginLeft: '6%' }}> Dashboard </span>
+                                    </div>
+                                </MenuItem>
+                                <MenuItem
+                                    className={`superadmin-profile ${activeItem === 'superadmin-profile' ? 'active' : ''}`}
+                                    onClick={() => handleClick('superadmin-profile', '/superadmin/profile')}
+                                >
+                                    <div className='d-flex align-items-center'>
+                                        <Image className='icon' />
+                                        <span style={{ marginLeft: '6%' }}> Daftar Dosen </span>
+                                    </div>
+                                </MenuItem>
+                                <MenuItem
+                                    className={`superadmin-profile ${activeItem === 'superadmin-profile' ? 'active' : ''}`}
+                                    onClick={() => handleClick('superadmin-profile', '/superadmin/profile')}
+                                >
+                                    <div className='d-flex align-items-center'>
+                                        <Image className='icon' />
+                                        <span style={{ marginLeft: '6%' }}> My profile </span>
+                                    </div>
+                                </MenuItem>
+                                <MenuItem
+                                    className={`superadmin-profile ${activeItem === 'superadmin-profile' ? 'active' : ''}`}
+                                    onClick={() => handleClick('superadmin-profile', '/superadmin/profile')}
+                                >
+                                    <div className='d-flex align-items-center'>
+                                        <Image className='icon' />
+                                        <span style={{ marginLeft: '6%' }}> Laporan </span>
+                                    </div>
+                                </MenuItem>
+                            </>
+                        )}
+                    </div>
                 </div>
             </Menu>
         </Sidebar>

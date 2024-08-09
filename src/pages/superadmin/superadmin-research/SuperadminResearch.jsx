@@ -113,13 +113,8 @@ const SuperadminResearch = () => {
 
     /* ================ End Get Research Data ================ */
 
-
-    /* ================ Pagination ================ */
-
-    /* ================ Pagination ================ */
-
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(5);
+    const [itemsPerPage] = useState(4);
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -131,8 +126,6 @@ const SuperadminResearch = () => {
     for (let i = 1; i <= Math.ceil(researchData.length / itemsPerPage); i++) {
         pageNumbers.push(i);
     }
-
-    /* ================ Pagination ================ */
 
     /* ================ End Pagination ================ */
 
@@ -193,7 +186,7 @@ const SuperadminResearch = () => {
                                             <h6>{research.title}</h6>
                                         </Col>
                                         <Col xl={2} className="text-center">
-                                            <h6>{research.Lecturer.name}</h6>
+                                            <h6>{research.LecturerDetail.Lecturer.name}</h6>
                                         </Col>
                                         <Col xl={2} className="text-center" style={{ marginLeft: '8px' }}>
                                             <h6>{research.category}</h6>

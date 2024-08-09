@@ -24,6 +24,8 @@ import SuperadminProfile from "./pages/superadmin/superadmin-profile/SuperadminP
 import SuperadminUpdateProfile from "./pages/superadmin/superadmin-profile/UpdateSuperadminProfile";
 import SuperadminReport from "./pages/superadmin/superadmin-report/Report";
 import SuperadminAddReport from "./pages/superadmin/superadmin-report/AddReport";
+import SuperadminDetailReport from "./pages/superadmin/superadmin-report/DetailReport";
+import SuperadminUpdateReport from "./pages/superadmin/superadmin-report/UpdateReport";
 
 const roots = document.getElementById("root");
 const root = createRoot(roots);
@@ -58,11 +60,17 @@ root.render(
         <Route path="/superadmin/lecturer/list" element={<SuperadminLecturerList />}></Route>
         <Route path="/superadmin/lecturer/create" element={<SuperadminAddLecturer />}></Route>
         <Route path="/superadmin/profile" element={<SuperadminProfile />}></Route>
-        <Route path="/superadmin/profile/update" element={<SuperadminUpdateProfile />}>
+        <Route path="/superadmin/profile/update/" element={<SuperadminUpdateProfile />}>
           <Route path=":id" element={<SuperadminUpdateProfile />}/>
         </Route>
         <Route path="/superadmin/report" element={<SuperadminReport />}></Route>
         <Route path="/superadmin/report/create" element={<SuperadminAddReport />}></Route>
+        <Route path="/superadmin/report/detail/" element={<SuperadminDetailReport />}>
+          <Route path=":id" element={<SuperadminDetailReport />}/>
+        </Route>
+        <Route path="/superadmin/report/update/" element={<SuperadminUpdateReport />}>
+          <Route path=":id" element={<SuperadminUpdateReport />}/>
+        </Route>
       </Routes>
     </SnackbarProvider>
   </Router>

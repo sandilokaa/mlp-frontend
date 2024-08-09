@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import { useSnackbar } from 'notistack';
 import {
     Container,
     Row,
@@ -24,7 +23,6 @@ const SuperadminLecturerList = () => {
     /* -------------------- Global Variable -------------------- */
 
     const navigate = useNavigate();
-    const { enqueueSnackbar } = useSnackbar();
 
     /* -------------------- End Global Variable -------------------- */
 
@@ -157,9 +155,6 @@ const SuperadminLecturerList = () => {
                                     <Image src={AddIcon} style={{marginLeft: '20px'}}/>
                                 </Button>
                             </Col>
-                            <Col xl={{ span: 3, offset: 6 }} className="mt-4 d-flex justify-content-end">
-                                <p>Search Query</p>
-                            </Col>
                         </Row>
                     </div>
                     <div className="research-table-content">
@@ -193,10 +188,10 @@ const SuperadminLecturerList = () => {
                                             <h6>{displayIndex}</h6>
                                         </Col>
                                         <Col xl={5}>
-                                            <h6>{lecturer.Lecturer.name}</h6>
+                                            <h6>{lecturer.LecturerDetail.Lecturer.name}</h6>
                                         </Col>
                                         <Col xl={3} className="text-center" style={{ marginLeft: '5px' }}>
-                                            <h6>{lecturer.Lecturer.email}</h6>
+                                            <h6>{lecturer.LecturerDetail.Lecturer.email}</h6>
                                         </Col>
                                         <Col xl={2} className="text-center" style={{ marginLeft: '5px' }}>
                                             {lecturer.ResearchValue && lecturer.ResearchValue.value ? (

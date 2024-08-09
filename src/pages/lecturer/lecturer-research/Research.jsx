@@ -6,7 +6,8 @@ import {
     Row,
     Col,
     Button,
-    Image
+    Image,
+    Pagination
 } from "react-bootstrap";
 import axios from "axios";
 
@@ -107,6 +108,26 @@ const LectureResearch = () => {
     /* ================ End Delete Research Data ================ */
 
 
+    /* ================ Pagination ================ */
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(4);
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = researchData.slice(indexOfFirstItem, indexOfLastItem);
+
+    const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
+
+    const pageNumbers = [];
+    for (let i = 1; i <= Math.ceil(researchData.length / itemsPerPage); i++) {
+        pageNumbers.push(i);
+    }
+
+    /* ================ End Pagination ================ */
+
+
+
     return (
 
         <LecturerDashboardLayout>
@@ -138,7 +159,7 @@ const LectureResearch = () => {
                             </Col>
                         </Row>
                         <hr style={{ marginTop: '10px' }} />
-                        {researchData.map((research, index) => {
+                        {currentItems.map((research, index) => {
 
                             const colStyle = {
                                 backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FAFAFA',
@@ -194,6 +215,18 @@ const LectureResearch = () => {
                             )
                         })}
                     </div>
+                    <Pagination style={{ marginTop: '2%' }}>
+                        {pageNumbers.map(number => (
+                            <Pagination.Item
+                                key={number}
+                                active={number === currentPage}
+                                onClick={() => handlePageChange(number)}
+                                linkStyle={{ backgroundColor: number === currentPage ? '#D62C35' : '#FEF2F3', border: number === currentPage ? '1px solid #D62C35' : '1px solid #FEF2F3' }}
+                            >
+                                {number}
+                            </Pagination.Item>
+                        ))}
+                    </Pagination>
                 </Container>
             </div>
         </LecturerDashboardLayout>
