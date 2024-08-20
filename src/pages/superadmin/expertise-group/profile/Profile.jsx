@@ -9,19 +9,20 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 
-import SuperadminDashboardLayout from "../../../layouts/dashboard/SuperadminDashboardLayout";
+import SuperadminDashboardLayout from "../../../../layouts/dashboard/SuperadminDashboardLayout";
 
-import EducationIcon from "../../../assets/images/icons/briefcase-2.svg";
+import EducationIcon from "../../../../assets/images/icons/briefcase-2.svg";
 
-import "../../../assets/css/style.css";
+import "../../../../assets/css/style.css";
 
-const SuperadminProfile = () => {
+const ExpertiseGroupProfile = () => {
 
     const navigate = useNavigate();
 
     /* ================ Get Superadmin Data ================ */
 
     const [superadminData, setSuperadminData] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const superadminDetailData = async () => {
 
@@ -42,6 +43,7 @@ const SuperadminProfile = () => {
             const getDataResponse = await getDataRequest.data.data.getDetailSuperAdmin;
 
             setSuperadminData(getDataResponse);
+            setLoading(false);
 
         } catch (err) {
             console.log(err);
@@ -101,7 +103,7 @@ const SuperadminProfile = () => {
                                         <div className="photo-wrapper" style={{ height: '150px', width: '100%', background: '#989898' }}></div>
                                         <div className="mt-3" style={{ marginLeft: '4px', marginRight: '4px' }}>
                                             <Button
-                                                onClick={() => navigate(`/superadmin/profile/update/${superadminData ? superadminData.superAdminId : null}`)}
+                                                onClick={() => navigate(`/expertisegroup/profile/update/${superadminData ? superadminData.superAdminId : null}`)}
                                                 style={{ fontSize: '14px', border: 'none', backgroundColor: '#D62C35', width: '100%' }}
                                             >
                                                 Edit Profile
@@ -125,17 +127,21 @@ const SuperadminProfile = () => {
                                                     </Col>
                                                 </Row>
                                                 <Row>
-                                                    <Col xl={6}>
-                                                        <h6>Jurusan</h6>
-                                                        <p>{superadminData.SuperAdminEducation ? superadminData.SuperAdminEducation.major : null}</p>
+                                                    <Col xl={12}>
+                                                        <h6>Kelompok Keahlian</h6>
+                                                        <p>{superadminData.SuperAdmin ? superadminData.SuperAdmin.groupName : null}</p>
                                                     </Col>
-                                                    <Col xl={6}>
+                                                </Row>
+                                                <Row>
+                                                    <Col xl={12}>
                                                         <h6>Pendidikan Terakhir</h6>
                                                         <p>
-                                                            {
-                                                                (superadminData.SuperAdminEducation?.doctor && JSON.parse(superadminData.SuperAdminEducation.doctor)) ? 'Doctor'
-                                                                    : (superadminData.SuperAdminEducation?.magister && JSON.parse(superadminData.SuperAdminEducation.magister)) ? 'Magister'
-                                                                        : (superadminData.SuperAdminEducation?.bachelor && JSON.parse(superadminData.SuperAdminEducation.bachelor)) ? 'Bachelor'
+                                                            {loading ? (
+                                                                <p>Loading...</p>
+                                                            ) :
+                                                                (superadminData.SuperAdminEducation?.doctor && JSON.parse(superadminData.SuperAdminEducation.doctor).title) ? 'Doctor'
+                                                                    : (superadminData.SuperAdminEducation?.magister && JSON.parse(superadminData.SuperAdminEducation.magister).title) ? 'Magister'
+                                                                        : (superadminData.SuperAdminEducation?.bachelor && JSON.parse(superadminData.SuperAdminEducation.bachelor).title) ? 'Bachelor'
                                                                             : 'Tidak ada data'
                                                             }
                                                         </p>
@@ -150,7 +156,7 @@ const SuperadminProfile = () => {
                                                             ) : (
                                                                 <p>-</p>
                                                             )
-                                                        }                                                       
+                                                        }
                                                     </Col>
                                                 </Row>
                                             </div>
@@ -211,7 +217,7 @@ const SuperadminProfile = () => {
                                 </Row>
                                 <Row>
                                     <Col xl={12}>
-                                        <h6>S3 - {superadminData.SuperAdminEducation ? superadminData.SuperAdminEducation.major : null}</h6>
+                                        <h6>S3 - {superadminData.SuperAdminEducation?.doctor ? JSON.parse(superadminData.SuperAdminEducation.doctor)?.major : null}</h6>
                                     </Col>
                                 </Row>
                                 <Row>
@@ -244,7 +250,7 @@ const SuperadminProfile = () => {
                                 </Row>
                                 <Row>
                                     <Col xl={12}>
-                                        <h6>S2 - {superadminData.SuperAdminEducation ? superadminData.SuperAdminEducation.major : null}</h6>
+                                        <h6>S2 - {superadminData.SuperAdminEducation?.magister ? JSON.parse(superadminData.SuperAdminEducation.magister)?.major : null}</h6>
                                     </Col>
                                 </Row>
                                 <Row>
@@ -277,7 +283,7 @@ const SuperadminProfile = () => {
                                 </Row>
                                 <Row>
                                     <Col xl={12}>
-                                        <h6>S1 - {superadminData.SuperAdminEducation ? superadminData.SuperAdminEducation.major : null}</h6>
+                                        <h6>S1 - {superadminData.SuperAdminEducation?.bachelor ? JSON.parse(superadminData.SuperAdminEducation.bachelor)?.major : null}</h6>
                                     </Col>
                                 </Row>
                                 <Row>
@@ -312,4 +318,4 @@ const SuperadminProfile = () => {
 
 };
 
-export default SuperadminProfile;
+export default ExpertiseGroupProfile;

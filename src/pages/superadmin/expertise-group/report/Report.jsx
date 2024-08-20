@@ -10,14 +10,14 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 
-import SuperadminDashboardLayout from "../../../layouts/dashboard/SuperadminDashboardLayout";
+import SuperadminDashboardLayout from "../../../../layouts/dashboard/SuperadminDashboardLayout";
 
-import ViewIcon from "../../../assets/images/icons/eye.svg";
-import AddIcon from "../../../assets/images/icons/add.svg";
+import ViewIcon from "../../../../assets/images/icons/eye.svg";
+import AddIcon from "../../../../assets/images/icons/add.svg";
 
-import "../../../assets/css/style.css";
+import "../../../../assets/css/style.css";
 
-const SuperadminReport = () => {
+const ExpertiseGroupReport = () => {
 
 
     /* -------------------- Global Variable -------------------- */
@@ -149,7 +149,7 @@ const SuperadminReport = () => {
                             <Col xl={4} className="mt-4 d-flex align-items-center">
                                 <Button
                                     style={{ width: '190px', height: '48px', fontSize: '14px' }}
-                                    onClick={() => navigate('/superadmin/report/create')}
+                                    onClick={() => navigate('/expertisegroup/report/create')}
                                 >
                                     Tambah Laporan
                                     <Image src={AddIcon} style={{ marginLeft: '20px' }} />
@@ -190,13 +190,13 @@ const SuperadminReport = () => {
                                             <h6>{displayIndex}</h6>
                                         </Col>
                                         <Col xl={4}>
-                                            <h6>{report.reportTitle}</h6>
+                                            <h6>{report.reportName}</h6>
                                         </Col>
                                         <Col xl={2} className="text-center">
-                                            <h6>{report.period}</h6>
+                                            <h6>{report.reportPeriod}</h6>
                                         </Col>
                                         <Col xl={2} className="text-center" style={{ marginLeft: '5px' }}>
-                                            <h6>{report.ta}</h6>
+                                            <h6>{report.academicYear}</h6>
                                         </Col>
                                         <Col xl={2} className="text-center d-flex justify-content-center" style={{ marginLeft: '5px' }}>
                                             {
@@ -220,7 +220,7 @@ const SuperadminReport = () => {
                                         <Col xl={1} className="text-center" style={{ marginLeft: '5px' }}>
                                             <Row style={{ display: 'flex', padding: '0', margin: '0' }}>
                                                 <Col xl={12} className="d-flex justify-content-center p-0">
-                                                    <span className="view" onClick={() => navigate(`/superadmin/report/detail/${report.id}`)}>
+                                                    <span className="view" onClick={() => navigate(`/expertisegroup/report/detail/${report.id}`)}>
                                                         <Image src={ViewIcon} />
                                                     </span>
                                                 </Col>
@@ -251,4 +251,4 @@ const SuperadminReport = () => {
 
 };
 
-export default SuperadminReport;
+export default ExpertiseGroupReport;

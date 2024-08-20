@@ -6,18 +6,19 @@ import {
     Col,
     Button,
     Image,
-    Pagination
+    Pagination,
+    Form
 } from "react-bootstrap";
 import axios from "axios";
 
-import SuperadminDashboardLayout from "../../../layouts/dashboard/SuperadminDashboardLayout";
+import SuperadminDashboardLayout from "../../../../layouts/dashboard/SuperadminDashboardLayout";
 
-import ViewIcon from "../../../assets/images/icons/eye.svg";
-import AddIcon from "../../../assets/images/icons/add.svg";
+import ViewIcon from "../../../../assets/images/icons/eye.svg";
+import ExportIcon from "../../../../assets/images/icons/export.svg";
 
-import "../../../assets/css/style.css";
+import "../../../../assets/css/style.css";
 
-const SuperadminLecturerList = () => {
+const ExpertiseGroupDevotion = () => {
 
 
     /* -------------------- Global Variable -------------------- */
@@ -25,6 +26,7 @@ const SuperadminLecturerList = () => {
     const navigate = useNavigate();
 
     /* -------------------- End Global Variable -------------------- */
+
 
     /* ================ Get Current User ================ */
 
@@ -71,31 +73,39 @@ const SuperadminLecturerList = () => {
     }, [isRefresh]);
 
     /* ================ Get Current User ================ */
-    
 
-    /* ================ Get Lecturer Data ================ */
 
-    const [lecturerData, setLecturerData] = useState([]);
+    /* ================ Get Devotion Data ================ */
 
-    const getLecturerData = async () => {
+    const [devotionData, setDevotionData] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const handleSearchChange = (event) => {
+        setSearchTerm(event.target.value);
+    };
+
+    const getDevotionData = async () => {
 
         try {
 
             const token = localStorage.getItem("token");
 
             const getDataRequest = await axios.get(
-                `http://localhost:8080/api/v1/superadmin/${superadmin.id}/lecturer`,
+                `http://localhost:8080/api/v1/superadmin/${superadmin.id}/devotion`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
                         "Access-Control-Allo-Origin": "*"
+                    },
+                    params: {
+                        devotionName: searchTerm,
                     }
                 }
             );
 
-            const getDataResponse = await getDataRequest.data.data.getedLecturerBySuperAdminId;
+            const getDataResponse = await getDataRequest.data.data.getDevotion;
 
-            setLecturerData(getDataResponse);
+            setDevotionData(getDataResponse);
 
         } catch (err) {
             console.log(err);
@@ -105,34 +115,28 @@ const SuperadminLecturerList = () => {
 
     useEffect(() => {
 
-        if (superadmin.id) {
-            getLecturerData();
-        }
+        getDevotionData();
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [superadmin.id]);
+    }, [searchTerm, superadmin.id]);
 
-    /* ================ End Get Lecturer Data ================ */
-
-
-    /* ================ Pagination ================ */
+    /* ================ End Get Devotion Data ================ */
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(5);
+    const [itemsPerPage] = useState(4);
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = lecturerData.slice(indexOfFirstItem, indexOfLastItem);
+    const currentItems = devotionData.slice(indexOfFirstItem, indexOfLastItem);
 
     const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
     const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(lecturerData.length / itemsPerPage); i++) {
+    for (let i = 1; i <= Math.ceil(devotionData.length / itemsPerPage); i++) {
         pageNumbers.push(i);
     }
 
     /* ================ End Pagination ================ */
-
 
     return (
 
@@ -142,18 +146,24 @@ const SuperadminLecturerList = () => {
                     <div className="add-research-content">
                         <Row>
                             <Col xl={12}>
-                                <h1 style={{ fontSize: '16px', fontWeight: '700' }}>Daftar Dosen</h1>
+                                <h1 style={{ fontSize: '16px', fontWeight: '700' }}>Daftar Pengabdian</h1>
                             </Col>
                         </Row>
                         <Row>
-                            <Col xl={3} className="mt-4 d-flex align-items-center">
-                                <Button 
-                                    style={{ width: '180px', height: '48px', fontSize: '14px' }} 
-                                    onClick={() => navigate('/superadmin/lecturer/create')}
-                                >
-                                    Tambah Dosen
-                                    <Image src={AddIcon} style={{marginLeft: '20px'}}/>
-                                </Button>
+                            <Col xl={2} className="mt-4">
+                                <Button style={{ width: '120px', height: '100%', fontSize: '14px' }}>Export <Image src={ExportIcon} style={{ marginLeft: '8px', width: '20px', }} /></Button>
+                            </Col>
+                            <Col xl={{ span: 3, offset: 7 }} className="mt-4 d-flex justify-content-end">
+                                <Form>
+                                    <Form.Control
+                                        className="form-search"
+                                        placeholder="Search"
+                                        aria-label="Search"
+                                        aria-describedby="basic-addon1"
+                                        style={{ height: '45px', width: '250px' }}
+                                        onChange={handleSearchChange}
+                                    />
+                                </Form>
                             </Col>
                         </Row>
                     </div>
@@ -162,10 +172,13 @@ const SuperadminLecturerList = () => {
                             <Col xl={1}>
                                 <h6>No</h6>
                             </Col>
-                            <Col xl={5}>
+                            <Col xl={4}>
+                                <h6>Judul Pengabdian</h6>
+                            </Col>
+                            <Col xl={2} className="text-center">
                                 <h6>Nama Dosen</h6>
                             </Col>
-                            <Col xl={3} className="text-center">
+                            <Col xl={2} className="text-center">
                                 <h6>Email</h6>
                             </Col>
                             <Col xl={2} className="text-center">
@@ -176,34 +189,36 @@ const SuperadminLecturerList = () => {
                             </Col>
                         </Row>
                         <hr style={{ marginTop: '10px' }} />
-                        
-                        {currentItems.map((lecturer, index) => {
+                        {currentItems.map((devotion, index) => {
 
                             const displayIndex = (index + 1).toString().padStart(2, '0');
 
                             return (
-                                <Row className="table-body" key={lecturer.id}>
-                                    <div className="d-flex align-items-center" style={{ padding: '16px 15px', backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FAFAFA' }}>
+                                <Row className="table-body" key={devotion.id}>
+                                    <div className="d-flex align-items-center" style={{ padding: '16px', backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FAFAFA' }}>
                                         <Col xl={1}>
                                             <h6>{displayIndex}</h6>
                                         </Col>
-                                        <Col xl={5}>
-                                            <h6>{lecturer.LecturerDetail.Lecturer.name}</h6>
+                                        <Col xl={4}>
+                                            <h6>{devotion.devotionName}</h6>
                                         </Col>
-                                        <Col xl={3} className="text-center" style={{ marginLeft: '5px' }}>
-                                            <h6>{lecturer.LecturerDetail.Lecturer.email}</h6>
+                                        <Col xl={2} className="text-center">
+                                            <h6>{devotion.Lecturer.name}</h6>
+                                        </Col>
+                                        <Col xl={2} className="text-center" style={{ marginLeft: '8px' }}>
+                                            <h6>{devotion.Lecturer.email}</h6>
                                         </Col>
                                         <Col xl={2} className="text-center" style={{ marginLeft: '5px' }}>
-                                            {lecturer.ResearchValue && lecturer.ResearchValue.value ? (
-                                                <h6>{lecturer.ResearchValue.value}</h6>
+                                            {devotion && devotion.devotionValue ? (
+                                                <h6>{devotion.devotionValue}</h6>
                                             ) : (
-                                                <h6>?</h6>
+                                                <h6><span style={{ color: '#EA4D55' }}>*</span> Perlu dinilai</h6>
                                             )}
                                         </Col>
                                         <Col xl={1} className="text-center" style={{ marginLeft: '4px' }}>
                                             <Row style={{ display: 'flex', padding: '0', margin: '0' }}>
                                                 <Col xl={12} className="d-flex justify-content-center p-0">
-                                                    <span className="view" onClick={() => navigate(`/superadmin/lecturer/detail/${lecturer.id}`)}>
+                                                    <span className="view" onClick={() => navigate(`/expertisegroup/devotion/detail/${devotion.id}`)}>
                                                         <Image src={ViewIcon} />
                                                     </span>
                                                 </Col>
@@ -234,4 +249,4 @@ const SuperadminLecturerList = () => {
 
 };
 
-export default SuperadminLecturerList;
+export default ExpertiseGroupDevotion;

@@ -11,13 +11,13 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 
-import LecturerDashboardLayout from "../../../layouts/dashboard/LecturerDashboardLayout";
+import SuperadminDashboardLayout from "../../../../layouts/dashboard/SuperadminDashboardLayout";
 
-import ArrowLeft from "../../../assets/images/icons/arrow-left.svg";
+import ArrowLeft from "../../../../assets/images/icons/arrow-left.svg";
 
-import "../../../assets/css/style.css";
+import "../../../../assets/css/style.css";
 
-const UpdateLecturerProfile = () => {
+const ExpertiseGroupUpdateProfile = () => {
 
     /* -------------------- Global Variable -------------------- */
 
@@ -27,18 +27,18 @@ const UpdateLecturerProfile = () => {
     /* -------------------- End Global Variable -------------------- */
 
 
-    /* ================ Get Lecturer Data ================ */
+    /* ================ Get Superadmin Data ================ */
 
-    const [lecturerData, setLecturerData] = useState([]);
+    const [superadminData, setSuperadminData] = useState([]);
 
-    const lecturerDetailData = async () => {
+    const superadminDetailData = async () => {
 
         try {
 
             const token = localStorage.getItem("token");
 
             const getDataRequest = await axios.get(
-                `http://localhost:8080/api/v1/lecturer`,
+                `http://localhost:8080/api/v1/superadmin`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -47,9 +47,9 @@ const UpdateLecturerProfile = () => {
                 }
             );
 
-            const getDataResponse = await getDataRequest.data.data.getDetailLecture;
+            const getDataResponse = await getDataRequest.data.data.getDetailSuperAdmin;
 
-            setLecturerData(getDataResponse);
+            setSuperadminData(getDataResponse);
 
         } catch (err) {
             console.log(err);
@@ -59,15 +59,16 @@ const UpdateLecturerProfile = () => {
 
     useEffect(() => {
 
-        lecturerDetailData();
+        superadminDetailData();
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    /* ================ End Get Lecturer Data ================ */
+
+    /* ================ End Get Superadmin Data ================ */
 
 
-    /* ================ Update Lecturer Data ================ */
+    /* ================ Update SuperAdmin Data ================ */
 
     const params = useLocation();
 
@@ -88,7 +89,7 @@ const UpdateLecturerProfile = () => {
     const placeBirthField = useRef();
     const addressField = useRef();
     const phoneNumberField = useRef();
-
+    
     const universityBachelorField = useRef();
     const gpaBachelorField = useRef();
     const titleBachelorField = useRef();
@@ -145,7 +146,7 @@ const UpdateLecturerProfile = () => {
             };
 
             const updateProfileRequest = await axios.put(
-                `http://localhost:8080/api/v1/lecturer/${id}`,
+                `http://localhost:8080/api/v1/superadmin/${id}`,
                 profilePayload,
                 {
                     headers: {
@@ -161,7 +162,7 @@ const UpdateLecturerProfile = () => {
 
             if (updateProfileResponse.status) {
 
-                navigate("/lecturer/profile")
+                navigate("/expertisegroup/profile");
 
             }
 
@@ -174,17 +175,17 @@ const UpdateLecturerProfile = () => {
 
     };
 
-    /* ================ End Update Lecturer Data ================ */
+    /* ================ End Update SuperAdmin Data ================ */
 
 
     return (
 
-        <LecturerDashboardLayout>
+        <SuperadminDashboardLayout>
             <div id="update-profile-content">
                 <Container fluid style={{ padding: '0 32px' }}>
                     <Row className="update-profile-title">
                         <Col xl={12} className="d-flex align-items-center">
-                            <Image onClick={() => navigate('/lecturer/profile')} src={ArrowLeft} style={{ marginRight: '16px', cursor: 'pointer' }} />
+                            <Image onClick={() => navigate('/expertisegroup/profile')} src={ArrowLeft} style={{ marginRight: '16px', cursor: 'pointer' }} />
                             <h1>Edit Profile</h1>
                         </Col>
                     </Row>
@@ -203,7 +204,7 @@ const UpdateLecturerProfile = () => {
                                                             type="text" 
                                                             placeholder="Masukan Nomor Induk Pegawai" 
                                                             autoComplete="off" style={{ fontSize: '14px' }} 
-                                                            defaultValue={lecturerData.LecturerPersonal ? lecturerData.LecturerPersonal.nip : null}
+                                                            defaultValue={superadminData.SuperAdminPersonal ? superadminData.SuperAdminPersonal.nip : null}
                                                             ref={nipField}
                                                         />
                                                     </Form.Group>
@@ -218,7 +219,7 @@ const UpdateLecturerProfile = () => {
                                                             placeholder="Masukan Nama Dosen" 
                                                             autoComplete="off" 
                                                             style={{ fontSize: '14px' }} 
-                                                            defaultValue={lecturerData.Lecturer ? lecturerData.Lecturer.name : null}
+                                                            defaultValue={superadminData.SuperAdmin ? superadminData.SuperAdmin.name : null}
                                                             ref={nameField}
                                                         />
                                                     </Form.Group>
@@ -233,7 +234,7 @@ const UpdateLecturerProfile = () => {
                                                             placeholder="Masukan Jurusan" 
                                                             autoComplete="off" 
                                                             style={{ fontSize: '14px', background:'#F5F6F8' }}
-                                                            defaultValue={lecturerData.Lecturer ? lecturerData.Lecturer.groupName : null}
+                                                            defaultValue={superadminData.SuperAdmin ? superadminData.SuperAdmin.groupName : null}
                                                             readOnly
                                                         />
                                                     </Form.Group>
@@ -249,7 +250,7 @@ const UpdateLecturerProfile = () => {
                                                             type="text" 
                                                             placeholder="Masukan Jenis Kelamin" 
                                                             autoComplete="off" style={{ fontSize: '14px' }} 
-                                                            defaultValue={lecturerData.LecturerPersonal ? lecturerData.LecturerPersonal.gender : null}
+                                                            defaultValue={superadminData.SuperAdminPersonal ? superadminData.SuperAdminPersonal.gender : null}
                                                             ref={genderField}
                                                         />
                                                     </Form.Group>
@@ -263,7 +264,7 @@ const UpdateLecturerProfile = () => {
                                                             type="text" 
                                                             placeholder="Masukan Tempat Lahir" 
                                                             autoComplete="off" style={{ fontSize: '14px' }} 
-                                                            defaultValue={lecturerData.LecturerPersonal ? lecturerData.LecturerPersonal.placeOfBirth : null}
+                                                            defaultValue={superadminData.SuperAdminPersonal ? superadminData.SuperAdminPersonal.placeOfBirth : null}
                                                             ref={placeBirthField}
                                                         />
                                                     </Form.Group>
@@ -279,7 +280,7 @@ const UpdateLecturerProfile = () => {
                                                             autoComplete="off" 
                                                             style={{ fontSize: '14px' }} 
                                                             onChange={handleDateChange}
-                                                            defaultValue={lecturerData.LecturerPersonal ? lecturerData.LecturerPersonal.dateOfBirth : null}
+                                                            defaultValue={superadminData.SuperAdminPersonal ? superadminData.SuperAdminPersonal.dateOfBirth : null}
                                                         />
                                                     </Form.Group>
                                                 </div>
@@ -294,7 +295,7 @@ const UpdateLecturerProfile = () => {
                                                             type="text" 
                                                             placeholder="Masukan Alamat" 
                                                             autoComplete="off" style={{ fontSize: '14px' }} 
-                                                            defaultValue={lecturerData.LecturerPersonal ? lecturerData.LecturerPersonal.address : null}
+                                                            defaultValue={superadminData.SuperAdminPersonal ? superadminData.SuperAdminPersonal.address : null}
                                                             ref={addressField}
                                                         />
                                                     </Form.Group>
@@ -311,7 +312,7 @@ const UpdateLecturerProfile = () => {
                                                             placeholder="Masukan Email" 
                                                             autoComplete="off" 
                                                             style={{ fontSize: '14px', background:'#F5F6F8' }} 
-                                                            defaultValue={lecturerData.Lecturer ? lecturerData.Lecturer.email : null} readOnly
+                                                            defaultValue={superadminData.SuperAdmin ? superadminData.SuperAdmin.email : null} readOnly
                                                         />
                                                     </Form.Group>
                                                 </div>
@@ -325,7 +326,7 @@ const UpdateLecturerProfile = () => {
                                                             placeholder="Masukan No Telpon" 
                                                             autoComplete="off" 
                                                             style={{ fontSize: '14px' }} 
-                                                            defaultValue={lecturerData.LecturerPersonal ? lecturerData.LecturerPersonal.phoneNumber : null}
+                                                            defaultValue={superadminData.SuperAdminPersonal ? superadminData.SuperAdminPersonal.phoneNumber : null}
                                                             ref={phoneNumberField}
                                                         />
                                                     </Form.Group>
@@ -363,7 +364,7 @@ const UpdateLecturerProfile = () => {
                                                             placeholder="Masukan Universitas" 
                                                             autoComplete="off" 
                                                             style={{ fontSize: '14px' }} 
-                                                            defaultValue={lecturerData.LecturerEducation?.bachelor ? JSON.parse(lecturerData.LecturerEducation.bachelor)?.university : null}
+                                                            defaultValue={superadminData.SuperAdminEducation?.bachelor ? JSON.parse(superadminData.SuperAdminEducation.bachelor)?.university : null}
                                                             ref={universityBachelorField}
                                                         />
                                                     </Form.Group>
@@ -378,7 +379,7 @@ const UpdateLecturerProfile = () => {
                                                             placeholder="Masukan GPA" 
                                                             autoComplete="off" 
                                                             style={{ fontSize: '14px' }} 
-                                                            defaultValue={lecturerData.LecturerEducation?.bachelor ? JSON.parse(lecturerData.LecturerEducation.bachelor)?.gpa : null}
+                                                            defaultValue={superadminData.SuperAdminEducation?.bachelor ? JSON.parse(superadminData.SuperAdminEducation.bachelor)?.gpa : null}
                                                             ref={gpaBachelorField}
                                                         />
                                                     </Form.Group>
@@ -394,7 +395,7 @@ const UpdateLecturerProfile = () => {
                                                             type="text" 
                                                             placeholder="Masukan Judul Skripsi" 
                                                             autoComplete="off" style={{ fontSize: '14px' }} 
-                                                            defaultValue={lecturerData.LecturerEducation?.bachelor ? JSON.parse(lecturerData.LecturerEducation.bachelor)?.title : null}
+                                                            defaultValue={superadminData.SuperAdminEducation?.bachelor ? JSON.parse(superadminData.SuperAdminEducation.bachelor)?.title : null}
                                                             ref={titleBachelorField}
                                                         />
                                                     </Form.Group>
@@ -408,7 +409,7 @@ const UpdateLecturerProfile = () => {
                                                             type="text" 
                                                             placeholder="Masukan Jurusan" 
                                                             autoComplete="off" style={{ fontSize: '14px' }} 
-                                                            defaultValue={lecturerData.LecturerEducation?.bachelor ? JSON.parse(lecturerData.LecturerEducation.bachelor)?.major : null}
+                                                            defaultValue={superadminData.SuperAdminEducation?.bachelor ? JSON.parse(superadminData.SuperAdminEducation.bachelor)?.major : null}
                                                             ref={majorBachelorField}
                                                         />
                                                     </Form.Group>
@@ -423,7 +424,7 @@ const UpdateLecturerProfile = () => {
                                                             placeholder="Masukan Keahlian" 
                                                             autoComplete="off" 
                                                             style={{ fontSize: '14px' }} 
-                                                            defaultValue={lecturerData.LecturerEducation?.bachelor ? JSON.parse(lecturerData.LecturerEducation.bachelor)?.expertise : null}
+                                                            defaultValue={superadminData.SuperAdminEducation?.bachelor ? JSON.parse(superadminData.SuperAdminEducation.bachelor)?.expertise : null}
                                                             ref={expertiseBachelorField}
                                                         />
                                                     </Form.Group>
@@ -462,7 +463,7 @@ const UpdateLecturerProfile = () => {
                                                             placeholder="Masukan Universitas" 
                                                             autoComplete="off" 
                                                             style={{ fontSize: '14px' }} 
-                                                            defaultValue={lecturerData.LecturerEducation?.magister ? JSON.parse(lecturerData.LecturerEducation.magister)?.university : null}
+                                                            defaultValue={superadminData.SuperAdminEducation?.magister ? JSON.parse(superadminData.SuperAdminEducation.magister)?.university : null}
                                                             ref={universityMagisterField}
                                                         />
                                                     </Form.Group>
@@ -477,7 +478,7 @@ const UpdateLecturerProfile = () => {
                                                             placeholder="Masukan GPA" 
                                                             autoComplete="off" 
                                                             style={{ fontSize: '14px' }} 
-                                                            defaultValue={lecturerData.LecturerEducation?.magister ? JSON.parse(lecturerData.LecturerEducation.magister)?.gpa : null}
+                                                            defaultValue={superadminData.SuperAdminEducation?.magister ? JSON.parse(superadminData.SuperAdminEducation.magister)?.gpa : null}
                                                             ref={gpaMagisterField}
                                                         />
                                                     </Form.Group>
@@ -494,7 +495,7 @@ const UpdateLecturerProfile = () => {
                                                             placeholder="Masukan Judul Thesis" 
                                                             autoComplete="off" 
                                                             style={{ fontSize: '14px' }} 
-                                                            defaultValue={lecturerData.LecturerEducation?.magister ? JSON.parse(lecturerData.LecturerEducation.magister)?.title : null}
+                                                            defaultValue={superadminData.SuperAdminEducation?.magister ? JSON.parse(superadminData.SuperAdminEducation.magister)?.title : null}
                                                             ref={titleMagisterField}
                                                         />
                                                     </Form.Group>
@@ -507,8 +508,9 @@ const UpdateLecturerProfile = () => {
                                                         <Form.Control 
                                                             type="text" 
                                                             placeholder="Masukan Jurusan" 
-                                                            autoComplete="off" style={{ fontSize: '14px' }} 
-                                                            defaultValue={lecturerData.LecturerEducation?.magister ? JSON.parse(lecturerData.LecturerEducation.magister)?.major : null}
+                                                            autoComplete="off" 
+                                                            style={{ fontSize: '14px' }} 
+                                                            defaultValue={superadminData.SuperAdminEducation?.magister ? JSON.parse(superadminData.SuperAdminEducation.magister)?.major : null}
                                                             ref={majorMagisterField}
                                                         />
                                                     </Form.Group>
@@ -523,7 +525,7 @@ const UpdateLecturerProfile = () => {
                                                             placeholder="Masukan Keahlian" 
                                                             autoComplete="off" 
                                                             style={{ fontSize: '14px' }} 
-                                                            defaultValue={lecturerData.LecturerEducation?.magister ? JSON.parse(lecturerData.LecturerEducation.magister)?.expertise : null}
+                                                            defaultValue={superadminData.SuperAdminEducation?.magister ? JSON.parse(superadminData.SuperAdminEducation.magister)?.expertise : null}
                                                             ref={expertiseMagisterField}
                                                         />
                                                     </Form.Group>
@@ -562,7 +564,7 @@ const UpdateLecturerProfile = () => {
                                                             placeholder="Masukan Universitas" 
                                                             autoComplete="off" 
                                                             style={{ fontSize: '14px' }} 
-                                                            defaultValue={lecturerData.LecturerEducation?.doctor ? JSON.parse(lecturerData.LecturerEducation.doctor)?.university : null}
+                                                            defaultValue={superadminData.SuperAdminEducation?.doctor ? JSON.parse(superadminData.SuperAdminEducation.doctor)?.university : null}
                                                             ref={universityDoctorField}
                                                         />
                                                     </Form.Group>
@@ -577,7 +579,7 @@ const UpdateLecturerProfile = () => {
                                                             placeholder="Masukan GPA" 
                                                             autoComplete="off" 
                                                             style={{ fontSize: '14px' }} 
-                                                            defaultValue={lecturerData.LecturerEducation?.doctor ? JSON.parse(lecturerData.LecturerEducation.doctor)?.gpa : null}
+                                                            defaultValue={superadminData.SuperAdminEducation?.doctor ? JSON.parse(superadminData.SuperAdminEducation.doctor)?.gpa : null}
                                                             ref={gpaDoctorField}
                                                         />
                                                     </Form.Group>
@@ -594,7 +596,7 @@ const UpdateLecturerProfile = () => {
                                                             placeholder="Masukan Judul Distertasi" 
                                                             autoComplete="off" 
                                                             style={{ fontSize: '14px' }} 
-                                                            defaultValue={lecturerData.LecturerEducation?.doctor ? JSON.parse(lecturerData.LecturerEducation.doctor)?.title : null}
+                                                            defaultValue={superadminData.SuperAdminEducation?.doctor ? JSON.parse(superadminData.SuperAdminEducation.doctor)?.title : null}
                                                             ref={titleDoctorField}
                                                         />
                                                     </Form.Group>
@@ -607,8 +609,9 @@ const UpdateLecturerProfile = () => {
                                                         <Form.Control 
                                                             type="text" 
                                                             placeholder="Masukan Jurusan" 
-                                                            autoComplete="off" style={{ fontSize: '14px' }} 
-                                                            defaultValue={lecturerData.LecturerEducation?.doctor ? JSON.parse(lecturerData.LecturerEducation.doctor)?.major : null}
+                                                            autoComplete="off" 
+                                                            style={{ fontSize: '14px' }} 
+                                                            defaultValue={superadminData.SuperAdminEducation?.doctor ? JSON.parse(superadminData.SuperAdminEducation.doctor)?.major : null}
                                                             ref={majorDoctorField}
                                                         />
                                                     </Form.Group>
@@ -623,7 +626,7 @@ const UpdateLecturerProfile = () => {
                                                             placeholder="Masukan Keahlian" 
                                                             autoComplete="off" 
                                                             style={{ fontSize: '14px' }} 
-                                                            defaultValue={lecturerData.LecturerEducation?.doctor ? JSON.parse(lecturerData.LecturerEducation.doctor)?.expertise : null}
+                                                            defaultValue={superadminData.SuperAdminEducation?.doctor ? JSON.parse(superadminData.SuperAdminEducation.doctor)?.expertise : null}
                                                             ref={expertiseDoctorField}
                                                         />
                                                     </Form.Group>
@@ -649,10 +652,10 @@ const UpdateLecturerProfile = () => {
                     </Row>
                 </Container>
             </div>
-        </LecturerDashboardLayout>
+        </SuperadminDashboardLayout>
 
     );
 
 };
 
-export default UpdateLecturerProfile;
+export default ExpertiseGroupUpdateProfile;

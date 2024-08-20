@@ -11,15 +11,15 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 
-import SuperadminDashboardLayout from "../../../layouts/dashboard/SuperadminDashboardLayout";
+import SuperadminDashboardLayout from "../../../../layouts/dashboard/SuperadminDashboardLayout";
 
-import ArrowLeft from "../../../assets/images/icons/arrow-left.svg";
-import UploadIcon from "../../../assets/images/icons/document-upload.svg";
-import CloseIcon from "../../../assets/images/icons/Close.svg";
+import ArrowLeft from "../../../../assets/images/icons/arrow-left.svg";
+import UploadIcon from "../../../../assets/images/icons/document-upload.svg";
+import CloseIcon from "../../../../assets/images/icons/Close.svg";
 
-import "../../../assets/css/style.css";
+import "../../../../assets/css/style.css";
 
-const SuperadminAddReport = () => {
+const ExpertiseGroupAddReport = () => {
 
     /* -------------------- Global Variable -------------------- */
 
@@ -51,7 +51,8 @@ const SuperadminAddReport = () => {
     };
 
     const handleRemoveFile = (fileName) => {
-        setFiles(prevFiles => prevFiles.filter(file => file.name !== fileName));
+        setFiles([]);
+        document.getElementById('fileInput').value = '';
     };
 
     /* --------- End Upload File ---------*/
@@ -59,9 +60,9 @@ const SuperadminAddReport = () => {
 
     /* -------------------- Create New Report -------------------- */
 
-    const reportTitleField = useRef();
-    const periodField = useRef();
-    const taField = useRef();
+    const reportNameField = useRef();
+    const reportPeriodField = useRef();
+    const academicYearField = useRef();
 
     const onCreateReport = async () => {
 
@@ -70,9 +71,9 @@ const SuperadminAddReport = () => {
             const token = localStorage.getItem("token");
 
             const reportPayload = new FormData();
-            reportPayload.append("reportTitle", reportTitleField.current.value);
-            reportPayload.append("period", periodField.current.value);
-            reportPayload.append("ta", taField.current.value);
+            reportPayload.append("reportName", reportNameField.current.value);
+            reportPayload.append("reportPeriod", reportPeriodField.current.value);
+            reportPayload.append("academicYear", academicYearField.current.value);
             files.forEach((file) => {
                 reportPayload.append(`reportFile`, file);
             });
@@ -88,7 +89,7 @@ const SuperadminAddReport = () => {
                     },
                 }
             );
-            
+
 
             const createReportResponse = createReportRequest.data;
 
@@ -96,18 +97,18 @@ const SuperadminAddReport = () => {
 
             if (createReportResponse.status) {
 
-                navigate("/superadmin/report");
+                navigate("/expertisegroup/report");
 
             }
-            
+
         } catch (err) {
-            
+
             enqueueSnackbar(err.message, { variant: 'error', anchorOrigin: { vertical: 'top', horizontal: 'center' }, autoHideDuration: 2000 });
 
         }
 
     };
-    
+
     /* -------------------- End Create New Report -------------------- */
 
     return (
@@ -117,7 +118,7 @@ const SuperadminAddReport = () => {
                 <Container fluid style={{ padding: '0 32px' }}>
                     <Row className="add-research-title">
                         <Col xl={12} className="d-flex align-items-center">
-                            <Image onClick={() => navigate('/superadmin/report')} src={ArrowLeft} style={{ marginRight: '16px', cursor: 'pointer' }} />
+                            <Image onClick={() => navigate('/expertisegroup/report')} src={ArrowLeft} style={{ marginRight: '16px', cursor: 'pointer' }} />
                             <h1>Tambah Laporan</h1>
                         </Col>
                     </Row>
@@ -132,7 +133,7 @@ const SuperadminAddReport = () => {
                                                 <div>
                                                     <Form.Group controlId="exampleForm.ControlInput2">
                                                         <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Judul Laporan <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
-                                                        <Form.Control type="text" placeholder="Contoh: Perbandingan Metode X terhadap Y" autoComplete="off" style={{ fontSize: '14px' }} ref={reportTitleField} required/>
+                                                        <Form.Control type="text" placeholder="Contoh: Perbandingan Metode X terhadap Y" autoComplete="off" style={{ fontSize: '14px' }} ref={reportNameField} required />
                                                     </Form.Group>
                                                 </div>
                                             </Col>
@@ -140,7 +141,7 @@ const SuperadminAddReport = () => {
                                                 <div>
                                                     <Form.Group controlId="exampleForm.ControlInput3">
                                                         <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Periode <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
-                                                        <Form.Control type="email" placeholder="Contoh: Genap" autoComplete="off" style={{ fontSize: '14px' }} ref={periodField} required/>
+                                                        <Form.Control type="email" placeholder="Contoh: Genap" autoComplete="off" style={{ fontSize: '14px' }} ref={reportPeriodField} required />
                                                     </Form.Group>
                                                 </div>
                                             </Col>
@@ -148,7 +149,7 @@ const SuperadminAddReport = () => {
                                                 <div>
                                                     <Form.Group controlId="exampleForm.ControlInput4">
                                                         <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Tahun Ajaran <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
-                                                        <Form.Control type="text" placeholder="Contoh: 2024" autoComplete="off" style={{ fontSize: '14px' }} ref={taField} required/>
+                                                        <Form.Control type="text" placeholder="Contoh: 2024" autoComplete="off" style={{ fontSize: '14px' }} ref={academicYearField} required />
                                                     </Form.Group>
                                                 </div>
                                             </Col>
@@ -175,10 +176,10 @@ const SuperadminAddReport = () => {
                                                                 {
                                                                     files.length > 0 ? (
                                                                         <Col xl={12} className="d-flex justify-content-start">
-                                                                            <div style={{display:'flex', gap: '10px' , padding: '5px 10px', background: '#FAFAFA', borderRadius: '4px', zIndex: '999'}}>
-                                                                                <Image src={UploadIcon} style={{width: '15px'}}/>
-                                                                                <p style={{ margin: 'auto 0', color: '#292929' }}>{files.map(file => file.name).join(', ')}</p>
-                                                                                <Image key={files.name} onClick={() => handleRemoveFile(files.name)} src={CloseIcon} style={{width: '15px', marginLeft: '40px'}}/>
+                                                                            <div style={{ display: 'flex', gap: '10px', padding: '5px 10px', background: '#FAFAFA', borderRadius: '4px', zIndex: '999' }}>
+                                                                                <Image src={UploadIcon} style={{ width: '15px' }} />
+                                                                                <p style={{ margin: 'auto 0', color: '#292929' }}>{files[0].name}</p>
+                                                                                <Image key={files[0].name} onClick={() => handleRemoveFile(files[0].name)} src={CloseIcon} style={{ width: '15px', marginLeft: '40px' }} />
                                                                             </div>
                                                                         </Col>
                                                                     ) : (
@@ -216,4 +217,4 @@ const SuperadminAddReport = () => {
 
 };
 
-export default SuperadminAddReport;
+export default ExpertiseGroupAddReport;

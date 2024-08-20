@@ -54,7 +54,7 @@ const LecturerLogin = () => {
 
                 localStorage.setItem("token", loginResponse.data.token);
 
-                navigate("/lecturer/dashboard");
+                navigate("/lecturer/profile");
 
             }
         } catch (err) {

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 import {
@@ -11,7 +11,7 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 
-import SuperadminDashboardLayout from "../../../layouts/dashboard/SuperadminDashboardLayout";
+import LecturerDashboardLayout from "../../../layouts/dashboard/LecturerDashboardLayout";
 
 import ArrowLeft from "../../../assets/images/icons/arrow-left.svg";
 import UploadIcon from "../../../assets/images/icons/document-upload.svg";
@@ -19,7 +19,7 @@ import CloseIcon from "../../../assets/images/icons/Close.svg";
 
 import "../../../assets/css/style.css";
 
-const SuperadminUpdateReport = () => {
+const UpdateDevotion = () => {
 
     /* -------------------- Global Variable -------------------- */
 
@@ -27,49 +27,6 @@ const SuperadminUpdateReport = () => {
     const { enqueueSnackbar } = useSnackbar();
 
     /* -------------------- End Global Variable -------------------- */
-
-
-    /* --------- Get Report By Id ---------*/
-
-    const [reportData, setReportData] = useState();
-
-    const params = useLocation();
-
-    const id = (params.pathname).split('/')[4];
-
-    useEffect(() => {
-
-        const onReportById = async () => {
-
-            try {
-
-                const token = localStorage.getItem("token");
-
-                const getReportRequest = await axios.get(
-                    `http://localhost:8080/api/v1/superadmin/report/${id}`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                            "Access-Control-Allow-Origin": "*"
-                        }
-                    }
-                );
-
-                const getReportResponse = getReportRequest.data;
-
-                setReportData(getReportResponse.data.getReport);
-
-            } catch (err) {
-                alert(err.message);
-            }
-
-        };
-
-        onReportById();
-
-    }, [id]);
-
-    /* --------- End Get Report By Id ---------*/
 
 
     /* --------- Upload File ---------*/
@@ -100,29 +57,77 @@ const SuperadminUpdateReport = () => {
     /* --------- End Upload File ---------*/
 
 
-    /* -------------------- Update Report -------------------- */
+    /* --------- Get Devotion By Id ---------*/
 
-    const reportTitleField = useRef();
-    const periodField = useRef();
-    const taField = useRef();
+    const [devotionData, setDevotionData] = useState();
 
-    const onUpdateReport = async () => {
+    const params = useLocation();
+
+    const id = (params.pathname).split('/')[4];
+
+    useEffect(() => {
+
+        const onDevotionById = async () => {
+
+            try {
+
+                const token = localStorage.getItem("token");
+
+                const getDevotionRequest = await axios.get(
+                    `http://localhost:8080/api/v1/lecturer/devotion/${id}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            "Access-Control-Allow-Origin": "*"
+                        }
+                    }
+                );
+
+                const getDevotionResponse = getDevotionRequest.data;
+
+                setDevotionData(getDevotionResponse.data.getDevotion);
+
+            } catch (err) {
+                alert(err.message);
+            }
+
+        };
+
+        onDevotionById();
+
+    }, [id]);
+
+    /* --------- End Get Devotion By Id ---------*/
+
+
+    /* -------------------- Handle Update Devotion -------------------- */
+
+    const devotionNameField = useRef();
+    const devotionRoleField = useRef();
+    const devotionPeriodField = useRef();
+    const academicYearField = useRef();
+    const devotionDescriptionField = useRef();
+
+    const onUpdateDevotion = async () => {
 
         try {
 
             const token = localStorage.getItem("token");
 
-            const reportPayload = new FormData();
-            reportPayload.append("reportTitle", reportTitleField.current.value);
-            reportPayload.append("period", periodField.current.value);
-            reportPayload.append("ta", taField.current.value);
+            const devotionPayload = new FormData();
+            devotionPayload.append("devotionName", devotionNameField.current.value);
+            devotionPayload.append("devotionRole", devotionRoleField.current.value);
+            devotionPayload.append("devotionPeriod", devotionPeriodField.current.value);
+            devotionPayload.append("academicYear", academicYearField.current.value);
+            devotionPayload.append("devotionDescription", devotionDescriptionField.current.value);
             files.forEach((file) => {
-                reportPayload.append(`reportFile`, file);
+                devotionPayload.append(`devotionFile`, file);
             });
+            
 
-            const updateReportRequest = await axios.put(
-                `http://localhost:8080/api/v1/superadmin/report/${id}`,
-                reportPayload,
+            const devotionPayloadRequest = await axios.put(
+                `http://localhost:8080/api/v1/lecturer/devotion/${id}`,
+                devotionPayload,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -131,59 +136,70 @@ const SuperadminUpdateReport = () => {
                     },
                 }
             );
-            
 
-            const updateReportResponse = updateReportRequest.data;
 
-            enqueueSnackbar(updateReportResponse.message, { variant: 'success', anchorOrigin: { vertical: 'top', horizontal: 'center' }, autoHideDuration: 2000 });
+            const devotionPayloadResponse = devotionPayloadRequest.data;
 
-            if (updateReportResponse.status) {
+            enqueueSnackbar(devotionPayloadResponse.message, { variant: 'success', anchorOrigin: { vertical: 'top', horizontal: 'center' }, autoHideDuration: 2000 });
 
-                navigate("/superadmin/report");
+            if (devotionPayloadResponse.status) {
+
+                navigate("/lecturer/devotion");
 
             }
-            
+
         } catch (err) {
-            
-            enqueueSnackbar(err.message, { variant: 'error', anchorOrigin: { vertical: 'top', horizontal: 'center' }, autoHideDuration: 2000 });
+
+            enqueueSnackbar('Cek ulang data anda (:', { variant: 'error', anchorOrigin: { vertical: 'top', horizontal: 'center' }, autoHideDuration: 2000 });
 
         }
 
     };
-    
-    /* -------------------- End Update Report -------------------- */
+
+    /* -------------------- End Handle Update Devotion -------------------- */
+
 
     return (
 
-        <SuperadminDashboardLayout>
-            <div id="add-research-content">
+        <LecturerDashboardLayout>
+            <div id="update-research-content">
                 <Container fluid style={{ padding: '0 32px' }}>
-                    <Row className="add-research-title">
+                    <Row className="update-research-title">
                         <Col xl={12} className="d-flex align-items-center">
-                            <Image onClick={() => navigate('/superadmin/report')} src={ArrowLeft} style={{ marginRight: '16px', cursor: 'pointer' }} />
-                            <h1>Edit Laporan</h1>
+                            <Image onClick={() => navigate('/lecturer/devotion')} src={ArrowLeft} style={{ marginRight: '16px', cursor: 'pointer' }} />
+                            <h1>Edit Pengabdian</h1>
                         </Col>
                     </Row>
                     <Row className="form-research">
                         <Col xl={12}>
                             <div style={{ background: '#FFFFFF', padding: '16px', borderRadius: '8px' }}>
-                                <h1>Form Edit Laporan</h1>
+                                <h1>Formulir Pengabdian</h1>
                                 <div className="form-research-input">
                                     <Form>
+                                        <Row>
+                                            <Col xl={12}>
+                                                <div>
+                                                    <Form.Group controlId="exampleForm.ControlInput1">
+                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Nama Pengabdian <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
+                                                        <Form.Control type="text" placeholder="Masukan Nama Pengabdian" autoComplete="off" style={{ fontSize: '14px' }} defaultValue={devotionData ? devotionData.devotionName : null} ref={devotionNameField}/>
+                                                    </Form.Group>
+                                                </div>
+                                            </Col>
+                                        </Row>
                                         <Row className="mt-3">
                                             <Col xl={4}>
                                                 <div>
                                                     <Form.Group controlId="exampleForm.ControlInput2">
-                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Judul Laporan <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
-                                                        <Form.Control type="text" placeholder="Contoh: Perbandingan Metode X terhadap Y" autoComplete="off" style={{ fontSize: '14px' }} defaultValue={reportData ? reportData.reportTitle : null} ref={reportTitleField}/>
+                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Peran Dalam Pengabdian <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
+                                                        <Form.Control type="text" placeholder="Masukan Peran" autoComplete="off" style={{ fontSize: '14px' }} defaultValue={devotionData ? devotionData.devotionRole : null} ref={devotionRoleField}/>
                                                     </Form.Group>
                                                 </div>
                                             </Col>
                                             <Col xl={4}>
                                                 <div>
                                                     <Form.Group controlId="exampleForm.ControlInput3">
-                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Periode <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
-                                                        <Form.Control type="email" placeholder="Contoh: Genap" autoComplete="off" style={{ fontSize: '14px' }} defaultValue={reportData ? reportData.period : null} ref={periodField}/>
+                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Periode Pengabdian <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
+                                                        <Form.Control type="text" placeholder="Masukan Periode Pengabdian" autoComplete="off" style={{ fontSize: '14px' }} defaultValue={devotionData ? devotionData.devotionPeriod : null} ref={devotionPeriodField}/>
                                                     </Form.Group>
                                                 </div>
                                             </Col>
@@ -191,7 +207,17 @@ const SuperadminUpdateReport = () => {
                                                 <div>
                                                     <Form.Group controlId="exampleForm.ControlInput4">
                                                         <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Tahun Ajaran <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
-                                                        <Form.Control type="text" placeholder="Contoh: 2024" autoComplete="off" style={{ fontSize: '14px' }} defaultValue={reportData ? reportData.ta : null} ref={taField}/>
+                                                        <Form.Control type="text" placeholder="Masukan Tahun Ajaran" autoComplete="off" style={{ fontSize: '14px' }} defaultValue={devotionData ? devotionData.academicYear : null} ref={academicYearField}/>
+                                                    </Form.Group>
+                                                </div>
+                                            </Col>
+                                        </Row>
+                                        <Row className="mt-3">
+                                            <Col xl={12}>
+                                                <div>
+                                                    <Form.Group controlId="exampleForm.ControlInput1">
+                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Deskripsi Pengabdian <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
+                                                        <Form.Control type="text" placeholder="Masukan Deskripsi" autoComplete="off" style={{ fontSize: '14px' }} defaultValue={devotionData ? devotionData.devotionDescription : null} ref={devotionDescriptionField}/>
                                                     </Form.Group>
                                                 </div>
                                             </Col>
@@ -200,7 +226,7 @@ const SuperadminUpdateReport = () => {
                                             <Col xl={12}>
                                                 <div>
                                                     <Form.Group>
-                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Upload Dokumen <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
+                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Upload Dokumen Pengabdian <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
                                                         <div
                                                             className="form-upload"
                                                             style={{ padding: '30px', border: '1px solid #EFEFEF', borderRadius: '8px', cursor: 'pointer' }}
@@ -211,11 +237,13 @@ const SuperadminUpdateReport = () => {
                                                             <Form.Control
                                                                 type="file"
                                                                 id="fileInput"
+                                                                multiple
                                                                 onChange={handleFileChange}
                                                                 style={{ display: 'none' }}
+                                                                defaultValue={devotionData ? devotionData.devotionFile : null}
                                                             />
                                                             <Row>
-                                                            {
+                                                                {
                                                                     files.length > 0 ? (
                                                                         <Col xl={12} className="d-flex justify-content-start">
                                                                             <div style={{ display: 'flex', gap: '10px', padding: '5px 10px', background: '#FAFAFA', borderRadius: '4px', zIndex: '999' }}>
@@ -226,13 +254,13 @@ const SuperadminUpdateReport = () => {
                                                                         </Col>
                                                                     ) : (
                                                                         <>
-                                                                            {reportData ? (
+                                                                            {devotionData ? (
                                                                                 <Col xl={12} className="d-flex justify-content-start">
                                                                                     <div style={{ display: 'flex', gap: '10px', padding: '5px 10px', background: '#FAFAFA', borderRadius: '4px', zIndex: '999' }}>
                                                                                         <Image src={UploadIcon} style={{ width: '15px' }} />
                                                                                         <p style={{ margin: 'auto 0', color: '#292929' }}>
-                                                                                            {reportData
-                                                                                                ? reportData.reportFile
+                                                                                            {devotionData
+                                                                                                ? devotionData.devotionFile
                                                                                                 : files.map(file => file.name).join(', ')
                                                                                             }
                                                                                         </p>
@@ -260,7 +288,7 @@ const SuperadminUpdateReport = () => {
                                         </Row>
                                         <Row className="mt-4">
                                             <Col xl={12} className="d-flex justify-content-end">
-                                                <Button onClick={onUpdateReport} style={{ background: '#D62C35', border: 'none', fontSize: '16px' }}> Simpan Perubahan </Button>
+                                                <Button onClick={onUpdateDevotion} style={{ background: '#D62C35', border: 'none', fontSize: '16px' }}> Simpan Perubahan </Button>
                                             </Col>
                                         </Row>
                                     </Form>
@@ -270,10 +298,10 @@ const SuperadminUpdateReport = () => {
                     </Row>
                 </Container>
             </div>
-        </SuperadminDashboardLayout>
+        </LecturerDashboardLayout>
 
     );
 
 };
 
-export default SuperadminUpdateReport;
+export default UpdateDevotion;

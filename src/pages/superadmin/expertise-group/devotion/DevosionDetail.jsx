@@ -12,14 +12,14 @@ import {
 import fileDownload from 'js-file-download';
 import axios from "axios";
 
-import SuperadminDashboardLayout from "../../../layouts/dashboard/SuperadminDashboardLayout";
-import ArrowLeft from "../../../assets/images/icons/arrow-left.svg";
-import UploadIcon from "../../../assets/images/icons/document-upload-red.svg";
-import DownloadIcon from "../../../assets/images/icons/iconoir_download.svg";
+import SuperadminDashboardLayout from "../../../../layouts/dashboard/SuperadminDashboardLayout";
+import ArrowLeft from "../../../../assets/images/icons/arrow-left.svg";
+import UploadIcon from "../../../../assets/images/icons/document-upload-red.svg";
+import DownloadIcon from "../../../../assets/images/icons/iconoir_download.svg";
 
-import "../../../assets/css/style.css";
+import "../../../../assets/css/style.css";
 
-const SuperadminDetailResearch = () => {
+const ExpertiseGroupDevotionDetail = () => {
 
 
     /* -------------------- Global Variable -------------------- */
@@ -29,9 +29,9 @@ const SuperadminDetailResearch = () => {
 
     /* -------------------- End Global Variable -------------------- */
 
-    /* --------- Get Research By Id ---------*/
+    /* --------- Get Devotion By Id ---------*/
 
-    const [researchData, setResearchData] = useState();
+    const [devotionData, setDevotionData] = useState();
 
     const params = useLocation();
 
@@ -39,14 +39,14 @@ const SuperadminDetailResearch = () => {
 
     useEffect(() => {
 
-        const onResearchById = async () => {
+        const onDevotionById = async () => {
 
             try {
 
                 const token = localStorage.getItem("token");
 
-                const getResearchRequest = await axios.get(
-                    `http://localhost:8080/api/v1/superadmin/research/${id}`,
+                const getDevotionRequest = await axios.get(
+                    `http://localhost:8080/api/v1/superadmin/devotion/${id}`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -55,9 +55,9 @@ const SuperadminDetailResearch = () => {
                     }
                 );
 
-                const getResearchResponse = getResearchRequest.data;
+                const getDevotionResponse = getDevotionRequest.data;
 
-                setResearchData(getResearchResponse.data.getResearch);
+                setDevotionData(getDevotionResponse.data.getDevotion);
 
             } catch (err) {
                 alert(err.message);
@@ -65,11 +65,11 @@ const SuperadminDetailResearch = () => {
 
         };
 
-        onResearchById();
+        onDevotionById();
 
     }, [id]);
 
-    /* --------- End Get Research By Id ---------*/
+    /* --------- End Get Devotion By Id ---------*/
 
 
     /* ================ Download File ================ */
@@ -93,7 +93,7 @@ const SuperadminDetailResearch = () => {
     /* ================ End Download File ================ */
 
 
-    /* --------- Update Research Value ---------*/
+    /* --------- Update Devotion Value ---------*/
 
     const [isEditing, setIsEditing] = useState(false);
 
@@ -103,19 +103,19 @@ const SuperadminDetailResearch = () => {
 
     const valueField = useRef();
 
-    const onUpdateResearchValue = async () => {
+    const onUpdateDevotionValue = async () => {
 
         try {
 
             const token = localStorage.getItem("token");
 
             const valuePayload = {
-                value: valueField.current.value
+                devotionValue: valueField.current.value
             }
-            
+
 
             const valuePayloadRequest = await axios.put(
-                `http://localhost:8080/api/v1/superadmin/research/value/${id}`,
+                `http://localhost:8080/api/v1/superadmin/devotion/value/${id}`,
                 valuePayload,
                 {
                     headers: {
@@ -132,7 +132,7 @@ const SuperadminDetailResearch = () => {
 
             if (valuePayloadResponse.status) {
 
-                navigate("/superadmin/research");
+                navigate(`/expertisegroup/devotion`);
 
             }
 
@@ -144,7 +144,7 @@ const SuperadminDetailResearch = () => {
 
     };
 
-    /* --------- End Update Research Value ---------*/
+    /* --------- End Update Devotion Value ---------*/
 
 
     return (
@@ -154,8 +154,8 @@ const SuperadminDetailResearch = () => {
                 <Container fluid style={{ padding: '0 32px' }}>
                     <Row className="detail-research-title">
                         <Col xl={12} className="d-flex align-items-center">
-                            <Image onClick={() => navigate('/superadmin/research')} src={ArrowLeft} style={{ marginRight: '16px', cursor: 'pointer' }} />
-                            <h1>Detail Penelitan</h1>
+                            <Image onClick={() => navigate('/expertisegroup/devotion')} src={ArrowLeft} style={{ marginRight: '16px', cursor: 'pointer' }} />
+                            <h1>Lihat Pengabdian</h1>
                         </Col>
                     </Row>
                     <Row className="detail-research-wrapper">
@@ -163,7 +163,7 @@ const SuperadminDetailResearch = () => {
                             <div style={{ padding: '16px', backgroundColor: '#FFFFFF', borderRadius: '8px', marginTop: '20px' }}>
                                 <Row>
                                     <Col xl={12} className="d-flex justify-content-start align-items-center">
-                                        <h5 style={{ fontSize: '14px', fontWeight: '700', color: '#292929', margin: 'auto 0' }}>Informasi Penelitian</h5>
+                                        <h5 style={{ fontSize: '14px', fontWeight: '700', color: '#292929', margin: 'auto 0' }}>Informasi Pengabdian</h5>
                                     </Col>
                                 </Row>
                                 <div style={{ gap: '20px', marginTop: '20px' }}>
@@ -172,29 +172,37 @@ const SuperadminDetailResearch = () => {
                                             <h6>Nama Dosen</h6>
                                         </Col>
                                         <Col xl={12}>
-                                            <p>{researchData ? researchData.LecturerDetail.Lecturer.name : null}</p>
+                                            <p>{devotionData ? devotionData.Lecturer.name : null}</p>
                                         </Col>
                                     </Row>
                                     <Row>
                                         <Col xl={12}>
-                                            <h6>Judul Penelitian</h6>
+                                            <h6>Judul Pengabdian</h6>
                                         </Col>
                                         <Col xl={12}>
-                                            <p>{researchData ? researchData.title : null}</p>
+                                            <p>{devotionData ? devotionData.devotionName : null}</p>
                                         </Col>
                                     </Row>
                                     <Row>
-                                        <Col xl={4}>
-                                            <h6>Kategori Penelitian</h6>
-                                            <p>{researchData ? researchData.category : null}</p>
+                                        <Col xl={12}>
+                                            <h6>Peran Dalam Pengabdian</h6>
+                                            <p>{devotionData ? devotionData.devotionRole : null}</p>
                                         </Col>
-                                        <Col xl={4}>
+                                    </Row>
+                                    <Row>
+                                        <Col xl={6}>
                                             <h6>Periode</h6>
-                                            <p>{researchData ? researchData.period : null}</p>
+                                            <p>{devotionData ? devotionData.devotionPeriod : null}</p>
                                         </Col>
-                                        <Col xl={4}>
+                                        <Col xl={6}>
                                             <h6>Tahun Ajaran</h6>
-                                            <p>{researchData ? researchData.ta : null}</p>
+                                            <p>{devotionData ? devotionData.academicYear : null}</p>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col xl={12}>
+                                            <h6>Deskripsi Pengabdian</h6>
+                                            <p>{devotionData ? devotionData.devotionDescription : null}</p>
                                         </Col>
                                     </Row>
                                     <Row>
@@ -204,10 +212,10 @@ const SuperadminDetailResearch = () => {
                                         <Col xl={6}>
                                             <div style={{ display: 'flex', gap: '10px', padding: '15px 10px', background: '#FEF2F3', borderRadius: '4px', zIndex: '999', width: 'fit-content' }}>
                                                 <Image src={UploadIcon} style={{ width: '15px' }} />
-                                                <p style={{ margin: 'auto 0', color: '#292929', fontSize: '14px' }}>{researchData ? researchData.researchFile : null}</p>
+                                                <p style={{ margin: 'auto 0', color: '#292929', fontSize: '14px' }}>{devotionData ? devotionData.devotionFile : null}</p>
                                                 <Image
                                                     src={DownloadIcon} style={{ width: '16px', marginLeft: '40px', cursor: 'pointer' }}
-                                                    onClick={() => handleDownload(`http://localhost:8080/${researchData ? researchData.researchFile : null}`, researchData ? researchData.researchFile : null)}
+                                                    onClick={() => handleDownload(`http://localhost:8080/${devotionData ? devotionData.devotionFile : null}`, devotionData ? devotionData.devotionFile : null)}
                                                 />
                                             </div>
                                         </Col>
@@ -234,12 +242,13 @@ const SuperadminDetailResearch = () => {
                                                         autoComplete="off"
                                                         style={{ fontSize: '14px', height: '45px' }}
                                                         ref={valueField}
+                                                        defaultValue={devotionData ? devotionData.devotionValue : null}
                                                     />
                                                 </Form.Group>
                                                 <Col xl={12} className="d-flex justify-content-end align-items-center mt-3">
                                                     <Button
                                                         style={{ width: '120px', fontSize: '14px', backgroundColor: '#D62C35', border: 'none', padding: '10px 12px' }}
-                                                        onClick={onUpdateResearchValue}
+                                                        onClick={onUpdateDevotionValue}
                                                     >
                                                         Simpan Nilai
                                                     </Button>
@@ -247,9 +256,9 @@ const SuperadminDetailResearch = () => {
                                             </Form>
                                         ) : (
                                             <div>
-                                                {researchData?.ResearchValue?.value ? (
+                                                {devotionData?.devotionValue ? (
                                                     <p style={{ color: '#292929', fontSize: '24px', fontWeight: '700', float: 'right' }}>
-                                                        {researchData.ResearchValue.value}
+                                                        {devotionData.devotionValue}
                                                     </p>
                                                 ) : (
                                                     <p style={{ color: '#989898', fontSize: '16px' }}>
@@ -261,7 +270,7 @@ const SuperadminDetailResearch = () => {
                                                         style={{ width: '120px', fontSize: '14px', backgroundColor: '#D62C35', border: 'none', padding: '10px 12px' }}
                                                         onClick={handleEditClick}
                                                     >
-                                                        {researchData?.ResearchValue?.value ? 'Ubah Nilai' : 'Berikan Nilai'}
+                                                        {devotionData?.devotionValue ? 'Ubah Nilai' : 'Berikan Nilai'}
                                                     </Button>
                                                 </Col>
                                             </div>
@@ -279,4 +288,4 @@ const SuperadminDetailResearch = () => {
 
 };
 
-export default SuperadminDetailResearch;
+export default ExpertiseGroupDevotionDetail;

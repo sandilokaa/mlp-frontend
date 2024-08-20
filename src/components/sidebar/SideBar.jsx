@@ -27,12 +27,14 @@ const MySideBar = () => {
 
     useEffect(() => {
         const path = location.pathname;
-        if (path.includes('/lecturer/dashboard')) {
-            setActiveItem('lecturer-dashboard');
-        } else if (path.includes('/lecturer/profile')) {
+        if (path.includes('/lecturer/profile')) {
             setActiveItem('lecturer-profile');
-        } else if (path.includes('/lecturer/research')) {
-            setActiveItem('lecturer-research');
+        } else if (path.includes('/lecturer/devotion')) {
+            setActiveItem('lecturer-devotion');
+        } else if (path.includes('/lecturer/assignment')) {
+            setActiveItem('lecturer-assignment');
+        } else if (path.includes('/lecturer/list')) {
+            setActiveItem('lecturer-list');
         } else {
             setActiveItem(null);
         }
@@ -64,30 +66,39 @@ const MySideBar = () => {
                 <div>
                     <div className='side-bar-menu-item'>
                         <MenuItem
-                            className={`dashboard ${activeItem === 'lecturer-dashboard' ? 'active' : ''}`}
-                            onClick={() => handleClick('lecturer-dashboard', '/lecturer/dashboard')}
-                        >
-                            <div className='d-flex align-items-center'>
-                                <DashboardIcon className='sidebar-icon' />
-                                <span style={{ marginLeft: '13px' }}> Dashboard </span>
-                            </div>
-                        </MenuItem>
-                        <MenuItem
                             className={`lecturer-profile ${activeItem === 'lecturer-profile' ? 'active' : ''}`}
                             onClick={() => handleClick('lecturer-profile', '/lecturer/profile')}
                         >
                             <div className='d-flex align-items-center'>
                                 <ProfileIcon className='sidebar-icon' />
-                                <span style={{ marginLeft: '13px' }}> Profile Dosen </span>
+                                <span style={{ marginLeft: '13px' }}> My Profile </span>
                             </div>
                         </MenuItem>
                         <MenuItem
-                            className={`lecturer-research ${activeItem === 'lecturer-research' ? 'active' : ''}`}
-                            onClick={() => handleClick('lecturer-research', '/lecturer/research')}
+                            className={`lecturer-devotion ${activeItem === 'lecturer-devotion' ? 'active' : ''}`}
+                            onClick={() => handleClick('lecturer-devotion', '/lecturer/devotion')}
                         >
                             <div className='d-flex align-items-center'>
                                 <ProfileIcon className='sidebar-icon' />
-                                <span style={{ marginLeft: '13px' }}> Penelitian </span>
+                                <span style={{ marginLeft: '13px' }}> Pengabdian </span>
+                            </div>
+                        </MenuItem>
+                        <MenuItem
+                            className={`lecturer-assignment ${activeItem === 'lecturer-assignment' ? 'active' : ''}`}
+                            onClick={() => handleClick('lecturer-assignment', '/lecturer/assignment')}
+                        >
+                            <div className='d-flex align-items-center'>
+                                <ProfileIcon className='sidebar-icon' />
+                                <span style={{ marginLeft: '13px' }}> Penugasan </span>
+                            </div>
+                        </MenuItem>
+                        <MenuItem
+                            className={`lecturer-list ${activeItem === 'lecturer-list' ? 'active' : ''}`}
+                            onClick={() => handleClick('lecturer-list', '/lecturer/list')}
+                        >
+                            <div className='d-flex align-items-center'>
+                                <ProfileIcon className='sidebar-icon' />
+                                <span style={{ marginLeft: '13px' }}> Daftar Dosen </span>
                             </div>
                         </MenuItem>
                         <div className='d-flex align-items-center' style={{ cursor: 'pointer', padding: '15px 0', backgroundColor: '#FFFFFF', width: '100%' }} onClick={onLogout}>

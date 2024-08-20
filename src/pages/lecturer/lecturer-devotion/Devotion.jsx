@@ -16,10 +16,11 @@ import LecturerDashboardLayout from "../../../layouts/dashboard/LecturerDashboar
 import ViewIcon from "../../../assets/images/icons/eye.svg";
 import DeleteIcon from "../../../assets/images/icons/trash.svg";
 import EditIcon from "../../../assets/images/icons/edit-2.svg";
+import AddIcon from "../../../assets/images/icons/add.svg";
 
 import "../../../assets/css/style.css";
 
-const LectureResearch = () => {
+const LectureDevotion = () => {
 
 
     /* -------------------- Global Variable -------------------- */
@@ -30,18 +31,18 @@ const LectureResearch = () => {
     /* -------------------- End Global Variable -------------------- */
 
 
-    /* ================ Get Research Data ================ */
+    /* ================ Get Devotion Data ================ */
 
-    const [researchData, setResearchData] = useState([]);
+    const [devotionData, setDevotionData] = useState([]);
 
-    const getResearchData = async () => {
+    const getDevotionData = async () => {
 
         try {
 
             const token = localStorage.getItem("token");
 
             const getDataRequest = await axios.get(
-                `http://localhost:8080/api/v1/lecturer/research`,
+                `http://localhost:8080/api/v1/lecturer/devotion`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -50,9 +51,9 @@ const LectureResearch = () => {
                 }
             );
 
-            const getDataResponse = await getDataRequest.data.data.getResearch;
+            const getDataResponse = await getDataRequest.data.data.getDevotion;
 
-            setResearchData(getDataResponse);
+            setDevotionData(getDataResponse);
 
         } catch (err) {
             console.log(err);
@@ -62,24 +63,24 @@ const LectureResearch = () => {
 
     useEffect(() => {
 
-        getResearchData();
+        getDevotionData();
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    /* ================ End Get Research Data ================ */
+    /* ================ End Get Devotion Data ================ */
 
 
-    /* ================ Delete Research Data ================ */
+    /* ================ Delete Devotion Data ================ */
 
-    const onDeleteResearch = async (id) => {
+    const onDeleteDevotion = async (id) => {
 
         const token = localStorage.getItem("token");
 
         try {
 
-            const researchRequest = await axios.delete(
-                `http://localhost:8080/api/v1/lecturer/research/${id}`,
+            const devotionRequest = await axios.delete(
+                `http://localhost:8080/api/v1/lecturer/devotion/${id}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -87,13 +88,13 @@ const LectureResearch = () => {
                 }
             );
 
-            const researchResponse = await researchRequest.data;
+            const devotionResponse = await devotionRequest.data;
 
-            enqueueSnackbar(researchResponse.message, { variant: 'success', anchorOrigin: { vertical: 'top', horizontal: 'center' }, autoHideDuration: 2000 });
+            enqueueSnackbar(devotionResponse.message, { variant: 'success', anchorOrigin: { vertical: 'top', horizontal: 'center' }, autoHideDuration: 2000 });
 
-            if (researchResponse.status) {
+            if (devotionResponse.status) {
 
-                window.location.reload("/lecturer/research")
+                window.location.reload("/lecturer/devotion")
 
             }
 
@@ -105,7 +106,7 @@ const LectureResearch = () => {
 
     };
 
-    /* ================ End Delete Research Data ================ */
+    /* ================ End Delete Devotion Data ================ */
 
 
     /* ================ Pagination ================ */
@@ -115,12 +116,12 @@ const LectureResearch = () => {
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = researchData.slice(indexOfFirstItem, indexOfLastItem);
+    const currentItems = devotionData.slice(indexOfFirstItem, indexOfLastItem);
 
     const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
     const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(researchData.length / itemsPerPage); i++) {
+    for (let i = 1; i <= Math.ceil(devotionData.length / itemsPerPage); i++) {
         pageNumbers.push(i);
     }
 
@@ -136,7 +137,13 @@ const LectureResearch = () => {
                     <div className="add-research-content">
                         <Row>
                             <Col xl={3}>
-                                <Button onClick={() => navigate('/lecturer/research/create')}>Tambah Penelitian</Button>
+                                <Button 
+                                    onClick={() => navigate('/lecturer/devotion/create')}
+                                    style={{width: '227px'}}
+                                >
+                                    Tambah Pengabdian
+                                    <Image src={AddIcon} style={{marginLeft: '8px'}}/>
+                                </Button>
                             </Col>
                         </Row>
                     </div>
@@ -146,10 +153,10 @@ const LectureResearch = () => {
                                 <h6>No</h6>
                             </Col>
                             <Col xl={5}>
-                                <h6>Judul Penelitian</h6>
+                                <h6>Judul Pengabdian</h6>
                             </Col>
                             <Col xl={2} className="text-center">
-                                <h6>Kategori</h6>
+                                <h6>Role</h6>
                             </Col>
                             <Col xl={2} className="text-center">
                                 <h6>Skor</h6>
@@ -159,7 +166,7 @@ const LectureResearch = () => {
                             </Col>
                         </Row>
                         <hr style={{ marginTop: '10px' }} />
-                        {currentItems.map((research, index) => {
+                        {currentItems.map((devotion, index) => {
 
                             const colStyle = {
                                 backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FAFAFA',
@@ -173,20 +180,20 @@ const LectureResearch = () => {
                             const displayIndex = (index + 1).toString().padStart(2, '0');
 
                             return (
-                                <Row className="table-body" key={research.id}>
+                                <Row className="table-body" key={devotion.id}>
                                     <div style={colStyle}>
                                         <Col xl={1}>
                                             <h6>{displayIndex}</h6>
                                         </Col>
                                         <Col xl={5}>
-                                            <h6>{research.title}</h6>
+                                            <h6>{devotion.devotionName}</h6>
                                         </Col>
                                         <Col xl={2} className="text-center">
-                                            <h6>{research.category}</h6>
+                                            <h6>{devotion.devotionRole}</h6>
                                         </Col>
                                         <Col xl={2} className="text-center">
-                                            {research.ResearchValue && research.ResearchValue.value ? (
-                                                <h6>{research.ResearchValue.value}</h6>
+                                            {devotion && devotion.devotionValue ? (
+                                                <h6>{devotion.devotionValue}</h6>
                                             ) : (
                                                 <h6>?</h6>
                                             )}
@@ -194,18 +201,18 @@ const LectureResearch = () => {
                                         <Col xl={2} className="text-center" style={{ marginLeft: '4px' }}>
                                             <Row style={{ display: 'flex', padding: '0', margin: '0' }}>
                                                 <Col xl={4} className="d-flex justify-content-end p-0">
-                                                    <span className="view" onClick={() => navigate(`/lecturer/research/detail/${research.id}`)}>
+                                                    <span className="view" onClick={() => navigate(`/lecturer/devotion/detail/${devotion.id}`)}>
                                                         <Image src={ViewIcon} />
                                                     </span>
                                                 </Col>
                                                 <Col xl={4} className="d-flex justify-content-center p-0">
-                                                    <span className="edit" onClick={() => navigate(`/lecturer/research/update/${research.id}`)}>
+                                                    <span className="edit" onClick={() => navigate(`/lecturer/devotion/update/${devotion.id}`)}>
                                                         <Image src={EditIcon} />
                                                     </span>
                                                 </Col>
                                                 <Col xl={4} className="d-flex justify-content-start p-0">
                                                     <span className="delete">
-                                                        <Image src={DeleteIcon} onClick={() => onDeleteResearch(research.id)} />
+                                                        <Image src={DeleteIcon} onClick={() => onDeleteDevotion(devotion.id)} />
                                                     </span>
                                                 </Col>
                                             </Row>
@@ -235,4 +242,4 @@ const LectureResearch = () => {
 
 };
 
-export default LectureResearch;
+export default LectureDevotion;

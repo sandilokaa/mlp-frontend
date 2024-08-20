@@ -52,9 +52,13 @@ const SuperadminLogin = () => {
 
             if (loginResponse.status) {
 
-                localStorage.setItem("token", loginResponse.data.token);
-
-                navigate("/superadmin/dashboard");
+                if (loginResponse.data.role === "expertiseGroup") {
+                    localStorage.setItem("token", loginResponse.data.token);
+                    navigate("/expertisegroup/profile");
+                } else if (loginResponse.data.role === "facultyDean") {
+                    localStorage.setItem("token", loginResponse.data.token);
+                    navigate("/dean/profile");
+                }
 
             }
         } catch (err) {

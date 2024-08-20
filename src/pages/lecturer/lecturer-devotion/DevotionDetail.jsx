@@ -8,9 +8,8 @@ import {
 } from "react-bootstrap";
 import fileDownload from 'js-file-download';
 import axios from "axios";
-import moment from "moment-timezone";
 
-import SuperadminDashboardLayout from "../../../layouts/dashboard/SuperadminDashboardLayout";
+import LecturerDashboardLayout from "../../../layouts/dashboard/LecturerDashboardLayout";
 import ArrowLeft from "../../../assets/images/icons/arrow-left.svg";
 import EditIcon from "../../../assets/images/icons/edit.svg";
 import UploadIcon from "../../../assets/images/icons/document-upload-red.svg";
@@ -18,7 +17,7 @@ import DownloadIcon from "../../../assets/images/icons/iconoir_download.svg";
 
 import "../../../assets/css/style.css";
 
-const SuperadminDetailReport = () => {
+const DevotionDetail = () => {
 
 
     /* -------------------- Global Variable -------------------- */
@@ -27,9 +26,9 @@ const SuperadminDetailReport = () => {
 
     /* -------------------- End Global Variable -------------------- */
 
-    /* --------- Get Report By Id ---------*/
+    /* --------- Get Devotion By Id ---------*/
 
-    const [reportData, setReportData] = useState();
+    const [devotionData, setDevotionData] = useState();
 
     const params = useLocation();
 
@@ -37,14 +36,14 @@ const SuperadminDetailReport = () => {
 
     useEffect(() => {
 
-        const onReportById = async () => {
+        const onDevotionById = async () => {
 
             try {
 
                 const token = localStorage.getItem("token");
 
-                const getReportRequest = await axios.get(
-                    `http://localhost:8080/api/v1/superadmin/report/${id}`,
+                const getDevotionRequest = await axios.get(
+                    `http://localhost:8080/api/v1/lecturer/devotion/${id}`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -53,9 +52,9 @@ const SuperadminDetailReport = () => {
                     }
                 );
 
-                const getReportResponse = getReportRequest.data;
+                const getDevotionResponse = getDevotionRequest.data;
 
-                setReportData(getReportResponse.data.getReport);
+                setDevotionData(getDevotionResponse.data.getDevotion);
 
             } catch (err) {
                 alert(err.message);
@@ -63,11 +62,11 @@ const SuperadminDetailReport = () => {
 
         };
 
-        onReportById();
+        onDevotionById();
 
     }, [id]);
 
-    /* --------- End Get Report By Id ---------*/
+    /* --------- End Get Research By Id ---------*/
 
 
     /* ================ Download File ================ */
@@ -90,67 +89,79 @@ const SuperadminDetailReport = () => {
 
     /* ================ End Download File ================ */
 
-    /* ================ Format Date ================ */
-
-    const formatDate = (dateString) => {
-        const date = moment(dateString).tz('Asia/Jakarta');
-        return date.format('DD/MM/YYYY HH:mm');
-    };
-
-    /* ================ End Format Date ================ */
 
     return (
 
-        <SuperadminDashboardLayout>
+        <LecturerDashboardLayout>
             <div id="detail-research-content">
                 <Container fluid style={{ padding: '0 32px' }}>
                     <Row className="detail-research-title">
                         <Col xl={12} className="d-flex align-items-center">
-                            <Image onClick={() => navigate('/superadmin/report')} src={ArrowLeft} style={{ marginRight: '16px', cursor: 'pointer' }} />
-                            <h1>Detail Laporan</h1>
+                            <Image onClick={() => navigate('/lecturer/devotion')} src={ArrowLeft} style={{ marginRight: '16px', cursor: 'pointer' }} />
+                            <h1>Lihat Pengabdian</h1>
                         </Col>
                     </Row>
                     <Row className="detail-research-wrapper">
-                        <Col xl={12}>
+                        <Col xl={9}>
                             <div style={{ padding: '16px', backgroundColor: '#FFFFFF', borderRadius: '8px', marginTop: '20px' }}>
                                 <Row>
                                     <Col xl={10} className="d-flex justify-content-start align-items-center">
-                                        <h5 style={{ fontSize: '14px', fontWeight: '700', color: '#292929', margin: 'auto 0' }}>Informasi Penelitian</h5>
+                                        <h5 style={{ fontSize: '14px', fontWeight: '700', color: '#292929', margin: 'auto 0' }}>Informasi Pengabdian</h5>
                                     </Col>
                                     <Col xl={2} className="d-flex justify-content-end align-items-center">
-                                        <Image src={EditIcon} style={{ width: '20px', cursor: 'pointer' }} onClick={() => navigate(`/superadmin/report/update/${id}`)} />
+                                        <Image src={EditIcon} style={{ width: '20px', cursor: 'pointer' }} onClick={() => navigate(`/lecturer/devotion/update/${id}`)}/>
                                     </Col>
                                 </Row>
                                 <div style={{ gap: '20px', marginTop: '20px' }}>
                                     <Row>
-                                        <Col xl={5}>
-                                            <h6>Judul Laporan</h6>
-                                            <p>{reportData ? reportData.reportTitle : null}</p>
+                                        <Col xl={12}>
+                                            <h6>Nama Dosen</h6>
                                         </Col>
-                                        <Col xl={2}>
-                                            <h6>Periode</h6>
-                                            <p>{reportData ? reportData.period : null}</p>
-                                        </Col>
-                                        <Col xl={2}>
-                                            <h6>Tahun Ajaran</h6>
-                                            <p>{reportData ? reportData.ta : null}</p>
-                                        </Col>
-                                        <Col xl={3}>
-                                            <h6>Last Update</h6>
-                                            <p>{formatDate(reportData ? reportData.updatedAt : null)}</p>
+                                        <Col xl={12}>
+                                            <p>{devotionData ? devotionData.Lecturer.name : null}</p>
                                         </Col>
                                     </Row>
-                                    <Row style={{ marginTop: '20px' }}>
+                                    <Row>
+                                        <Col xl={12}>
+                                            <h6>Judul Pengabdian</h6>
+                                        </Col>
+                                        <Col xl={12}>
+                                            <p>{devotionData ? devotionData.devotionName : null}</p>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col xl={4}>
+                                            <h6>Peran Dalam Pengabdian</h6>
+                                            <p>{devotionData ? devotionData.devotionRole : null}</p>
+                                        </Col>
+                                        <Col xl={4}>
+                                            <h6>Periode</h6>
+                                            <p>{devotionData ? devotionData.devotionPeriod : null}</p>
+                                        </Col>
+                                        <Col xl={4}>
+                                            <h6>Tahun Ajaran</h6>
+                                            <p>{devotionData ? devotionData.academicYear : null}</p>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col xl={12}>
+                                            <h6>Deskripsi Pengabdian</h6>
+                                        </Col>
+                                        <Col xl={12}>
+                                            <p>{devotionData ? devotionData.devotionDescription : null}</p>
+                                        </Col>
+                                    </Row>
+                                    <Row>
                                         <Col xl={12}>
                                             <h6>Dokumen Pendukung</h6>
                                         </Col>
                                         <Col xl={6}>
                                             <div style={{ display: 'flex', gap: '10px', padding: '15px 10px', background: '#FEF2F3', borderRadius: '4px', zIndex: '999', width: 'fit-content' }}>
                                                 <Image src={UploadIcon} style={{ width: '15px' }} />
-                                                <p style={{ margin: 'auto 0', color: '#292929', fontSize: '14px' }}>{reportData ? reportData.reportFile : null}</p>
-                                                <Image
+                                                <p style={{ margin: 'auto 0', color: '#292929', fontSize: '14px' }}>{devotionData ? devotionData.devotionFile : null}</p>
+                                                <Image 
                                                     src={DownloadIcon} style={{ width: '16px', marginLeft: '40px', cursor: 'pointer' }}
-                                                    onClick={() => handleDownload(`http://localhost:8080/${reportData ? reportData.reportFile : null}`, reportData ? reportData.reportFile : null)}
+                                                    onClick={() => handleDownload(`http://localhost:8080/${devotionData ? devotionData.devotionFile : null}`, devotionData ? devotionData.devotionFile : null)}
                                                 />
                                             </div>
                                         </Col>
@@ -158,35 +169,31 @@ const SuperadminDetailReport = () => {
                                 </div>
                             </div>
                         </Col>
-                    </Row>
-                    <Row className="detail-research-wrapper">
-                        <Col xl={12}>
+                        <Col xl={3}>
                             <div style={{ padding: '16px', backgroundColor: '#FFFFFF', borderRadius: '8px', marginTop: '20px' }}>
                                 <Row>
                                     <Col xl={12} className="d-flex justify-content-start align-items-center">
-                                        <h5 style={{ fontSize: '14px', fontWeight: '700', color: '#292929', margin: 'auto 0' }}>Catatan</h5>
+                                        <h5 style={{ fontSize: '14px', fontWeight: '700', color: '#292929', margin: 'auto 0' }}>Nilai Penelitian</h5>
                                     </Col>
                                 </Row>
-                                <div className="research-table-content mt-4">
-                                    <Row className="table-head">
-                                        <Col xl={3}>
-                                            <h6 style={{ color: '#292929' }}>Tanggal</h6>
-                                        </Col>
-                                        <Col xl={9} className="text-center d-flex justify-content-start">
-                                            <h6 style={{ color: '#292929' }}>Catatan</h6>
-                                        </Col>
-                                    </Row>
-                                    <hr style={{ marginTop: '10px' }}/>
-                                </div>
+                                <Row className="mt-4">
+                                    <Col xl={12} className="d-flex justify-content-start align-items-center">
+                                        {devotionData && devotionData.devotionValue? (
+                                            <p style={{ color: '#292929', fontSize: '24px', fontWeight: '700' }}>{devotionData.devotionValue}</p>
+                                        ) : (
+                                            <p style={{ color: '#989898' }}>Pengabdian Belum Dinilai</p>
+                                        )}
+                                    </Col>
+                                </Row>
                             </div>
                         </Col>
                     </Row>
                 </Container>
             </div>
-        </SuperadminDashboardLayout>
+        </LecturerDashboardLayout>
 
     );
 
 };
 
-export default SuperadminDetailReport;
+export default DevotionDetail;

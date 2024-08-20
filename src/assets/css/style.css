@@ -58,10 +58,13 @@ body, html {
 }
 
 #side-bar-content .side-bar-menu-item .dashboard,
-#side-bar-content .side-bar-menu-item .lecturer-research,
+#side-bar-content .side-bar-menu-item .lecturer-devotion,
 #side-bar-content .side-bar-menu-item .lecturer-profile,
+#side-bar-content .side-bar-menu-item .lecturer-assignment,
+#side-bar-content .side-bar-menu-item .lecturer-list,
 #side-bar-content .side-bar-menu-item .superadmin-profile,
-#side-bar-content .side-bar-menu-item .superadmin-research,
+#side-bar-content .side-bar-menu-item .superadmin-devotion,
+#side-bar-content .side-bar-menu-item .superadmin-assignment,
 #side-bar-content .side-bar-menu-item .superadmin-lecturer,
 #side-bar-content .side-bar-menu-item .superadmin-report{
     :hover{
@@ -78,6 +81,53 @@ body, html {
 }
 
 /* ------ End Side Bar Content ------*/
+
+/* ============================================ */
+
+
+
+/* ============================================ */
+
+/* ------ Dropdown Content ------*/
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-button {
+    height: 45px;
+    cursor: pointer;
+    color: var(--font-color-white);
+    background-color: #292929 !important;
+    font-size: 14px !important;
+}
+
+.dropdown-menu {
+    display: block;
+    position: absolute;
+    top: 110%;
+    left: 0;
+    background-color: var(--font-color-white);
+    border: none;
+    box-shadow: 0 8px 16px rgba(197, 197, 197, 0.25);
+    width: 100%;
+    font-size: 14px;
+    padding: 8px;
+    color: var(--font-color-grey);
+}
+
+.dropdown-menu-item {
+    padding: 10px 0;
+    cursor: pointer;
+}
+
+.dropdown-menu-item:hover {
+    background-color: #FAFAFA;
+    border-radius: 6px;
+}
+
+/* ------ End Dropdown Content ------*/
 
 /* ============================================ */
 
@@ -224,6 +274,27 @@ body, html {
     color: var(--font-color-grey);
 }
 
+#lecturer-profile-content .history-table-head{
+    margin-top: 12px;
+    padding: 16px 12px;
+}
+
+#lecturer-profile-content .history-table-head h1{
+    margin: auto 0;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+#lecturer-profile-content .history-table-body{
+    margin-top: 12px;
+    padding: 16px 12px;
+}
+
+#lecturer-profile-content .history-table-body p{
+    margin: auto 0;
+    font-size: 14px;
+}
+
 #update-profile-content{
     margin-top: 20px;
     height: 100%;
@@ -338,6 +409,10 @@ body, html {
     cursor: pointer;
 }
 
+#research-content .add-research-content .form-search::placeholder{
+    color: #E0E0E0;
+}
+
 #add-research-content,
 #update-research-content,
 #detail-research-content{
@@ -387,8 +462,6 @@ body, html {
     font-size: 16px;
     color: var(--font-color-black);
 }
-
-
 
 /* ------ End Research Content ------*/
 

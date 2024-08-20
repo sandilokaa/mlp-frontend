@@ -11,13 +11,13 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 
-import SuperadminDashboardLayout from "../../../layouts/dashboard/SuperadminDashboardLayout";
+import SuperadminDashboardLayout from "../../../../layouts/dashboard/SuperadminDashboardLayout";
 
-import ArrowLeft from "../../../assets/images/icons/arrow-left.svg";
+import ArrowLeft from "../../../../assets/images/icons/arrow-left.svg";
 
-import "../../../assets/css/style.css";
+import "../../../../assets/css/style.css";
 
-const SuperadminUpdateProfile = () => {
+const DeanUpdateProfile = () => {
 
     /* -------------------- Global Variable -------------------- */
 
@@ -85,23 +85,28 @@ const SuperadminUpdateProfile = () => {
 
     const nipField = useRef();
     const nameField = useRef();
-    const majorField = useRef();
     const genderField = useRef();
     const placeBirthField = useRef();
     const addressField = useRef();
     const phoneNumberField = useRef();
+
     const universityBachelorField = useRef();
     const gpaBachelorField = useRef();
     const titleBachelorField = useRef();
     const expertiseBachelorField = useRef();
+    const majorBachelorField = useRef();
+
     const universityMagisterField = useRef();
     const gpaMagisterField = useRef();
     const titleMagisterField = useRef();
     const expertiseMagisterField = useRef();
+    const majorMagisterField = useRef();
+
     const universityDoctorField = useRef();
     const gpaDoctorField = useRef();
     const titleDoctorField = useRef();
     const expertiseDoctorField = useRef();
+    const majorDoctorField = useRef();
 
     const onUpdateProfile = async () => {
 
@@ -112,7 +117,6 @@ const SuperadminUpdateProfile = () => {
             const profilePayload = {
                 nip: nipField.current.value,
                 name: nameField.current.value,
-                major: majorField.current.value,
                 gender: genderField.current.value,
                 address: addressField.current.value,
                 phoneNumber: phoneNumberField.current.value,
@@ -123,18 +127,21 @@ const SuperadminUpdateProfile = () => {
                     gpa: gpaBachelorField.current.value,
                     title: titleBachelorField.current.value,
                     expertise: expertiseBachelorField.current.value,
+                    major: majorBachelorField.current.value
                 },
                 magister: {
                     university: universityMagisterField.current.value,
                     gpa: gpaMagisterField.current.value,
                     title: titleMagisterField.current.value,
-                    expertise: expertiseMagisterField.current.value
+                    expertise: expertiseMagisterField.current.value,
+                    major: majorMagisterField.current.value
                 },
                 doctor: {
                     university: universityDoctorField.current.value,
                     gpa: gpaDoctorField.current.value,
                     title: titleDoctorField.current.value,
-                    expertise: expertiseDoctorField.current.value
+                    expertise: expertiseDoctorField.current.value,
+                    major: majorDoctorField.current.value
                 },
             };
 
@@ -155,7 +162,7 @@ const SuperadminUpdateProfile = () => {
 
             if (updateProfileResponse.status) {
 
-                navigate("/superadmin/profile")
+                navigate("/dean/profile")
 
             }
 
@@ -178,7 +185,7 @@ const SuperadminUpdateProfile = () => {
                 <Container fluid style={{ padding: '0 32px' }}>
                     <Row className="update-profile-title">
                         <Col xl={12} className="d-flex align-items-center">
-                            <Image onClick={() => navigate('/superadmin/profile')} src={ArrowLeft} style={{ marginRight: '16px', cursor: 'pointer' }} />
+                            <Image onClick={() => navigate('/dean/profile')} src={ArrowLeft} style={{ marginRight: '16px', cursor: 'pointer' }} />
                             <h1>Edit Profile</h1>
                         </Col>
                     </Row>
@@ -221,14 +228,14 @@ const SuperadminUpdateProfile = () => {
                                             <Col xl={4}>
                                                 <div>
                                                     <Form.Group controlId="exampleForm.ControlInput1">
-                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Jurusan <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
+                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Jabatan <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
                                                         <Form.Control 
                                                             type="text" 
                                                             placeholder="Masukan Jurusan" 
                                                             autoComplete="off" 
-                                                            style={{ fontSize: '14px' }}
-                                                            defaultValue={superadminData.SuperAdminEducation ? superadminData.SuperAdminEducation.major : null}
-                                                            ref={majorField}
+                                                            style={{ fontSize: '14px', background:'#F5F6F8' }}
+                                                            value="Dekan"
+                                                            readOnly
                                                         />
                                                     </Form.Group>
                                                 </div>
@@ -380,7 +387,7 @@ const SuperadminUpdateProfile = () => {
                                             </Col>
                                         </Row>
                                         <Row className="mt-3">
-                                            <Col xl={6}>
+                                            <Col xl={4}>
                                                 <div>
                                                     <Form.Group controlId="exampleForm.ControlInput1">
                                                         <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Judul Skripsi <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
@@ -394,7 +401,21 @@ const SuperadminUpdateProfile = () => {
                                                     </Form.Group>
                                                 </div>
                                             </Col>
-                                            <Col xl={6}>
+                                            <Col xl={4}>
+                                                <div>
+                                                    <Form.Group controlId="exampleForm.ControlInput1">
+                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Jurusan <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
+                                                        <Form.Control 
+                                                            type="text" 
+                                                            placeholder="Masukan Jurusan" 
+                                                            autoComplete="off" style={{ fontSize: '14px' }} 
+                                                            defaultValue={superadminData.SuperAdminEducation?.bachelor ? JSON.parse(superadminData.SuperAdminEducation.bachelor)?.major : null}
+                                                            ref={majorBachelorField}
+                                                        />
+                                                    </Form.Group>
+                                                </div>
+                                            </Col>
+                                            <Col xl={4}>
                                                 <div>
                                                     <Form.Group controlId="exampleForm.ControlInput1">
                                                         <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Keahlian <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
@@ -465,7 +486,7 @@ const SuperadminUpdateProfile = () => {
                                             </Col>
                                         </Row>
                                         <Row className="mt-3">
-                                            <Col xl={6}>
+                                            <Col xl={4}>
                                                 <div>
                                                     <Form.Group controlId="exampleForm.ControlInput1">
                                                         <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Judul Thesis <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
@@ -480,7 +501,21 @@ const SuperadminUpdateProfile = () => {
                                                     </Form.Group>
                                                 </div>
                                             </Col>
-                                            <Col xl={6}>
+                                            <Col xl={4}>
+                                                <div>
+                                                    <Form.Group controlId="exampleForm.ControlInput1">
+                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Jurusan <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
+                                                        <Form.Control 
+                                                            type="text" 
+                                                            placeholder="Masukan Jurusan" 
+                                                            autoComplete="off" style={{ fontSize: '14px' }} 
+                                                            defaultValue={superadminData.SuperAdminEducation?.magister ? JSON.parse(superadminData.SuperAdminEducation.magister)?.major : null}
+                                                            ref={majorMagisterField}
+                                                        />
+                                                    </Form.Group>
+                                                </div>
+                                            </Col>
+                                            <Col xl={4}>
                                                 <div>
                                                     <Form.Group controlId="exampleForm.ControlInput1">
                                                         <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Keahlian <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
@@ -551,7 +586,7 @@ const SuperadminUpdateProfile = () => {
                                             </Col>
                                         </Row>
                                         <Row className="mt-3">
-                                            <Col xl={6}>
+                                            <Col xl={4}>
                                                 <div>
                                                     <Form.Group controlId="exampleForm.ControlInput1">
                                                         <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Judul Distertasi <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
@@ -566,7 +601,21 @@ const SuperadminUpdateProfile = () => {
                                                     </Form.Group>
                                                 </div>
                                             </Col>
-                                            <Col xl={6}>
+                                            <Col xl={4}>
+                                                <div>
+                                                    <Form.Group controlId="exampleForm.ControlInput1">
+                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Jurusan <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
+                                                        <Form.Control 
+                                                            type="text" 
+                                                            placeholder="Masukan Jurusan" 
+                                                            autoComplete="off" style={{ fontSize: '14px' }} 
+                                                            defaultValue={superadminData.SuperAdminEducation?.doctor ? JSON.parse(superadminData.SuperAdminEducation.doctor)?.major : null}
+                                                            ref={majorDoctorField}
+                                                        />
+                                                    </Form.Group>
+                                                </div>
+                                            </Col>
+                                            <Col xl={4}>
                                                 <div>
                                                     <Form.Group controlId="exampleForm.ControlInput1">
                                                         <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Keahlian <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
@@ -607,4 +656,4 @@ const SuperadminUpdateProfile = () => {
 
 };
 
-export default SuperadminUpdateProfile;
+export default DeanUpdateProfile;

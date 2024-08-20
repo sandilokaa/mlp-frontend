@@ -10,7 +10,6 @@ import axios from "axios";
 
 import UserProfile from "../../assets/images/icons/profile.svg";
 import ArrowDownBlack from "../../assets/images/icons/arrow-down-b.svg";
-import ArrowDownWhite from "../../assets/images/icons/arrow-down.svg";
 
 import "../../assets/css/style.css";
 
@@ -80,9 +79,8 @@ const NavbarDashboard = () => {
                         <Image src={UserProfile} />
                         <p style={{ margin: 'auto 0', fontSize: '14px' }}>{lecturer.name}</p>
                     </div>
-                    <div className="d-flex align-items-center" style={{ margin: 'auto 0', padding: ' 5px 10px', background: '#292929', color: '#FFFFFF', borderRadius: '4px', gap: '13px' }}>
-                        <p style={{ margin: 'auto 0', fontSize: '14px' }}>Production and Manufacturing System</p>
-                        <Image src={ArrowDownWhite}/>
+                    <div className="d-flex align-items-center" style={{ margin: 'auto 0', padding: ' 5px 10px', background: '#292929', color: '#FFFFFF', borderRadius: '4px' }}>
+                        <p style={{ margin: 'auto 0', fontSize: '14px' }}>{lecturer.groupName}</p>
                     </div>
                 </Col>
             </Row>

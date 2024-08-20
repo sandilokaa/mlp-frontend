@@ -11,13 +11,13 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 
-import SuperadminDashboardLayout from "../../../layouts/dashboard/SuperadminDashboardLayout";
+import SuperadminDashboardLayout from "../../../../layouts/dashboard/SuperadminDashboardLayout";
 
-import ArrowLeft from "../../../assets/images/icons/arrow-left.svg";
+import ArrowLeft from "../../../../assets/images/icons/arrow-left.svg";
 
-import "../../../assets/css/style.css";
+import "../../../../assets/css/style.css";
 
-const SuperadminAddLecturer = () => {
+const ExpertiseGroupAddLecturer = () => {
 
     /* -------------------- Global Variable -------------------- */
 
@@ -65,7 +65,7 @@ const SuperadminAddLecturer = () => {
 
             if (createLecturerResponse.status) {
 
-                navigate("/superadmin/lecturer/list");
+                navigate("/expertisegroup/lecturer/list");
 
             }
             
@@ -86,7 +86,7 @@ const SuperadminAddLecturer = () => {
                 <Container fluid style={{ padding: '0 32px' }}>
                     <Row className="add-research-title">
                         <Col xl={12} className="d-flex align-items-center">
-                            <Image onClick={() => navigate('/superadmin/lecturer/list')} src={ArrowLeft} style={{ marginRight: '16px', cursor: 'pointer' }} />
+                            <Image onClick={() => navigate('/expertisegroup/lecturer/list')} src={ArrowLeft} style={{ marginRight: '16px', cursor: 'pointer' }} />
                             <h1>Tambah Dosen</h1>
                         </Col>
                     </Row>
@@ -140,4 +140,4 @@ const SuperadminAddLecturer = () => {
 
 };
 
-export default SuperadminAddLecturer;
+export default ExpertiseGroupAddLecturer;

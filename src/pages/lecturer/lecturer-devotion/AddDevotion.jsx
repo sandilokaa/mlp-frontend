@@ -19,7 +19,7 @@ import CloseIcon from "../../../assets/images/icons/Close.svg";
 
 import "../../../assets/css/style.css";
 
-const AddResearch = () => {
+const AddDevotion = () => {
 
     /* -------------------- Global Variable -------------------- */
 
@@ -51,37 +51,41 @@ const AddResearch = () => {
     };
 
     const handleRemoveFile = (fileName) => {
-        setFiles(prevFiles => prevFiles.filter(file => file.name !== fileName));
+        setFiles([]);
+        document.getElementById('fileInput').value = '';
     };
 
     /* --------- End Upload File ---------*/
     
 
-    /* -------------------- Handle Create Research -------------------- */
+    /* -------------------- Handle Create Devotion -------------------- */
 
-    const titleField = useRef();
-    const categoryField = useRef();
-    const periodField = useRef();
-    const taField = useRef();
+    const devotionNameField = useRef();
+    const devotionRoleField = useRef();
+    const devotionPeriodField = useRef();
+    const academicYearField = useRef();
+    const devotionDescriptionField = useRef();
 
-    const onCreateResearch = async () => {
+    const onCreateDevotion = async () => {
 
         try {
 
             const token = localStorage.getItem("token");
 
-            const researchPayload = new FormData();
-            researchPayload.append("title", titleField.current.value);
-            researchPayload.append("category", categoryField.current.value);
-            researchPayload.append("period", periodField.current.value);
-            researchPayload.append("ta", taField.current.value);
+            const devotionPayload = new FormData();
+            devotionPayload.append("devotionName", devotionNameField.current.value);
+            devotionPayload.append("devotionRole", devotionRoleField.current.value);
+            devotionPayload.append("devotionPeriod", devotionPeriodField.current.value);
+            devotionPayload.append("academicYear", academicYearField.current.value);
+            devotionPayload.append("devotionDescription", devotionDescriptionField.current.value);
             files.forEach((file) => {
-                researchPayload.append(`researchFile`, file);
+                devotionPayload.append(`devotionFile`, file);
             });
+            
 
-            const researchPayloadRequest = await axios.post(
-                `http://localhost:8080/api/v1/lecturer/research`,
-                researchPayload,
+            const devotionPayloadRequest = await axios.post(
+                `http://localhost:8080/api/v1/lecturer/devotion`,
+                devotionPayload,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -91,13 +95,13 @@ const AddResearch = () => {
                 }
             );
 
-            const researchPayloadResponse = researchPayloadRequest.data;
+            const devotionPayloadResponse = devotionPayloadRequest.data;
 
-            enqueueSnackbar(researchPayloadResponse.message, { variant: 'success', anchorOrigin: { vertical: 'top', horizontal: 'center' }, autoHideDuration: 2000 });
+            enqueueSnackbar(devotionPayloadResponse.message, { variant: 'success', anchorOrigin: { vertical: 'top', horizontal: 'center' }, autoHideDuration: 2000 });
 
-            if (researchPayloadResponse.status) {
+            if (devotionPayloadResponse.status) {
 
-                navigate("/lecturer/research");
+                navigate("/lecturer/devotion");
 
             }
 
@@ -109,7 +113,7 @@ const AddResearch = () => {
 
     };
 
-    /* -------------------- End Handle Create Research -------------------- */
+    /* -------------------- End Handle Create Devotion -------------------- */
 
 
     return (
@@ -119,22 +123,22 @@ const AddResearch = () => {
                 <Container fluid style={{ padding: '0 32px' }}>
                     <Row className="add-research-title">
                         <Col xl={12} className="d-flex align-items-center">
-                            <Image onClick={() => navigate('/lecturer/research')} src={ArrowLeft} style={{ marginRight: '16px', cursor: 'pointer' }} />
-                            <h1>Tambah Penelitan</h1>
+                            <Image onClick={() => navigate('/lecturer/devotion')} src={ArrowLeft} style={{ marginRight: '16px', cursor: 'pointer' }} />
+                            <h1>Tambah Pengabdian</h1>
                         </Col>
                     </Row>
                     <Row className="form-research">
                         <Col xl={12}>
                             <div style={{ background: '#FFFFFF', padding: '16px', borderRadius: '8px' }}>
-                                <h1>Roadmap Penelitian</h1>
+                                <h1>Formulir Pengabdian</h1>
                                 <div className="form-research-input">
                                     <Form>
                                         <Row>
                                             <Col xl={12}>
                                                 <div>
                                                     <Form.Group controlId="exampleForm.ControlInput1">
-                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Judul Penelitian <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
-                                                        <Form.Control type="text" placeholder="Masukan Judul Penelitian" autoComplete="off" style={{ fontSize: '14px' }} ref={titleField}/>
+                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Nama pengabdian <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
+                                                        <Form.Control type="text" placeholder="Masukan nama pengabdian" autoComplete="off" style={{ fontSize: '14px' }} ref={devotionNameField}/>
                                                     </Form.Group>
                                                 </div>
                                             </Col>
@@ -143,24 +147,24 @@ const AddResearch = () => {
                                             <Col xl={4}>
                                                 <div>
                                                     <Form.Group controlId="exampleForm.ControlInput2">
-                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Kategori Penelitian <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
-                                                        <Form.Control type="text" placeholder="Masukan Kategori Penelitian" autoComplete="off" style={{ fontSize: '14px' }} ref={categoryField}/>
+                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Peran dalam pengabdian <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
+                                                        <Form.Control type="text" placeholder="Masukan peran" autoComplete="off" style={{ fontSize: '14px' }} ref={devotionRoleField}/>
                                                     </Form.Group>
                                                 </div>
                                             </Col>
                                             <Col xl={4}>
                                                 <div>
                                                     <Form.Group controlId="exampleForm.ControlInput3">
-                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Periode Penelitian <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
-                                                        <Form.Control type="text" placeholder="Masukan Periode Penelitian" autoComplete="off" style={{ fontSize: '14px' }} ref={periodField}/>
+                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Periode pengabdian <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
+                                                        <Form.Control type="text" placeholder="Masukan periode" autoComplete="off" style={{ fontSize: '14px' }} ref={devotionPeriodField}/>
                                                     </Form.Group>
                                                 </div>
                                             </Col>
                                             <Col xl={4}>
                                                 <div>
                                                     <Form.Group controlId="exampleForm.ControlInput4">
-                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Tahun Ajaran <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
-                                                        <Form.Control type="text" placeholder="Masukan Tahun Ajaran" autoComplete="off" style={{ fontSize: '14px' }} ref={taField}/>
+                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Tahun ajaran <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
+                                                        <Form.Control type="text" placeholder="Masukan tahun ajaran" autoComplete="off" style={{ fontSize: '14px' }} ref={academicYearField}/>
                                                     </Form.Group>
                                                 </div>
                                             </Col>
@@ -168,8 +172,19 @@ const AddResearch = () => {
                                         <Row className="mt-3">
                                             <Col xl={12}>
                                                 <div>
+                                                    <Form.Group controlId="exampleForm.ControlInput2">
+                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Deskripsi pengabdian <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
+                                                        <Form.Control type="text" placeholder="Masukan deskripsi" autoComplete="off" style={{ fontSize: '14px' }} ref={devotionDescriptionField}/>
+                                                    </Form.Group>
+                                                </div>
+                                            </Col>
+                                        </Row>
+
+                                        <Row className="mt-3">
+                                            <Col xl={12}>
+                                                <div>
                                                     <Form.Group>
-                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Upload Dokumen Penelitian <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
+                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Upload lampiran pengabdian <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
                                                         <div
                                                             className="form-upload"
                                                             style={{ padding: '30px', border: '1px solid #EFEFEF', borderRadius: '8px', cursor: 'pointer' }}
@@ -189,8 +204,8 @@ const AddResearch = () => {
                                                                         <Col xl={12} className="d-flex justify-content-start">
                                                                             <div style={{display:'flex', gap: '10px' , padding: '5px 10px', background: '#FAFAFA', borderRadius: '4px', zIndex: '999'}}>
                                                                                 <Image src={UploadIcon} style={{width: '15px'}}/>
-                                                                                <p style={{ margin: 'auto 0', color: '#292929' }}>{files.map(file => file.name).join(', ')}</p>
-                                                                                <Image key={files.name} onClick={() => handleRemoveFile(files.name)} src={CloseIcon} style={{width: '15px', marginLeft: '40px'}}/>
+                                                                                <p style={{ margin: 'auto 0', color: '#292929' }}>{files[0].name}</p>
+                                                                                <Image key={files[0].name} onClick={() => handleRemoveFile(files[0].name)} src={CloseIcon} style={{width: '15px', marginLeft: '40px'}}/>
                                                                             </div>
                                                                         </Col>
                                                                     ) : (
@@ -212,7 +227,7 @@ const AddResearch = () => {
                                         </Row>
                                         <Row className="mt-4">
                                             <Col xl={12} className="d-flex justify-content-end">
-                                                <Button onClick={onCreateResearch} style={{ background: '#D62C35', border: 'none', fontSize: '16px' }}> Tambah Penelitian </Button>
+                                                <Button onClick={onCreateDevotion} style={{ background: '#D62C35', border: 'none', fontSize: '16px' }}> Tambah Pengabdian </Button>
                                             </Col>
                                         </Row>
                                     </Form>
@@ -228,4 +243,4 @@ const AddResearch = () => {
 
 };
 
-export default AddResearch;
+export default AddDevotion;

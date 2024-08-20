@@ -1,28 +1,30 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
     Container,
     Row,
     Col,
-    Image,
-    Button
+    Image
 } from "react-bootstrap";
 import axios from "axios";
 
 import LecturerDashboardLayout from "../../../layouts/dashboard/LecturerDashboardLayout";
-
-import EducationIcon from "../../../assets/images/icons/briefcase-2.svg";
+import ArrowLeft from "../../../assets/images/icons/arrow-left.svg";
 
 import "../../../assets/css/style.css";
 
-const LecturerProfile = () => {
+const OtherLecturerDetail = () => {
 
     const navigate = useNavigate();
 
     /* ================ Get Lecturer Data ================ */
 
+
     const [lecturerData, setLecturerData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const params = useLocation();
+
+    const id = (params.pathname).split('/')[4];
 
     const lecturerDetailData = async () => {
 
@@ -31,7 +33,7 @@ const LecturerProfile = () => {
             const token = localStorage.getItem("token");
 
             const getDataRequest = await axios.get(
-                `http://localhost:8080/api/v1/lecturer`,
+                `http://localhost:8080/api/v1/lecturer/group/${id}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -40,7 +42,7 @@ const LecturerProfile = () => {
                 }
             );
 
-            const getDataResponse = await getDataRequest.data.data.getDetailLecture;
+            const getDataResponse = await getDataRequest.data.data.getLecturerDetail;
 
             setLecturerData(getDataResponse);
             setLoading(false);
@@ -92,6 +94,12 @@ const LecturerProfile = () => {
             <div id="lecturer-profile-content">
                 <Container fluid style={{ padding: '0 20px 0 32px' }}>
                     <Row>
+                        <Col xl={12} className="d-flex align-items-center">
+                            <Image onClick={() => navigate('/lecturer/list')} src={ArrowLeft} style={{ marginRight: '16px', cursor: 'pointer' }} />
+                            <h1 style={{ fontSize: '16px', fontWeight: '700', margin: 'auto 0' }}>Data Dosen</h1>
+                        </Col>
+                    </Row>
+                    <Row className="mt-4">
                         <Col xl={6} style={{ padding: '20px', background: '#FFFFFF', borderRadius: '8px', height: 'fit-content' }}>
                             <div>
                                 <h1 style={{ fontSize: '14px', fontWeight: '700' }}>Profile Dosen</h1>
@@ -100,14 +108,6 @@ const LecturerProfile = () => {
                                 <Row>
                                     <Col xl={3}>
                                         <div className="photo-wrapper" style={{ height: '150px', width: '100%', background: '#989898' }}></div>
-                                        <div className="mt-3" style={{ marginLeft: '4px', marginRight: '4px' }}>
-                                            <Button
-                                                onClick={() => navigate(`/lecturer/profile/update/${lecturerData ? lecturerData.lecturerId : null}`)}
-                                                style={{ fontSize: '14px', border: 'none', backgroundColor: '#D62C35', width: '100%' }}
-                                            >
-                                                Edit Profile
-                                            </Button>
-                                        </div>
                                     </Col>
                                     <Col xl={8}>
                                         <div className="profile-general-information">
@@ -213,7 +213,7 @@ const LecturerProfile = () => {
                                     <div className="work-assessment">
                                         <Row>
                                             <Col xl={6}>
-                                                <h6 style={{ marginTop: '12px', fontSize: '10px', color: '#989898'}}>Nilai</h6>
+                                                <h6 style={{ marginTop: '12px', fontSize: '10px', color: '#989898' }}>Nilai</h6>
                                                 {lecturerData && lecturerData.averageValue ? (
                                                     <p style={{ fontSize: '14px', color: '#292929' }}>{lecturerData.averageValue}</p>
                                                 ) : (
@@ -221,7 +221,7 @@ const LecturerProfile = () => {
                                                 )}
                                             </Col>
                                             <Col xl={6}>
-                                                <h6 style={{ marginTop: '12px', fontSize: '10px', color: '#989898'}}>Predikat</h6>
+                                                <h6 style={{ marginTop: '12px', fontSize: '10px', color: '#989898' }}>Predikat</h6>
                                                 {
                                                     lecturerData && parseFloat(lecturerData.averageValue) > 0 ? (
                                                         <p style={{ fontSize: '14px', color: '#292929' }}>Cukup Baik</p>
@@ -240,107 +240,91 @@ const LecturerProfile = () => {
                                 </Col>
                                 <Col xl={12} style={{ padding: '20px', background: '#FFFFFF', borderRadius: '8px', height: 'fit-content', marginTop: '20px' }}>
                                     <div>
-                                        <h1 style={{ fontSize: '14px', fontWeight: '700' }}>Riwayat Pendidikan</h1>
+                                        <h1 style={{ fontSize: '14px', fontWeight: '700' }}>Riwayat Pengabdian</h1>
                                     </div>
-                                    <div className="education-history">
+                                    <div className="history-table-head">
                                         <Row>
-                                            <Col xl={12}>
-                                                <Image src={EducationIcon} />
-                                            </Col>
-                                        </Row>
-                                        <Row>
-                                            <Col xl={12}>
-                                                <h6>S3 - {lecturerData.LecturerEducation?.doctor ? JSON.parse(lecturerData.LecturerEducation.doctor)?.major : null}</h6>
-                                            </Col>
-                                        </Row>
-                                        <Row>
-                                            <Col xl={12}>
-                                                <h5>{lecturerData.LecturerEducation?.doctor ? JSON.parse(lecturerData.LecturerEducation.doctor)?.university : null}</h5>
-                                            </Col>
-                                        </Row>
-                                        <Row className="mt-1">
-                                            <Col xl={2}>
-                                                <p>Disertasi</p>
+                                            <Col xl={1}>
+                                                <h1>No</h1>
                                             </Col>
                                             <Col xl={9}>
-                                                <p>{lecturerData.LecturerEducation?.doctor ? JSON.parse(lecturerData.LecturerEducation.doctor)?.title : null}</p>
+                                                <h1>Judul Pengabdian</h1>
                                             </Col>
-                                        </Row>
-                                        <Row>
-                                            <Col xl={2}>
-                                                <p>Expertise</p>
-                                            </Col>
-                                            <Col xl={9}>
-                                                <p>{lecturerData.LecturerEducation?.doctor ? JSON.parse(lecturerData.LecturerEducation.doctor)?.expertise : null}</p>
+                                            <Col xl={2} className="text-center">
+                                                <h1>Skor</h1>
                                             </Col>
                                         </Row>
                                     </div>
-                                    <div className="education-history" style={{ backgroundColor: '#FAFAFA' }}>
+                                    <hr />
+                                    {
+                                        lecturerData?.Devotions?.length > 0 ? (
+                                            lecturerData.Devotions.map((devotion, index) => {
+                                                const displayIndex = (index + 1).toString().padStart(2, '0');
+
+                                                return (
+                                                    <div className="history-table-body" key={devotion.id}>
+                                                        <Row>
+                                                            <Col xl={1}>
+                                                                <p>{displayIndex}</p>
+                                                            </Col>
+                                                            <Col xl={9}>
+                                                                <p>{devotion.devotionName}</p>
+                                                            </Col>
+                                                            <Col xl={2} className="text-center">
+                                                                <p>{devotion.devotionValue}</p>
+                                                            </Col>
+                                                        </Row>
+                                                    </div>
+                                                )
+                                            })
+                                        ) : (
+                                            <p style={{ fontSize: '14px' }}><span style={{ color: '#EA4D55' }}>*</span> Belum ada pengabdian.</p>
+                                        )
+                                    }
+                                </Col>
+                                <Col xl={12} style={{ padding: '20px', background: '#FFFFFF', borderRadius: '8px', height: 'fit-content', marginTop: '20px' }}>
+                                    <div>
+                                        <h1 style={{ fontSize: '14px', fontWeight: '700' }}>Riwayat Penugasan</h1>
+                                    </div>
+                                    <div className="history-table-head">
                                         <Row>
-                                            <Col xl={12}>
-                                                <Image src={EducationIcon} />
-                                            </Col>
-                                        </Row>
-                                        <Row>
-                                            <Col xl={12}>
-                                                <h6>S2 - {lecturerData.LecturerEducation?.magister ? JSON.parse(lecturerData.LecturerEducation.magister)?.major : null}</h6>
-                                            </Col>
-                                        </Row>
-                                        <Row>
-                                            <Col xl={12}>
-                                                <h5>{lecturerData.LecturerEducation?.magister ? JSON.parse(lecturerData.LecturerEducation.magister)?.university : null}</h5>
-                                            </Col>
-                                        </Row>
-                                        <Row className="mt-1">
-                                            <Col xl={2}>
-                                                <p>Thesis</p>
+                                            <Col xl={1}>
+                                                <h1>No</h1>
                                             </Col>
                                             <Col xl={9}>
-                                                <p>{lecturerData.LecturerEducation?.magister ? JSON.parse(lecturerData.LecturerEducation.magister)?.title : null}</p>
+                                                <h1>Judul Penugasan</h1>
                                             </Col>
-                                        </Row>
-                                        <Row>
-                                            <Col xl={2}>
-                                                <p>Expertise</p>
-                                            </Col>
-                                            <Col xl={9}>
-                                                <p>{lecturerData.LecturerEducation?.magister ? JSON.parse(lecturerData.LecturerEducation.magister)?.expertise : null}</p>
+                                            <Col xl={2} className="text-center">
+                                                <h1>Skor</h1>
                                             </Col>
                                         </Row>
                                     </div>
-                                    <div className="education-history">
-                                        <Row>
-                                            <Col xl={12}>
-                                                <Image src={EducationIcon} />
-                                            </Col>
-                                        </Row>
-                                        <Row>
-                                            <Col xl={12}>
-                                                <h6>S1 - {lecturerData.LecturerEducation?.bachelor ? JSON.parse(lecturerData.LecturerEducation.bachelor)?.major : null}</h6>
-                                            </Col>
-                                        </Row>
-                                        <Row>
-                                            <Col xl={12}>
-                                                <h5>{lecturerData.LecturerEducation?.bachelor ? JSON.parse(lecturerData.LecturerEducation.bachelor)?.university : null}</h5>
-                                            </Col>
-                                        </Row>
-                                        <Row className="mt-1">
-                                            <Col xl={2}>
-                                                <p>Skripsi</p>
-                                            </Col>
-                                            <Col xl={9}>
-                                                <p>{lecturerData.LecturerEducation?.bachelor ? JSON.parse(lecturerData.LecturerEducation.bachelor)?.title : null}</p>
-                                            </Col>
-                                        </Row>
-                                        <Row>
-                                            <Col xl={2}>
-                                                <p>Expertise</p>
-                                            </Col>
-                                            <Col xl={9}>
-                                                <p>{lecturerData.LecturerEducation?.bachelor ? JSON.parse(lecturerData.LecturerEducation.bachelor)?.expertise : null}</p>
-                                            </Col>
-                                        </Row>
-                                    </div>
+                                    <hr />
+                                    {
+                                        lecturerData?.Assignments?.length > 0 ? (
+                                            lecturerData.Assignments.map((assignment, index) => {
+                                                const displayIndex = (index + 1).toString().padStart(2, '0');
+
+                                                return (
+                                                    <div className="history-table-body" key={assignment.id}>
+                                                        <Row>
+                                                            <Col xl={1}>
+                                                                <p>{displayIndex}</p>
+                                                            </Col>
+                                                            <Col xl={9}>
+                                                                <p>{assignment.assignmentName}</p>
+                                                            </Col>
+                                                            <Col xl={2} className="text-center">
+                                                                <p>{assignment.assignmentValue}</p>
+                                                            </Col>
+                                                        </Row>
+                                                    </div>
+                                                )
+                                            })
+                                        ) : (
+                                            <p style={{ fontSize: '14px' }}><span style={{ color: '#EA4D55' }}>*</span> Belum ada pengabdian.</p>
+                                        )
+                                    }
                                 </Col>
                             </div>
                         </Col>
@@ -353,4 +337,4 @@ const LecturerProfile = () => {
 
 };
 
-export default LecturerProfile;
+export default OtherLecturerDetail;

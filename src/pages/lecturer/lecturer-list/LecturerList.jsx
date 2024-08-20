@@ -4,20 +4,20 @@ import {
     Container,
     Row,
     Col,
-    Button,
     Image,
-    Pagination
+    Pagination,
+    Form
 } from "react-bootstrap";
 import axios from "axios";
 
-import SuperadminDashboardLayout from "../../../layouts/dashboard/SuperadminDashboardLayout";
+import LecturerDashboardLayout from "../../../layouts/dashboard/LecturerDashboardLayout";
+import CustomDropdown from "../../../components/dropdown/DropdownLecturer";
 
 import ViewIcon from "../../../assets/images/icons/eye.svg";
-import ExportIcon from "../../../assets/images/icons/export.svg";
 
 import "../../../assets/css/style.css";
 
-const SuperadminResearch = () => {
+const LectureListGroup = () => {
 
 
     /* -------------------- Global Variable -------------------- */
@@ -27,76 +27,43 @@ const SuperadminResearch = () => {
     /* -------------------- End Global Variable -------------------- */
 
 
-    /* ================ Get Current User ================ */
+    /* ================ Get Lecturer Data ================ */
 
-    const [superadmin, setSuperadmin] = useState({});
-    const [isRefresh, setIsRefresh] = useState(false);
+    const [lecturerData, setLecturerData] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchTermGroup, setSearchTermGroup] = useState('');
 
-    useEffect(() => {
+    const handleSearchChange = (event) => {
+        setSearchTerm(event.target.value);
+    };
+    
+    const handleSearchGroupName = (option) => {
+        setSearchTermGroup(option);
+    };
 
-        const validateLogin = async () => {
-
-            try {
-
-                const token = localStorage.getItem("token");
-
-                const currentSuperadminRequest = await axios.get(
-                    `http://localhost:8080/api/v1/auth/superadmin/me`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    }
-                );
-
-                const currentSuperadminResponse = currentSuperadminRequest.data;
-
-                if (currentSuperadminResponse.status) {
-
-                    setSuperadmin(currentSuperadminResponse.data.currentUser);
-
-                }
-
-            } catch (err) {
-
-                console.log(err.message);
-
-            }
-
-        };
-
-        validateLogin();
-
-        setIsRefresh(false);
-
-    }, [isRefresh]);
-
-    /* ================ Get Current User ================ */
-
-
-    /* ================ Get Research Data ================ */
-
-    const [researchData, setResearchData] = useState([]);
-
-    const getResearchData = async () => {
+    const getLecturerData = async () => {
 
         try {
 
             const token = localStorage.getItem("token");
 
             const getDataRequest = await axios.get(
-                `http://localhost:8080/api/v1/superadmin/${superadmin.id}/research`,
+                `http://localhost:8080/api/v1/lecturer/group`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
                         "Access-Control-Allo-Origin": "*"
+                    },
+                    params: {
+                        name: searchTerm,
+                        groupName: searchTermGroup
                     }
                 }
             );
 
-            const getDataResponse = await getDataRequest.data.data.getResearch;
+            const getDataResponse = await getDataRequest.data.data.getLecturer;
 
-            setResearchData(getDataResponse);
+            setLecturerData(getDataResponse);
 
         } catch (err) {
             console.log(err);
@@ -106,24 +73,27 @@ const SuperadminResearch = () => {
 
     useEffect(() => {
 
-        getResearchData();
+        getLecturerData();
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [searchTerm, searchTermGroup]);
 
-    /* ================ End Get Research Data ================ */
+    /* ================ End Get Lecturer Data ================ */
+
+
+    /* ================ Pagination ================ */
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(4);
+    const [itemsPerPage] = useState(5);
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = researchData.slice(indexOfFirstItem, indexOfLastItem);
+    const currentItems = lecturerData.slice(indexOfFirstItem, indexOfLastItem);
 
     const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
     const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(researchData.length / itemsPerPage); i++) {
+    for (let i = 1; i <= Math.ceil(lecturerData.length / itemsPerPage); i++) {
         pageNumbers.push(i);
     }
 
@@ -132,21 +102,32 @@ const SuperadminResearch = () => {
 
     return (
 
-        <SuperadminDashboardLayout>
+        <LecturerDashboardLayout>
             <div id="research-content">
                 <Container fluid style={{ padding: '0 32px' }}>
                     <div className="add-research-content">
                         <Row>
                             <Col xl={12}>
-                                <h1 style={{ fontSize: '16px', fontWeight: '700' }}>Daftar Penelitian</h1>
+                                <h1 style={{ fontSize: '16px', fontWeight: '700' }}>Daftar Dosen</h1>
                             </Col>
                         </Row>
                         <Row>
-                            <Col xl={2} className="mt-4">
-                                <Button style={{ width: '120px', fontSize: '14px' }}>Export <Image src={ExportIcon} style={{ marginLeft: '8px', width: '20px', }} /></Button>
+                            <Col xl={4} className="mt-4 d-flex align-items-center">
+                                <CustomDropdown
+                                    onChange={handleSearchGroupName}
+                                />
                             </Col>
-                            <Col xl={{ span: 3, offset: 7 }} className="mt-4 d-flex justify-content-end">
-                                <p>Search Query</p>
+                            <Col xl={{ span: 3, offset: 5 }} className="mt-4 d-flex justify-content-end align-items-center">
+                                <Form>
+                                    <Form.Control
+                                        className="form-search"
+                                        placeholder="Search"
+                                        aria-label="Search"
+                                        aria-describedby="basic-addon1"
+                                        style={{ height: '45px', width: '250px' }}
+                                        onChange={handleSearchChange}
+                                    />
+                                </Form>
                             </Col>
                         </Row>
                     </div>
@@ -155,14 +136,11 @@ const SuperadminResearch = () => {
                             <Col xl={1}>
                                 <h6>No</h6>
                             </Col>
-                            <Col xl={4}>
-                                <h6>Judul Penelitian</h6>
-                            </Col>
-                            <Col xl={2} className="text-center">
+                            <Col xl={5}>
                                 <h6>Nama Dosen</h6>
                             </Col>
-                            <Col xl={2} className="text-center">
-                                <h6>Kategori</h6>
+                            <Col xl={3} className="text-center">
+                                <h6>Kelompok Keahlian</h6>
                             </Col>
                             <Col xl={2} className="text-center">
                                 <h6>Skor</h6>
@@ -172,36 +150,34 @@ const SuperadminResearch = () => {
                             </Col>
                         </Row>
                         <hr style={{ marginTop: '10px' }} />
-                        {currentItems.map((research, index) => {
+
+                        {currentItems.map((lecturer, index) => {
 
                             const displayIndex = (index + 1).toString().padStart(2, '0');
 
                             return (
-                                <Row className="table-body" key={research.id}>
-                                    <div className="d-flex align-items-center" style={{ padding: '16px', backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FAFAFA' }}>
+                                <Row className="table-body" key={lecturer.id}>
+                                    <div className="d-flex align-items-center" style={{ padding: '16px 15px', backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FAFAFA' }}>
                                         <Col xl={1}>
                                             <h6>{displayIndex}</h6>
                                         </Col>
-                                        <Col xl={4}>
-                                            <h6>{research.title}</h6>
+                                        <Col xl={5}>
+                                            <h6>{lecturer.Lecturer.name}</h6>
                                         </Col>
-                                        <Col xl={2} className="text-center">
-                                            <h6>{research.LecturerDetail.Lecturer.name}</h6>
-                                        </Col>
-                                        <Col xl={2} className="text-center" style={{ marginLeft: '8px' }}>
-                                            <h6>{research.category}</h6>
+                                        <Col xl={3} className="text-center" style={{ marginLeft: '5px' }}>
+                                            <h6>{lecturer.Lecturer.groupName}</h6>
                                         </Col>
                                         <Col xl={2} className="text-center" style={{ marginLeft: '5px' }}>
-                                            {research.ResearchValue && research.ResearchValue.value ? (
-                                                <h6>{research.ResearchValue.value}</h6>
+                                            {lecturer && lecturer.averageValue ? (
+                                                <h6>{lecturer.averageValue}</h6>
                                             ) : (
-                                                <h6>Perlu dinilai</h6>
+                                                <h6><span style={{ color: '#EA4D55' }}>*</span> Belum dinilai</h6>
                                             )}
                                         </Col>
-                                        <Col xl={1} className="text-center" style={{ marginLeft: '4px' }}>
+                                        <Col xl={1} className="text-center" style={{ marginLeft: '3px' }}>
                                             <Row style={{ display: 'flex', padding: '0', margin: '0' }}>
                                                 <Col xl={12} className="d-flex justify-content-center p-0">
-                                                    <span className="view" onClick={() => navigate(`/superadmin/research/detail/${research.id}`)}>
+                                                    <span className="view" onClick={() => navigate(`/lecturer/list/detail/${lecturer.id}`)}>
                                                         <Image src={ViewIcon} />
                                                     </span>
                                                 </Col>
@@ -226,10 +202,10 @@ const SuperadminResearch = () => {
                     </Pagination>
                 </Container>
             </div>
-        </SuperadminDashboardLayout>
+        </LecturerDashboardLayout>
 
     );
 
 };
 
-export default SuperadminResearch;
+export default LectureListGroup;
