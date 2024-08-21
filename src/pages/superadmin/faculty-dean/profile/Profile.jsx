@@ -10,6 +10,7 @@ import {
 import axios from "axios";
 
 import SuperadminDashboardLayout from "../../../../layouts/dashboard/SuperadminDashboardLayout";
+import ProfileImage from "../../../../assets/images/profile.png";
 
 import EducationIcon from "../../../../assets/images/icons/briefcase-2.svg";
 
@@ -100,7 +101,9 @@ const DeanProfile = () => {
                             <div className="profile-personal">
                                 <Row>
                                     <Col xl={3}>
-                                        <div className="photo-wrapper" style={{ height: '150px', width: '100%', background: '#989898' }}></div>
+                                        <div className="photo-wrapper" style={{ height: '150px', width: '100%', background: '#989898' }}>
+                                            <Image src={ProfileImage} style={{width: '100%', height: '100%'}}/>
+                                        </div>
                                         <div className="mt-3" style={{ marginLeft: '4px', marginRight: '4px' }}>
                                             <Button
                                                 onClick={() => navigate(`/dean/profile/update/${superadminData ? superadminData.superAdminId : null}`)}

@@ -42,6 +42,7 @@ import DeanUpdateProfile from "./pages/superadmin/faculty-dean/profile/UpdatePro
 import DeanLecturerList from "./pages/superadmin/faculty-dean/lecturer-list/LecturerList";
 import DeanLecturerDetail from "./pages/superadmin/faculty-dean/lecturer-list/LecturerDetail";
 import DeanReport from "./pages/superadmin/faculty-dean/report/Report";
+import DeanReportDetail from "./pages/superadmin/faculty-dean/report/ReportDetail";
 
 const roots = document.getElementById("root");
 const root = createRoot(roots);
@@ -117,6 +118,9 @@ root.render(
           <Route path=":id" element={<DeanLecturerDetail />}/>
         </Route>
         <Route path="/dean/report" element={<DeanReport />}></Route>
+        <Route path="/dean/report/detail/" element={<DeanReportDetail />}>
+          <Route path=":id" element={<DeanReportDetail />}/>
+        </Route>
 
       </Routes>
     </SnackbarProvider>

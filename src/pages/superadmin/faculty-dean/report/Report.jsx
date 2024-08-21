@@ -8,6 +8,7 @@ import {
     Pagination
 } from "react-bootstrap";
 import axios from "axios";
+import moment from "moment-timezone";
 
 import SuperadminDashboardLayout from "../../../../layouts/dashboard/SuperadminDashboardLayout";
 
@@ -82,7 +83,7 @@ const DeanReport = () => {
             const token = localStorage.getItem("token");
 
             const getDataRequest = await axios.get(
-                `http://localhost:8080/api/v1/superadmin/${superadmin.id}/report`,
+                `http://localhost:8080/api/v1/superadmin/report`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -131,6 +132,15 @@ const DeanReport = () => {
 
     /* ================ End Pagination ================ */
 
+    /* ================ Format Date ================ */
+
+    const formatDate = (dateString) => {
+        const date = moment(dateString).tz('Asia/Jakarta');
+        return date.format('D-M-YYYY HH:mm');
+    };
+
+    /* ================ End Format Date ================ */
+
 
     return (
 
@@ -174,18 +184,18 @@ const DeanReport = () => {
                                             <h6>{displayIndex}</h6>
                                         </Col>
                                         <Col xl={5}>
-                                            <h6>{report.reportTitle}</h6>
+                                            <h6>{report.reportName}</h6>
                                         </Col>
-                                        <Col xl={3} className="text-center">
-                                            <h6>{report.period}</h6>
+                                        <Col xl={3} className="text-center" style={{ marginLeft: '5px' }}>
+                                            <h6>{report.SuperAdmin.groupName}</h6>
                                         </Col>
-                                        <Col xl={2} className="text-center">
-                                            <h6>{report.period}</h6>
+                                        <Col xl={2} className="text-center" style={{ marginLeft: '5px' }}>
+                                            <h6>{formatDate(report.updatedAt)}</h6>
                                         </Col>
-                                        <Col xl={1} className="text-center" style={{ marginLeft: '5px' }}>
+                                        <Col xl={1} className="text-center" style={{ marginLeft: '3px' }}>
                                             <Row style={{ display: 'flex', padding: '0', margin: '0' }}>
                                                 <Col xl={12} className="d-flex justify-content-center p-0">
-                                                    <span className="view" onClick={() => navigate(`/expertisegroup/report/detail/${report.id}`)}>
+                                                    <span className="view" onClick={() => navigate(`/dean/report/detail/${report.id}`)}>
                                                         <Image src={ViewIcon} />
                                                     </span>
                                                 </Col>

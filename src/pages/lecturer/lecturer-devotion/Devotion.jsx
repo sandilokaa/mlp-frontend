@@ -174,7 +174,8 @@ const LectureDevotion = () => {
                                 display: 'flex',
                                 alignItems: 'center',
                                 borderRadius: '8px',
-                                marginLeft: '5px'
+                                marginLeft: '5px',
+                                height: '54px'
                             };
 
                             const displayIndex = (index + 1).toString().padStart(2, '0');

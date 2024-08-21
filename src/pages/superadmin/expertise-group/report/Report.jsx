@@ -166,7 +166,7 @@ const ExpertiseGroupReport = () => {
                                 <h6>Judul Laporan</h6>
                             </Col>
                             <Col xl={2} className="text-center">
-                                <h6>Period</h6>
+                                <h6>Periode</h6>
                             </Col>
                             <Col xl={2} className="text-center">
                                 <h6>Tahun Ajaran</h6>
@@ -185,7 +185,7 @@ const ExpertiseGroupReport = () => {
 
                             return (
                                 <Row className="table-body" key={report.id}>
-                                    <div className="d-flex align-items-center" style={{ padding: '16px 15px', backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FAFAFA' }}>
+                                    <div className="d-flex align-items-center" style={{ padding: '16px 15px', backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FAFAFA', height: '54px' }}>
                                         <Col xl={1}>
                                             <h6>{displayIndex}</h6>
                                         </Col>
@@ -198,7 +198,7 @@ const ExpertiseGroupReport = () => {
                                         <Col xl={2} className="text-center" style={{ marginLeft: '5px' }}>
                                             <h6>{report.academicYear}</h6>
                                         </Col>
-                                        <Col xl={2} className="text-center d-flex justify-content-center" style={{ marginLeft: '5px' }}>
+                                        <Col xl={2} className="text-center d-flex justify-content-center" style={{ marginLeft: '6px' }}>
                                             {
                                                 report.reportStatus === "Selesai" ? (
                                                     <div style={{ backgroundColor: '#EEFBF2', padding: '10px' }}>
@@ -207,7 +207,7 @@ const ExpertiseGroupReport = () => {
                                                 ) :
                                                     report.reportStatus === "New Comment" ?
                                                         (
-                                                            <h6 style={{ fontSize: '10px', color: '#24A560', backgroundColor: '#EEFBF2', padding: '4px' }}>New Comment</h6>
+                                                            <h6 style={{ fontSize: '10px', color: '#EA4D55', backgroundColor: '#FEF2F3', padding: '4px' }}>New Comment</h6>
                                                         ) :
                                                         report.reportStatus === "Dalam Review" ? (
                                                             <div style={{ backgroundColor: '#F6F3FF', padding: '10px', borderRadius: '6px', width: 'fit-content' }}>

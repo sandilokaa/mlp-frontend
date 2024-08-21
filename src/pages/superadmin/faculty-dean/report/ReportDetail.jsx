@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
 import {
     Container,
     Row,
     Col,
-    Image
+    Image,
+    Button
 } from "react-bootstrap";
 import fileDownload from 'js-file-download';
 import axios from "axios";
@@ -12,18 +14,18 @@ import moment from "moment-timezone";
 
 import SuperadminDashboardLayout from "../../../../layouts/dashboard/SuperadminDashboardLayout";
 import ArrowLeft from "../.././../../assets/images/icons/arrow-left.svg";
-import EditIcon from "../../../../assets/images/icons/edit.svg";
 import UploadIcon from "../../../../assets/images/icons/document-upload-red.svg";
 import DownloadIcon from "../../../../assets/images/icons/iconoir_download.svg";
 
 import "../../../../assets/css/style.css";
 
-const ExpertiseGroupDetailReport = () => {
+const DeanReportDetail = () => {
 
 
     /* -------------------- Global Variable -------------------- */
 
     const navigate = useNavigate();
+    const { enqueueSnackbar } = useSnackbar();
 
     /* -------------------- End Global Variable -------------------- */
 
@@ -109,6 +111,60 @@ const ExpertiseGroupDetailReport = () => {
     /* --------- End Get Note By Report Id ---------*/
 
 
+    /* --------- Update Report Done ---------*/
+
+    const onDoneReportUpdate = async () => {
+
+        try {
+
+            const token = localStorage.getItem("token");
+
+            const updateReportRequest = await axios.post(
+                `http://localhost:8080/api/v1/superadmin/note/done`,
+                {
+                    reportId: id
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Access-Control-Allow-Origin": "*",
+                    },
+                }
+            );
+
+
+            const updateReportResponse = updateReportRequest.data;
+
+            enqueueSnackbar(updateReportResponse.message, { variant: 'success', anchorOrigin: { vertical: 'top', horizontal: 'center' }, autoHideDuration: 2000 });
+
+            if (updateReportResponse.status) {
+
+                navigate("/dean/report");
+
+            }
+
+        } catch (err) {
+
+            enqueueSnackbar(err.message, { variant: 'error', anchorOrigin: { vertical: 'top', horizontal: 'center' }, autoHideDuration: 2000 });
+
+        }
+
+    };
+
+    /* --------- End Update Report Done ---------*/
+
+
+    /* --------- Create Report ---------*/
+
+    const [isEditing, setIsEditing] = useState(false);
+
+    const handleEditClick = () => {
+        setIsEditing(true);
+    };
+
+    /* --------- End Create Report ---------*/
+
+
     /* ================ Download File ================ */
 
     const handleDownload = (url, filename) => {
@@ -145,7 +201,7 @@ const ExpertiseGroupDetailReport = () => {
                 <Container fluid style={{ padding: '0 32px' }}>
                     <Row className="detail-research-title">
                         <Col xl={12} className="d-flex align-items-center">
-                            <Image onClick={() => navigate('/expertisegroup/report')} src={ArrowLeft} style={{ marginRight: '16px', cursor: 'pointer' }} />
+                            <Image onClick={() => navigate('/dean/report')} src={ArrowLeft} style={{ marginRight: '16px', cursor: 'pointer' }} />
                             <h1>Detail Laporan</h1>
                         </Col>
                     </Row>
@@ -153,11 +209,8 @@ const ExpertiseGroupDetailReport = () => {
                         <Col xl={12}>
                             <div style={{ padding: '16px', backgroundColor: '#FFFFFF', borderRadius: '8px', marginTop: '20px' }}>
                                 <Row>
-                                    <Col xl={10} className="d-flex justify-content-start align-items-center">
+                                    <Col xl={12} className="d-flex justify-content-start align-items-center">
                                         <h5 style={{ fontSize: '14px', fontWeight: '700', color: '#292929', margin: 'auto 0' }}>Informasi Penelitian</h5>
-                                    </Col>
-                                    <Col xl={2} className="d-flex justify-content-end align-items-center">
-                                        <Image src={EditIcon} style={{ width: '20px', cursor: 'pointer' }} onClick={() => navigate(`/expertisegroup/report/update/${id}`)} />
                                     </Col>
                                 </Row>
                                 <div style={{ gap: '20px', marginTop: '20px' }}>
@@ -206,32 +259,62 @@ const ExpertiseGroupDetailReport = () => {
                                         <h5 style={{ fontSize: '14px', fontWeight: '700', color: '#292929', margin: 'auto 0' }}>Catatan</h5>
                                     </Col>
                                 </Row>
-                                <div className="research-table-content mt-4">
-                                    <Row className="table-head">
-                                        <Col xl={3}>
-                                            <h6 style={{ color: '#292929' }}>Tanggal</h6>
-                                        </Col>
-                                        <Col xl={9} className="text-center d-flex justify-content-start">
-                                            <h6 style={{ color: '#292929' }}>Catatan</h6>
+                                {noteData && noteData.length > 0 ? (
+                                    <div className="research-table-content mt-4">
+                                        <Row className="table-head">
+                                            <Col xl={3}>
+                                                <h6 style={{ color: '#292929' }}>Tanggal</h6>
+                                            </Col>
+                                            <Col xl={9} className="text-center d-flex justify-content-start">
+                                                <h6 style={{ color: '#292929' }}>Catatan</h6>
+                                            </Col>
+                                        </Row>
+                                        <hr style={{ marginTop: '10px' }} />
+                                        {noteData.slice().reverse().map((note, index) => {
+                                            return (
+                                                <Row className="table-body" key={`${note.createdAt}-${index}`}>
+                                                    <div className="d-flex align-items-center" style={{ padding: '16px 20px', backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FAFAFA', height: '54px' }}>
+                                                        <Col xl={3}>
+                                                            <h6 style={{ color: '#292929', fontSize: '14px', margin: 'auto 10px' }}>{formatDate(note.createdAt)}</h6>
+                                                        </Col>
+                                                        <Col xl={9}>
+                                                            <h6 style={{ color: '#292929', fontSize: '14px', margin: 'auto 10px' }}>{note.note}</h6>
+                                                        </Col>
+                                                    </div>
+                                                </Row>
+                                            )
+                                        })}
+                                    </div>
+                                ) : (
+                                    <Row className="mt-4">
+                                        <Col xl={12} className="text-center">
+                                            <p style={{ fontSize: '16px', color: '#989898', margin: 'auto 0' }}>Belum ada catatan ditambahkan</p>
                                         </Col>
                                     </Row>
-                                    <hr style={{ marginTop: '10px' }} />
-                                    {noteData && noteData.map((note, index) => {
+                                )}
 
-                                        return (
-                                            <Row className="table-body" key={note.id}>
-                                                <div className="d-flex align-items-center" style={{ padding: '16px 20px', backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FAFAFA', height: '54px' }}>
-                                                    <Col xl={3}>
-                                                        <h6 style={{color: '#292929', fontSize: '14px', margin: 'auto 10px'}}>{formatDate(note.createdAt)}</h6>
-                                                    </Col>
-                                                    <Col xl={9}>
-                                                        <h6 style={{color: '#292929', fontSize: '14px', margin: 'auto 10px'}}>{note.note}</h6>
-                                                    </Col>
-                                                </div>
-                                            </Row>
-                                        )
-                                    })}
-                                </div>
+                                {isEditing ? (
+                                    <Row> Halo</Row>
+                                ) : (
+                                    <Row className="mt-4">
+                                        <Col xl={6} className="d-flex justify-content-end align-items-center">
+                                            <Button
+                                                onClick={() => onDoneReportUpdate()}
+                                                style={{ backgroundColor: '#D62C35', border: '1px solid #D62C35' }}
+                                            >
+                                                Tandai Selesai
+                                            </Button>
+                                        </Col>
+                                        <Col xl={6} className="d-flex align-items-center p-0">
+                                            <Button
+                                                onClick={handleEditClick}
+                                                style={{ backgroundColor: 'transparent', border: '1px solid #D62C35', color: '#D62C35' }}
+                                            >
+                                                Tambahkan Catatan
+                                            </Button>
+                                        </Col>
+                                    </Row>
+                                )}
                             </div>
                         </Col>
                     </Row>
@@ -243,4 +326,4 @@ const ExpertiseGroupDetailReport = () => {
 
 };
 
-export default ExpertiseGroupDetailReport;
+export default DeanReportDetail;
