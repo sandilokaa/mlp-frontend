@@ -49,7 +49,7 @@ body, html {
     font-size: 14px;
 }
 
-#side-bar-content .logout-icon{
+.logout-icon{
     color: var(--font-color-grey);
 }
 

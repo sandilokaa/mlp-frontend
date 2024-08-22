@@ -206,32 +206,39 @@ const ExpertiseGroupDetailReport = () => {
                                         <h5 style={{ fontSize: '14px', fontWeight: '700', color: '#292929', margin: 'auto 0' }}>Catatan</h5>
                                     </Col>
                                 </Row>
-                                <div className="research-table-content mt-4">
-                                    <Row className="table-head">
-                                        <Col xl={3}>
-                                            <h6 style={{ color: '#292929' }}>Tanggal</h6>
-                                        </Col>
-                                        <Col xl={9} className="text-center d-flex justify-content-start">
-                                            <h6 style={{ color: '#292929' }}>Catatan</h6>
+                                {noteData && noteData.length > 0 ? (
+                                    <div className="research-table-content mt-4">
+                                        <Row className="table-head">
+                                            <Col xl={3}>
+                                                <h6 style={{ color: '#292929' }}>Tanggal</h6>
+                                            </Col>
+                                            <Col xl={9} className="text-center d-flex justify-content-start">
+                                                <h6 style={{ color: '#292929' }}>Catatan</h6>
+                                            </Col>
+                                        </Row>
+                                        <hr style={{ marginTop: '10px' }} />
+                                        {noteData.slice().reverse().map((note, index) => {
+                                            return (
+                                                <Row className="table-body" key={`${note.createdAt}-${index}`} style={{ padding: '0 12px' }}>
+                                                    <div className="d-flex align-items-center" style={{ padding: '16px 10px', backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FAFAFA', height: '54px', borderRadius: '6px' }}>
+                                                        <Col xl={3}>
+                                                            <h6 style={{ color: '#292929', fontSize: '14px', margin: 'auto 10px' }}>{formatDate(note.createdAt)}</h6>
+                                                        </Col>
+                                                        <Col xl={9}>
+                                                            <h6 style={{ color: '#292929', fontSize: '14px', margin: 'auto 10px' }}>{note.note}</h6>
+                                                        </Col>
+                                                    </div>
+                                                </Row>
+                                            )
+                                        })}
+                                    </div>
+                                ) : (
+                                    <Row className="mt-4">
+                                        <Col xl={12} className="text-center">
+                                            <p style={{ fontSize: '16px', color: '#989898', margin: 'auto 0' }}>Belum ada catatan ditambahkan</p>
                                         </Col>
                                     </Row>
-                                    <hr style={{ marginTop: '10px' }} />
-                                    {noteData && noteData.map((note, index) => {
-
-                                        return (
-                                            <Row className="table-body" key={note.id}>
-                                                <div className="d-flex align-items-center" style={{ padding: '16px 20px', backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FAFAFA', height: '54px' }}>
-                                                    <Col xl={3}>
-                                                        <h6 style={{color: '#292929', fontSize: '14px', margin: 'auto 10px'}}>{formatDate(note.createdAt)}</h6>
-                                                    </Col>
-                                                    <Col xl={9}>
-                                                        <h6 style={{color: '#292929', fontSize: '14px', margin: 'auto 10px'}}>{note.note}</h6>
-                                                    </Col>
-                                                </div>
-                                            </Row>
-                                        )
-                                    })}
-                                </div>
+                                )}
                             </div>
                         </Col>
                     </Row>

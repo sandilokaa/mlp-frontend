@@ -174,6 +174,7 @@ const AddAssignment = () => {
                                                                 id="fileInput"
                                                                 onChange={handleFileChange}
                                                                 style={{ display: 'none' }}
+                                                                accept=".pdf"
                                                             />
                                                             <Row>
                                                                 {

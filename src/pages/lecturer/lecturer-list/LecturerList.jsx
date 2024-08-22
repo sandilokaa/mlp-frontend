@@ -156,18 +156,18 @@ const LectureListGroup = () => {
                             const displayIndex = (index + 1).toString().padStart(2, '0');
 
                             return (
-                                <Row className="table-body" key={lecturer.id}>
-                                    <div className="d-flex align-items-center" style={{ padding: '16px 15px', backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FAFAFA', height: '54px' }}>
+                                <Row className="table-body" key={lecturer.id} style={{padding: '12px'}}>
+                                    <div className="d-flex align-items-center" style={{ padding: '16px', backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FAFAFA' }}>
                                         <Col xl={1}>
                                             <h6>{displayIndex}</h6>
                                         </Col>
-                                        <Col xl={5}>
+                                        <Col xl={5} style={{ marginLeft: '1px' }}>
                                             <h6>{lecturer.Lecturer.name}</h6>
                                         </Col>
                                         <Col xl={3} className="text-center" style={{ marginLeft: '5px' }}>
                                             <h6>{lecturer.Lecturer.groupName}</h6>
                                         </Col>
-                                        <Col xl={2} className="text-center" style={{ marginLeft: '5px' }}>
+                                        <Col xl={2} className="text-center" style={{ marginLeft: '3px' }}>
                                             {lecturer && lecturer.averageValue ? (
                                                 <h6>{lecturer.averageValue}</h6>
                                             ) : (

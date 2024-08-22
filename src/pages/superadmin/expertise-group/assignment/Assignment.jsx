@@ -10,8 +10,11 @@ import {
     Form
 } from "react-bootstrap";
 import axios from "axios";
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 import SuperadminDashboardLayout from "../../../../layouts/dashboard/SuperadminDashboardLayout";
+import LogoImage from "../../../../assets/images/logo.png";
 
 import ViewIcon from "../../../../assets/images/icons/eye.svg";
 import ExportIcon from "../../../../assets/images/icons/export.svg";
@@ -122,6 +125,80 @@ const ExpertiseGroupAssignment = () => {
 
     /* ================ End Get Devotion Data ================ */
 
+
+    /* ================ Export Assignment Data ================ */
+
+    const exportAssignmentData = async () => {
+
+        const today = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const formattedDate = today.toLocaleDateString('id-ID', options);
+
+        if (assignmentData) {
+
+            const doc = new jsPDF();
+
+            /* ------ Set Title ------ */
+
+            const marginTop = 20;
+
+            const imgData = LogoImage;
+            const imgWidth = 50; 
+            const imgHeight = 30;
+            doc.addImage(imgData, 'PNG', 12, marginTop, imgWidth, imgHeight);
+            
+            const textXPosition = 20 + imgWidth + 10;
+
+            doc.setFont('Times-Bold');
+            doc.setFontSize(16);
+            doc.text('Laporan Penugasan Dosen', textXPosition, marginTop + 10);
+
+            doc.setFont('Times-Roman');
+            doc.setFontSize(12);
+            doc.text('Jalan Bandung Raya, Kota Bandung', textXPosition, marginTop + 18);
+
+            doc.setFont('Times-Italic');
+            doc.setFontSize(12);
+            doc.text(formattedDate, textXPosition, marginTop + 25);
+
+            /* ------ End Set Title ------ */
+
+            /* ------ Set Table ------ */
+
+            const tableData = []
+
+            tableData.push(['No', 'Judul Pengabdian', 'Nama Dosen', 'Email', 'Skor']);
+
+            assignmentData.map((item, index) => {
+                return tableData.push([index + 1, item.assignmentName, item.Lecturer.name, item.Lecturer.email, item.assignmentValue]);
+            });
+
+            const startY = 60;
+
+            doc.autoTable({
+                head: tableData.slice(0, 1), 
+                body: tableData.slice(1),
+                startY: startY,
+                margin: { top: startY + 15 },
+                theme: 'grid',
+                headStyles: { fillColor: [0, 0, 0] },
+                alternateRowStyles: { fillColor: [235, 235, 235] },
+            });
+
+            /* ------ End Set Table ------ */
+
+            /* ------ Unduh dokumen PDF ------ */
+
+            doc.save('data-penugasan.pdf', { autoDownload: false });
+
+        }
+    };
+
+    /* ================ End Export Devotion Data ================ */
+
+
+    /* ================ Pagination ================ */
+
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(4);
 
@@ -146,12 +223,17 @@ const ExpertiseGroupAssignment = () => {
                     <div className="add-research-content">
                         <Row>
                             <Col xl={12}>
-                                <h1 style={{ fontSize: '16px', fontWeight: '700' }}>Daftar Pengabdian</h1>
+                                <h1 style={{ fontSize: '16px', fontWeight: '700' }}>Daftar Penugasan</h1>
                             </Col>
                         </Row>
                         <Row>
                             <Col xl={2} className="mt-4">
-                                <Button style={{ width: '120px', height: '100%', fontSize: '14px' }}>Export <Image src={ExportIcon} style={{ marginLeft: '8px', width: '20px', }} /></Button>
+                                <Button 
+                                    style={{ width: '120px', height: '100%', fontSize: '14px' }}
+                                    onClick={exportAssignmentData}
+                                >
+                                    Export <Image src={ExportIcon} style={{ marginLeft: '8px', width: '20px', }} />
+                                </Button>
                             </Col>
                             <Col xl={{ span: 3, offset: 7 }} className="mt-4 d-flex justify-content-end">
                                 <Form>
@@ -194,8 +276,8 @@ const ExpertiseGroupAssignment = () => {
                             const displayIndex = (index + 1).toString().padStart(2, '0');
 
                             return (
-                                <Row className="table-body" key={assignment.id}>
-                                    <div className="d-flex align-items-center" style={{ padding: '16px 20px', backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FAFAFA', height: '54px' }}>
+                                <Row className="table-body" key={assignment.id} style={{padding: '12px'}}>
+                                    <div className="d-flex align-items-center" style={{ padding: '16px 20px', backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FAFAFA' }}>
                                         <Col xl={1}>
                                             <h6>{displayIndex}</h6>
                                         </Col>

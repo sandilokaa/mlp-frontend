@@ -170,18 +170,17 @@ const LecturerAssignment = () => {
 
                             const colStyle = {
                                 backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FAFAFA',
-                                padding: '16px 10px',
+                                padding: '16px 12px',
                                 display: 'flex',
                                 alignItems: 'center',
                                 borderRadius: '8px',
-                                marginLeft: '5px',
-                                height: '54px'
+                                marginLeft: '5px'
                             };
 
                             const displayIndex = (index + 1).toString().padStart(2, '0');
 
                             return (
-                                <Row className="table-body" key={assignment.id}>
+                                <Row className="table-body" key={assignment.id} style={{padding: '12px'}}>
                                     <div style={colStyle}>
                                         <Col xl={1}>
                                             <h6>{displayIndex}</h6>

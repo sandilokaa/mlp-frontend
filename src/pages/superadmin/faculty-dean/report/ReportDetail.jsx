@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 import {
@@ -6,7 +6,8 @@ import {
     Row,
     Col,
     Image,
-    Button
+    Button,
+    Form
 } from "react-bootstrap";
 import fileDownload from 'js-file-download';
 import axios from "axios";
@@ -161,6 +162,51 @@ const DeanReportDetail = () => {
     const handleEditClick = () => {
         setIsEditing(true);
     };
+    
+    const handleCancelClick = () => {
+        setIsEditing(false);
+    };
+
+    const noteField = useRef();
+
+    const onCreateNote = async () => {
+
+        try {
+
+            const token = localStorage.getItem("token");
+
+            const createNoteRequest = await axios.post(
+                `http://localhost:8080/api/v1/superadmin/note`,
+                {
+                    note: noteField.current.value,
+                    reportId: id
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Access-Control-Allow-Origin": "*",
+                    },
+                }
+            );
+
+
+            const createNoteResponse = createNoteRequest.data;
+
+            enqueueSnackbar(createNoteResponse.message, { variant: 'success', anchorOrigin: { vertical: 'top', horizontal: 'center' }, autoHideDuration: 2000 });
+
+            if (createNoteResponse.status) {
+
+                navigate("/dean/report");
+
+            }
+
+        } catch (err) {
+
+            enqueueSnackbar(err.message, { variant: 'error', anchorOrigin: { vertical: 'top', horizontal: 'center' }, autoHideDuration: 2000 });
+
+        }
+
+    };
 
     /* --------- End Create Report ---------*/
 
@@ -272,8 +318,8 @@ const DeanReportDetail = () => {
                                         <hr style={{ marginTop: '10px' }} />
                                         {noteData.slice().reverse().map((note, index) => {
                                             return (
-                                                <Row className="table-body" key={`${note.createdAt}-${index}`}>
-                                                    <div className="d-flex align-items-center" style={{ padding: '16px 20px', backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FAFAFA', height: '54px' }}>
+                                                <Row className="table-body" key={`${note.createdAt}-${index}`} style={{ padding: '0 12px' }}>
+                                                    <div className="d-flex align-items-center" style={{ padding: '16px 10px', backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FAFAFA', height: '54px', borderRadius: '6px' }}>
                                                         <Col xl={3}>
                                                             <h6 style={{ color: '#292929', fontSize: '14px', margin: 'auto 10px' }}>{formatDate(note.createdAt)}</h6>
                                                         </Col>
@@ -294,26 +340,53 @@ const DeanReportDetail = () => {
                                 )}
 
                                 {isEditing ? (
-                                    <Row> Halo</Row>
+                                    <Row className="table-body mt-4" style={{ padding: '0 12px' }}>
+                                        <Col xl={12} className="align-items-center" style={{ padding: '16px 20px', backgroundColor: '#FAFAFA', borderRadius: '6px' }}>
+                                            <h5 style={{ fontSize: '14px', fontWeight: '700', color: '#292929', margin: 'auto 0' }}>Tambah Catatan</h5>
+                                            <div className="mt-3">
+                                                <Form.Group controlId="exampleForm.ControlInput1">
+                                                    <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Catatan <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
+                                                    <Form.Control
+                                                        as="textarea"
+                                                        rows={3}
+                                                        placeholder="Masukan Catatan"
+                                                        autoComplete="off"
+                                                        style={{ fontSize: '14px' }}
+                                                        ref={noteField}
+                                                    />
+                                                </Form.Group>
+                                            </div>
+                                            <div className="mt-3 d-flex justify-content-end gap-1">
+                                                <Button
+                                                    onClick={handleCancelClick}
+                                                    style={{ backgroundColor: 'transparent', border: '1px solid #D62C35', color: '#D62C35' }}
+                                                >
+                                                    Batalkan
+                                                </Button>
+                                                <Button
+                                                    onClick={() => onCreateNote()}
+                                                    style={{ backgroundColor: '#D62C35', border: '1px solid #D62C35' }}
+                                                >
+                                                    Tambahkan
+                                                </Button>
+                                            </div>
+                                        </Col>
+                                    </Row>
                                 ) : (
-                                    <Row className="mt-4">
-                                        <Col xl={6} className="d-flex justify-content-end align-items-center">
+                                    <div className="mt-4 d-flex justify-content-center gap-1">
                                             <Button
                                                 onClick={() => onDoneReportUpdate()}
                                                 style={{ backgroundColor: '#D62C35', border: '1px solid #D62C35' }}
                                             >
                                                 Tandai Selesai
                                             </Button>
-                                        </Col>
-                                        <Col xl={6} className="d-flex align-items-center p-0">
                                             <Button
                                                 onClick={handleEditClick}
                                                 style={{ backgroundColor: 'transparent', border: '1px solid #D62C35', color: '#D62C35' }}
                                             >
                                                 Tambahkan Catatan
                                             </Button>
-                                        </Col>
-                                    </Row>
+                                    </div>
                                 )}
                             </div>
                         </Col>

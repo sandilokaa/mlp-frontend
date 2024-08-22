@@ -322,7 +322,7 @@ const OtherLecturerDetail = () => {
                                                 )
                                             })
                                         ) : (
-                                            <p style={{ fontSize: '14px' }}><span style={{ color: '#EA4D55' }}>*</span> Belum ada pengabdian.</p>
+                                            <p style={{ fontSize: '14px' }}><span style={{ color: '#EA4D55' }}>*</span> Belum ada penugasan.</p>
                                         )
                                     }
                                 </Col>

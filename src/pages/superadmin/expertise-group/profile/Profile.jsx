@@ -205,7 +205,7 @@ const ExpertiseGroupProfile = () => {
                                 </Row>
                             </div>
                         </Col>
-                        <Col xl={6} style={{ padding: '20px', background: '#FFFFFF', borderRadius: '8px' }}>
+                        <Col xl={6} style={{ padding: '20px', background: '#FFFFFF', borderRadius: '8px', height: '100%' }}>
                             <div>
                                 <h1 style={{ fontSize: '14px', fontWeight: '700' }}>Riwayat Pendidikan</h1>
                             </div>

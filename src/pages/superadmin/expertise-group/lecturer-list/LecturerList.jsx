@@ -211,8 +211,8 @@ const ExpertiseGroupLecturerList = () => {
                             const displayIndex = (index + 1).toString().padStart(2, '0');
 
                             return (
-                                <Row className="table-body" key={lecturer.id}>
-                                    <div className="d-flex align-items-center" style={{ padding: '16px 15px', backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FAFAFA' }}>
+                                <Row className="table-body" key={lecturer.id} style={{padding: '12px'}}>
+                                    <div className="d-flex align-items-center" style={{ padding: '16px 18px', backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FAFAFA' }}>
                                         <Col xl={1}>
                                             <h6>{displayIndex}</h6>
                                         </Col>

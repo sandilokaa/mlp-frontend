@@ -197,6 +197,7 @@ const AddDevotion = () => {
                                                                 id="fileInput"
                                                                 onChange={handleFileChange}
                                                                 style={{ display: 'none' }}
+                                                                accept=".pdf"
                                                             />
                                                             <Row>
                                                                 {
