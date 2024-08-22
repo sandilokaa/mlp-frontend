@@ -9,6 +9,8 @@ import {
 import axios from "axios";
 
 import SuperadminDashboardLayout from "../../../../layouts/dashboard/SuperadminDashboardLayout";
+
+import ProfileImage from "../../../../assets/images/profile.png";
 import ArrowLeft from "../../../../assets/images/icons/arrow-left.svg";
 
 import "../../../../assets/css/style.css";
@@ -107,7 +109,9 @@ const ExpertiseGroupLectureDetail = () => {
                             <div className="profile-personal">
                                 <Row>
                                     <Col xl={3}>
-                                        <div className="photo-wrapper" style={{ height: '150px', width: '100%', background: '#989898' }}></div>
+                                        <div className="photo-wrapper" style={{ height: '150px', width: '100%', background: '#989898' }}>
+                                            <Image src={ProfileImage} style={{ width: '100%', height: '100%' }} />
+                                        </div>
                                     </Col>
                                     <Col xl={8}>
                                         <div className="profile-general-information">
@@ -227,12 +231,12 @@ const ExpertiseGroupLectureDetail = () => {
                                                         <p style={{ fontSize: '14px', color: '#292929' }}>Cukup Baik</p>
                                                     ) : lecturerData && parseFloat(lecturerData.averageValue) > 5 ? (
                                                         <p style={{ fontSize: '14px', color: '#292929' }}>Baik</p>
-                                                    ) : 
-                                                    lecturerData && parseFloat(lecturerData.averageValue) >= 8 ? (
-                                                        <p style={{ fontSize: '14px', color: '#292929' }}>Sangat Baik</p>
-                                                    ) : (
-                                                        <p style={{ fontSize: '14px', color: '#292929' }}><span style={{ color: '#EA4D55' }}>*</span> Belum dinilai</p>
-                                                    )
+                                                    ) :
+                                                        lecturerData && parseFloat(lecturerData.averageValue) >= 8 ? (
+                                                            <p style={{ fontSize: '14px', color: '#292929' }}>Sangat Baik</p>
+                                                        ) : (
+                                                            <p style={{ fontSize: '14px', color: '#292929' }}><span style={{ color: '#EA4D55' }}>*</span> Belum dinilai</p>
+                                                        )
                                                 }
                                             </Col>
                                         </Row>
@@ -278,7 +282,7 @@ const ExpertiseGroupLectureDetail = () => {
                                                 )
                                             })
                                         ) : (
-                                            <p style={{fontSize: '14px'}}><span style={{ color: '#EA4D55' }}>*</span> Belum ada pengabdian.</p>
+                                            <p style={{ fontSize: '14px' }}><span style={{ color: '#EA4D55' }}>*</span> Belum ada pengabdian.</p>
                                         )
                                     }
                                 </Col>
@@ -322,7 +326,7 @@ const ExpertiseGroupLectureDetail = () => {
                                                 )
                                             })
                                         ) : (
-                                            <p style={{fontSize: '14px'}}><span style={{ color: '#EA4D55' }}>*</span> Belum ada penugasan.</p>
+                                            <p style={{ fontSize: '14px' }}><span style={{ color: '#EA4D55' }}>*</span> Belum ada penugasan.</p>
                                         )
                                     }
                                 </Col>
