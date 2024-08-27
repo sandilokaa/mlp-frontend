@@ -262,7 +262,7 @@ const ExpertiseGroupDevotionDetail = () => {
                                                     </p>
                                                 ) : (
                                                     <p style={{ color: '#989898', fontSize: '16px' }}>
-                                                        Penelitian Belum dilakukan
+                                                        Penilaian Belum dilakukan
                                                     </p>
                                                 )}
                                                 <Col xl={12} className="d-flex justify-content-end align-items-center mt-3">

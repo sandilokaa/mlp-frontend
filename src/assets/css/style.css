@@ -127,6 +127,38 @@ body, html {
     border-radius: 6px;
 }
 
+.dropdown-period {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-period .dropdown-period-menu {
+    display: block;
+    position: absolute;
+    top: 115%;
+    left: 0;
+    background-color: var(--font-color-white);
+    border: none;
+    box-shadow: 0 8px 16px rgba(197, 197, 197, 0.25);
+    width: 100%;
+    font-size: 14px;
+    padding: 8px;
+    color: var(--font-color-grey);
+    list-style: none;
+    text-decoration: none;
+    z-index: 999;
+}
+
+.dropdown-period .dropdown-period-menu-item {
+    padding: 8px 0;
+    cursor: pointer;
+}
+
+.dropdown-period .dropdown-period-menu-item:hover {
+    background-color: #FAFAFA;
+    border-radius: 6px;
+}
+
 /* ------ End Dropdown Content ------*/
 
 /* ============================================ */

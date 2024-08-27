@@ -11,6 +11,7 @@ import {
 import axios from "axios";
 
 import SuperadminDashboardLayout from "../../../../layouts/dashboard/SuperadminDashboardLayout";
+import DropdownPeriod from "../../../../components/dropdown/DropdownPeriod";
 
 import ViewIcon from "../../../../assets/images/icons/eye.svg";
 import AddIcon from "../../../../assets/images/icons/add.svg";
@@ -76,6 +77,11 @@ const ExpertiseGroupReport = () => {
     /* ================ Get Report Data ================ */
 
     const [reportData, setReportData] = useState([]);
+    const [searchPeriodTerm, setSearchPeriodTerm] = useState('Ganjil 2024');
+
+    const handleSearchPeriodChange = (selectedValue) => {
+        setSearchPeriodTerm(selectedValue);
+    };
 
     const getReportData = async () => {
 
@@ -89,6 +95,10 @@ const ExpertiseGroupReport = () => {
                     headers: {
                         Authorization: `Bearer ${token}`,
                         "Access-Control-Allo-Origin": "*"
+                    },
+                    params: {
+                        reportPeriod: searchPeriodTerm.split(' ')[0],
+                        academicYear: searchPeriodTerm.split(' ')[1]
                     }
                 }
             );
@@ -110,7 +120,7 @@ const ExpertiseGroupReport = () => {
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [superadmin.id]);
+    }, [searchPeriodTerm, superadmin.id]);
 
     /* ================ End Get Report Data ================ */
 
@@ -148,101 +158,118 @@ const ExpertiseGroupReport = () => {
                         <Row>
                             <Col xl={4} className="mt-4 d-flex align-items-center">
                                 <Button
-                                    style={{ width: '190px', height: '48px', fontSize: '14px' }}
+                                    style={{ width: '190px', height: '45px', fontSize: '14px' }}
                                     onClick={() => navigate('/expertisegroup/report/create')}
                                 >
                                     Tambah Laporan
                                     <Image src={AddIcon} style={{ marginLeft: '20px' }} />
                                 </Button>
                             </Col>
+                            <Col xl={8} className="mt-4 d-flex justify-content-end">
+                                <DropdownPeriod
+                                    onChange={handleSearchPeriodChange}
+                                />
+                            </Col>
                         </Row>
                     </div>
-                    <div className="research-table-content">
-                        <Row className="table-head">
-                            <Col xl={1}>
-                                <h6>No</h6>
-                            </Col>
-                            <Col xl={4}>
-                                <h6>Judul Laporan</h6>
-                            </Col>
-                            <Col xl={2} className="text-center">
-                                <h6>Periode</h6>
-                            </Col>
-                            <Col xl={2} className="text-center">
-                                <h6>Tahun Ajaran</h6>
-                            </Col>
-                            <Col xl={2} className="text-center">
-                                <h6>Status</h6>
-                            </Col>
-                            <Col xl={1} className="text-center">
-                                <h6>Action</h6>
-                            </Col>
-                        </Row>
-                        <hr style={{ marginTop: '10px' }} />
-                        {currentItems.map((report, index) => {
+                    {currentItems && currentItems.length > 0 ? (
+                        <>
+                            <div className="research-table-content">
+                                <Row className="table-head">
+                                    <Col xl={1}>
+                                        <h6>No</h6>
+                                    </Col>
+                                    <Col xl={4}>
+                                        <h6>Judul Laporan</h6>
+                                    </Col>
+                                    <Col xl={2} className="text-center">
+                                        <h6>Periode</h6>
+                                    </Col>
+                                    <Col xl={2} className="text-center">
+                                        <h6>Tahun Ajaran</h6>
+                                    </Col>
+                                    <Col xl={2} className="text-center">
+                                        <h6>Status</h6>
+                                    </Col>
+                                    <Col xl={1} className="text-center">
+                                        <h6>Action</h6>
+                                    </Col>
+                                </Row>
+                                <hr style={{ marginTop: '10px' }} />
+                                {currentItems.map((report, index) => {
 
-                            const displayIndex = (index + 1).toString().padStart(2, '0');
+                                    const displayIndex = (index + 1).toString().padStart(2, '0');
 
-                            return (
-                                <Row className="table-body" key={report.id} style={{padding: '12px'}}>
-                                    <div className="d-flex align-items-center" style={{ padding: '16px 15px', backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FAFAFA' }}>
-                                        <Col xl={1}>
-                                            <h6>{displayIndex}</h6>
-                                        </Col>
-                                        <Col xl={4}>
-                                            <h6>{report.reportName}</h6>
-                                        </Col>
-                                        <Col xl={2} className="text-center">
-                                            <h6>{report.reportPeriod}</h6>
-                                        </Col>
-                                        <Col xl={2} className="text-center" style={{ marginLeft: '5px' }}>
-                                            <h6>{report.academicYear}</h6>
-                                        </Col>
-                                        <Col xl={2} className="text-center d-flex justify-content-center" style={{ marginLeft: '6px' }}>
-                                            {
-                                                report.reportStatus === "Selesai" ? (
-                                                    <div style={{ backgroundColor: '#EEFBF2', padding: '10px' }}>
-                                                        <h6 style={{ fontSize: '10px', color: '#24A560' }}>Selesai</h6>
-                                                    </div>
-                                                ) :
-                                                    report.reportStatus === "New Comment" ?
-                                                        (
-                                                            <h6 style={{ fontSize: '10px', color: '#EA4D55', backgroundColor: '#FEF2F3', padding: '4px' }}>New Comment</h6>
-                                                        ) :
-                                                        report.reportStatus === "Dalam Review" ? (
-                                                            <div style={{ backgroundColor: '#F6F3FF', padding: '10px', borderRadius: '6px', width: 'fit-content' }}>
-                                                                <h6 style={{ fontSize: '10px', color: '#8951F0' }}>Dalam Review</h6>
+                                    return (
+                                        <Row className="table-body" key={report.id} style={{ padding: '12px' }}>
+                                            <div className="d-flex align-items-center" style={{ padding: '16px 15px', backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FAFAFA' }}>
+                                                <Col xl={1}>
+                                                    <h6>{displayIndex}</h6>
+                                                </Col>
+                                                <Col xl={4}>
+                                                    <h6>{report.reportName}</h6>
+                                                </Col>
+                                                <Col xl={2} className="text-center">
+                                                    <h6>{report.reportPeriod}</h6>
+                                                </Col>
+                                                <Col xl={2} className="text-center" style={{ marginLeft: '5px' }}>
+                                                    <h6>{report.academicYear}</h6>
+                                                </Col>
+                                                <Col xl={2} className="text-center d-flex justify-content-center" style={{ marginLeft: '6px' }}>
+                                                    {
+                                                        report.reportStatus === "Selesai" ? (
+                                                            <div style={{ backgroundColor: '#EEFBF2', padding: '10px' }}>
+                                                                <h6 style={{ fontSize: '10px', color: '#24A560' }}>Selesai</h6>
                                                             </div>
                                                         ) :
-                                                            null
-                                            }
-                                        </Col>
-                                        <Col xl={1} className="text-center" style={{ marginLeft: '5px' }}>
-                                            <Row style={{ display: 'flex', padding: '0', margin: '0' }}>
-                                                <Col xl={12} className="d-flex justify-content-center p-0">
-                                                    <span className="view" onClick={() => navigate(`/expertisegroup/report/detail/${report.id}`)}>
-                                                        <Image src={ViewIcon} />
-                                                    </span>
+                                                            report.reportStatus === "New Comment" ?
+                                                                (
+                                                                    <h6 style={{ fontSize: '10px', color: '#EA4D55', backgroundColor: '#FEF2F3', padding: '4px' }}>New Comment</h6>
+                                                                ) :
+                                                                report.reportStatus === "Dalam Review" ? (
+                                                                    <div style={{ backgroundColor: '#F6F3FF', padding: '10px', borderRadius: '6px', width: 'fit-content' }}>
+                                                                        <h6 style={{ fontSize: '10px', color: '#8951F0' }}>Dalam Review</h6>
+                                                                    </div>
+                                                                ) :
+                                                                    null
+                                                    }
                                                 </Col>
-                                            </Row>
-                                        </Col>
-                                    </div>
-                                </Row>
-                            )
-                        })}
-                    </div>
-                    <Pagination style={{ marginTop: '2%' }}>
-                        {pageNumbers.map(number => (
-                            <Pagination.Item
-                                key={number}
-                                active={number === currentPage}
-                                onClick={() => handlePageChange(number)}
-                                linkStyle={{ backgroundColor: number === currentPage ? '#D62C35' : '#FEF2F3', border: number === currentPage ? '1px solid #D62C35' : '1px solid #FEF2F3' }}
-                            >
-                                {number}
-                            </Pagination.Item>
-                        ))}
-                    </Pagination>
+                                                <Col xl={1} className="text-center" style={{ marginLeft: '5px' }}>
+                                                    <Row style={{ display: 'flex', padding: '0', margin: '0' }}>
+                                                        <Col xl={12} className="d-flex justify-content-center p-0">
+                                                            <span className="view" onClick={() => navigate(`/expertisegroup/report/detail/${report.id}`)}>
+                                                                <Image src={ViewIcon} />
+                                                            </span>
+                                                        </Col>
+                                                    </Row>
+                                                </Col>
+                                            </div>
+                                        </Row>
+                                    )
+                                })}
+                            </div>
+                            <Pagination style={{ marginTop: '2%' }}>
+                                {pageNumbers.map(number => (
+                                    <Pagination.Item
+                                        key={number}
+                                        active={number === currentPage}
+                                        onClick={() => handlePageChange(number)}
+                                        linkStyle={{ backgroundColor: number === currentPage ? '#D62C35' : '#FEF2F3', border: number === currentPage ? '1px solid #D62C35' : '1px solid #FEF2F3' }}
+                                    >
+                                        {number}
+                                    </Pagination.Item>
+                                ))}
+                            </Pagination>
+                        </>
+                    ) : (
+                        <div>
+                            <Row>
+                                <Col xl={12} className=" mt-4 d-flex justify-content-center">
+                                    <h1 style={{ fontSize: '16px', color: '#989898', marginTop: '220px' }}>Belum ada laporan yang ditambahkan pada periode ini.</h1>
+                                </Col>
+                            </Row>
+                        </div>
+                    )}
                 </Container>
             </div>
         </SuperadminDashboardLayout>

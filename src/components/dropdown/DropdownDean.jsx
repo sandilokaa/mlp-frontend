@@ -1,58 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Image, Row, Col } from 'react-bootstrap';
-import axios from 'axios';
 
 import ArrowIcon from "../../assets/images/icons/arrow-down.svg";
 
 import '../../assets/css/style.css';
 
 const CustomDropdown = ({ onChange }) => {
-
-    /* ================ Get Current User ================ */
-    const [superadmin, setSuperadmin] = useState({});
-    const [isRefresh, setIsRefresh] = useState(false);
-
-    useEffect(() => {
-
-        const validateLogin = async () => {
-
-            try {
-
-                const token = localStorage.getItem("token");
-
-                const currentSuperadminRequest = await axios.get(
-                    `http://localhost:8080/api/v1/auth/superadmin/me`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    }
-                );
-
-                const currentSuperadminResponse = currentSuperadminRequest.data;
-
-                if (currentSuperadminResponse.status) {
-
-                    setSuperadmin(currentSuperadminResponse.data.currentUser);
-
-                }
-
-            } catch (err) {
-
-                console.log(err.message);
-
-            }
-
-        };
-
-        validateLogin();
-
-        setIsRefresh(false);
-
-    }, [isRefresh]);
-
-    /* ================ End Get Current User ================ */
-
 
     /* ================ Dropdown ================ */
 
@@ -74,16 +27,6 @@ const CustomDropdown = ({ onChange }) => {
             onChange(option);
         }
     };
-
-    useEffect(() => {
-        if (superadmin && superadmin.groupName) {
-            setSelectedOption(superadmin.groupName);
-            if (onChange) {
-                onChange(superadmin.groupName);
-            }
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [superadmin]);
 
     /* ================ End Dropdown ================ */
 

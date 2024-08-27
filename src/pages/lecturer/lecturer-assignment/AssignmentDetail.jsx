@@ -123,7 +123,7 @@ const AssignmentDetail = () => {
                                     </Row>
                                     <Row>
                                         <Col xl={12}>
-                                            <h6>Judul Pengabdian</h6>
+                                            <h6>Judul Penugasan</h6>
                                         </Col>
                                         <Col xl={12}>
                                             <p>{assignmentData ? assignmentData.assignmentName : null}</p>
@@ -133,6 +133,16 @@ const AssignmentDetail = () => {
                                         <Col xl={12}>
                                             <h6>Jenis Penugasan</h6>
                                             <p>{assignmentData ? assignmentData.assignmentType : null}</p>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col xl={6}>
+                                            <h6>Periode</h6>
+                                            <p>{assignmentData ? assignmentData.assignmentPeriod : null}</p>
+                                        </Col>
+                                        <Col xl={6}>
+                                            <h6>Tahun Ajaran</h6>
+                                            <p>{assignmentData ? assignmentData.academicYear : null}</p>
                                         </Col>
                                     </Row>
                                     <Row>

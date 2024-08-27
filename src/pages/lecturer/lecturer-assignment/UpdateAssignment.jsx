@@ -105,6 +105,8 @@ const UpdateAssignment = () => {
     const assignmentNameField = useRef();
     const assignmentTypeField = useRef();
     const assignmentDescriptionField = useRef();
+    const assignmentPeriodField = useRef();
+    const academicYearField = useRef();
 
     const onUpdateAssignment = async () => {
 
@@ -116,6 +118,8 @@ const UpdateAssignment = () => {
             assignmentPayload.append("assignmentName", assignmentNameField.current.value);
             assignmentPayload.append("assignmentType", assignmentTypeField.current.value);
             assignmentPayload.append("assignmentDescription", assignmentDescriptionField.current.value);
+            assignmentPayload.append("assignmentPeriod", assignmentPeriodField.current.value);
+            assignmentPayload.append("academicYear", academicYearField.current.value);
             files.forEach((file) => {
                 assignmentPayload.append(`assignmentFile`, file);
             });
@@ -186,6 +190,24 @@ const UpdateAssignment = () => {
                                                     <Form.Group controlId="exampleForm.ControlInput1">
                                                         <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Jenis Penugasan <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
                                                         <Form.Control type="text" placeholder="Masukan Jenis Penugasan" autoComplete="off" style={{ fontSize: '14px' }} defaultValue={assignmentData ? assignmentData.assignmentType : null} ref={assignmentTypeField}/>
+                                                    </Form.Group>
+                                                </div>
+                                            </Col>
+                                        </Row>
+                                        <Row className="mt-3">
+                                            <Col xl={3}>
+                                                <div>
+                                                    <Form.Group controlId="exampleForm.ControlInput3">
+                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Periode pengabdian <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
+                                                        <Form.Control type="text" placeholder="Masukan periode" autoComplete="off" style={{ fontSize: '14px' }} ref={assignmentPeriodField} />
+                                                    </Form.Group>
+                                                </div>
+                                            </Col>
+                                            <Col xl={3}>
+                                                <div>
+                                                    <Form.Group controlId="exampleForm.ControlInput4">
+                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Tahun ajaran <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
+                                                        <Form.Control type="text" placeholder="Masukan tahun ajaran" autoComplete="off" style={{ fontSize: '14px' }} ref={academicYearField} />
                                                     </Form.Group>
                                                 </div>
                                             </Col>

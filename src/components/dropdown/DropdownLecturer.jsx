@@ -56,8 +56,6 @@ const CustomDropdown = ({ onChange }) => {
 
     /* ================ Dropdown ================ */
 
-
-
     const [selectedOption, setSelectedOption] = useState(lecturer.groupName)
     const [isOpen, setIsOpen] = useState(false);
 

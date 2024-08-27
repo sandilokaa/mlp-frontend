@@ -12,6 +12,7 @@ import {
 import axios from "axios";
 
 import LecturerDashboardLayout from "../../../layouts/dashboard/LecturerDashboardLayout";
+import DropdownPeriod from "../../../components/dropdown/DropdownPeriod";
 
 import ViewIcon from "../../../assets/images/icons/eye.svg";
 import DeleteIcon from "../../../assets/images/icons/trash.svg";
@@ -34,6 +35,11 @@ const LectureDevotion = () => {
     /* ================ Get Devotion Data ================ */
 
     const [devotionData, setDevotionData] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('Ganjil 2024');
+
+    const handleSearchChange = (selectedValue) => {
+        setSearchTerm(selectedValue);
+    };
 
     const getDevotionData = async () => {
 
@@ -47,6 +53,10 @@ const LectureDevotion = () => {
                     headers: {
                         Authorization: `Bearer ${token}`,
                         "Access-Control-Allo-Origin": "*"
+                    },
+                    params: {
+                        devotionPeriod: searchTerm.split(' ')[0],
+                        academicYear: searchTerm.split(' ')[1]
                     }
                 }
             );
@@ -66,7 +76,7 @@ const LectureDevotion = () => {
         getDevotionData();
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [searchTerm]);
 
     /* ================ End Get Devotion Data ================ */
 
@@ -137,103 +147,120 @@ const LectureDevotion = () => {
                     <div className="add-research-content">
                         <Row>
                             <Col xl={3}>
-                                <Button 
+                                <Button
                                     onClick={() => navigate('/lecturer/devotion/create')}
-                                    style={{width: '227px'}}
+                                    style={{ width: '227px', height: '45px' }}
                                 >
                                     Tambah Pengabdian
-                                    <Image src={AddIcon} style={{marginLeft: '8px'}}/>
+                                    <Image src={AddIcon} style={{ marginLeft: '8px' }} />
                                 </Button>
                             </Col>
+                            <Col xl={9} className="d-flex justify-content-end align-items-center">
+                                <DropdownPeriod
+                                    onChange={handleSearchChange}
+                                />
+                            </Col>
                         </Row>
                     </div>
-                    <div className="research-table-content">
-                        <Row className="table-head">
-                            <Col xl={1}>
-                                <h6>No</h6>
-                            </Col>
-                            <Col xl={5}>
-                                <h6>Judul Pengabdian</h6>
-                            </Col>
-                            <Col xl={2} className="text-center">
-                                <h6>Role</h6>
-                            </Col>
-                            <Col xl={2} className="text-center">
-                                <h6>Skor</h6>
-                            </Col>
-                            <Col xl={2} className="text-center">
-                                <h6>Action</h6>
-                            </Col>
-                        </Row>
-                        <hr style={{ marginTop: '10px' }} />
-                        {currentItems.map((devotion, index) => {
-
-                            const colStyle = {
-                                backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FAFAFA',
-                                padding: '16px 12px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                borderRadius: '8px',
-                                marginLeft: '5px',
-                            };
-
-                            const displayIndex = (index + 1).toString().padStart(2, '0');
-
-                            return (
-                                <Row className="table-body" key={devotion.id} style={{padding: '12px'}}>
-                                    <div style={colStyle}>
-                                        <Col xl={1}>
-                                            <h6>{displayIndex}</h6>
-                                        </Col>
-                                        <Col xl={5}>
-                                            <h6>{devotion.devotionName}</h6>
-                                        </Col>
-                                        <Col xl={2} className="text-center">
-                                            <h6>{devotion.devotionRole}</h6>
-                                        </Col>
-                                        <Col xl={2} className="text-center">
-                                            {devotion && devotion.devotionValue ? (
-                                                <h6>{devotion.devotionValue}</h6>
-                                            ) : (
-                                                <h6>?</h6>
-                                            )}
-                                        </Col>
-                                        <Col xl={2} className="text-center" style={{ marginLeft: '4px' }}>
-                                            <Row style={{ display: 'flex', padding: '0', margin: '0' }}>
-                                                <Col xl={4} className="d-flex justify-content-end p-0">
-                                                    <span className="view" onClick={() => navigate(`/lecturer/devotion/detail/${devotion.id}`)}>
-                                                        <Image src={ViewIcon} />
-                                                    </span>
-                                                </Col>
-                                                <Col xl={4} className="d-flex justify-content-center p-0">
-                                                    <span className="edit" onClick={() => navigate(`/lecturer/devotion/update/${devotion.id}`)}>
-                                                        <Image src={EditIcon} />
-                                                    </span>
-                                                </Col>
-                                                <Col xl={4} className="d-flex justify-content-start p-0">
-                                                    <span className="delete">
-                                                        <Image src={DeleteIcon} onClick={() => onDeleteDevotion(devotion.id)} />
-                                                    </span>
-                                                </Col>
-                                            </Row>
-                                        </Col>
-                                    </div>
+                    {currentItems && currentItems.length > 0 ? (
+                        <>
+                            <div className="research-table-content">
+                                <Row className="table-head">
+                                    <Col xl={1}>
+                                        <h6>No</h6>
+                                    </Col>
+                                    <Col xl={5}>
+                                        <h6>Judul Pengabdian</h6>
+                                    </Col>
+                                    <Col xl={2} className="text-center">
+                                        <h6>Role</h6>
+                                    </Col>
+                                    <Col xl={2} className="text-center">
+                                        <h6>Skor</h6>
+                                    </Col>
+                                    <Col xl={2} className="text-center">
+                                        <h6>Action</h6>
+                                    </Col>
                                 </Row>
-                            )
-                        })}
-                    </div>
-                    <Pagination style={{ marginTop: '2%' }}>
-                        {pageNumbers.map(number => (
-                            <Pagination.Item
-                                key={number}
-                                active={number === currentPage}
-                                onClick={() => handlePageChange(number)}
-                                linkStyle={{ backgroundColor: number === currentPage ? '#D62C35' : '#FEF2F3', border: number === currentPage ? '1px solid #D62C35' : '1px solid #FEF2F3' }}
-                            >
-                                {number}
-                            </Pagination.Item>
-                        ))}
-                    </Pagination>
+                                <hr style={{ marginTop: '10px' }} />
+                                {currentItems.map((devotion, index) => {
+
+                                    const colStyle = {
+                                        backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FAFAFA',
+                                        padding: '16px 12px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        borderRadius: '8px',
+                                        marginLeft: '5px',
+                                    };
+
+                                    const displayIndex = (index + 1).toString().padStart(2, '0');
+
+                                    return (
+                                        <Row className="table-body" key={devotion.id} style={{ padding: '12px' }}>
+                                            <div style={colStyle}>
+                                                <Col xl={1}>
+                                                    <h6>{displayIndex}</h6>
+                                                </Col>
+                                                <Col xl={5}>
+                                                    <h6>{devotion.devotionName}</h6>
+                                                </Col>
+                                                <Col xl={2} className="text-center">
+                                                    <h6>{devotion.devotionRole}</h6>
+                                                </Col>
+                                                <Col xl={2} className="text-center">
+                                                    {devotion && devotion.devotionValue ? (
+                                                        <h6>{devotion.devotionValue}</h6>
+                                                    ) : (
+                                                        <h6>?</h6>
+                                                    )}
+                                                </Col>
+                                                <Col xl={2} className="text-center" style={{ marginLeft: '4px' }}>
+                                                    <Row style={{ display: 'flex', padding: '0', margin: '0' }}>
+                                                        <Col xl={4} className="d-flex justify-content-end p-0">
+                                                            <span className="view" onClick={() => navigate(`/lecturer/devotion/detail/${devotion.id}`)}>
+                                                                <Image src={ViewIcon} />
+                                                            </span>
+                                                        </Col>
+                                                        <Col xl={4} className="d-flex justify-content-center p-0">
+                                                            <span className="edit" onClick={() => navigate(`/lecturer/devotion/update/${devotion.id}`)}>
+                                                                <Image src={EditIcon} />
+                                                            </span>
+                                                        </Col>
+                                                        <Col xl={4} className="d-flex justify-content-start p-0">
+                                                            <span className="delete">
+                                                                <Image src={DeleteIcon} onClick={() => onDeleteDevotion(devotion.id)} />
+                                                            </span>
+                                                        </Col>
+                                                    </Row>
+                                                </Col>
+                                            </div>
+                                        </Row>
+                                    )
+                                })}
+                            </div>
+                            <Pagination style={{ marginTop: '2%' }}>
+                                {pageNumbers.map(number => (
+                                    <Pagination.Item
+                                        key={number}
+                                        active={number === currentPage}
+                                        onClick={() => handlePageChange(number)}
+                                        linkStyle={{ backgroundColor: number === currentPage ? '#D62C35' : '#FEF2F3', border: number === currentPage ? '1px solid #D62C35' : '1px solid #FEF2F3' }}
+                                    >
+                                        {number}
+                                    </Pagination.Item>
+                                ))}
+                            </Pagination>
+                        </>
+                    ) : (
+                        <div>
+                            <Row>
+                                <Col xl={12} className=" mt-4 d-flex justify-content-center">
+                                    <h1 style={{ fontSize: '16px', color: '#989898', marginTop: '220px' }}>Belum ada pengabdian yang ditambahkan pada periode ini.</h1>
+                                </Col>
+                            </Row>
+                        </div>
+                    )}
                 </Container>
             </div>
         </LecturerDashboardLayout>

@@ -155,7 +155,7 @@ const ExpertiseGroupAssignmentDetail = () => {
                     <Row className="detail-research-title">
                         <Col xl={12} className="d-flex align-items-center">
                             <Image onClick={() => navigate('/expertisegroup/assignment')} src={ArrowLeft} style={{ marginRight: '16px', cursor: 'pointer' }} />
-                            <h1>Lihat Pengabdian</h1>
+                            <h1>Lihat Penugasan</h1>
                         </Col>
                     </Row>
                     <Row className="detail-research-wrapper">
@@ -163,7 +163,7 @@ const ExpertiseGroupAssignmentDetail = () => {
                             <div style={{ padding: '16px', backgroundColor: '#FFFFFF', borderRadius: '8px', marginTop: '20px' }}>
                                 <Row>
                                     <Col xl={12} className="d-flex justify-content-start align-items-center">
-                                        <h5 style={{ fontSize: '14px', fontWeight: '700', color: '#292929', margin: 'auto 0' }}>Informasi Pengabdian</h5>
+                                        <h5 style={{ fontSize: '14px', fontWeight: '700', color: '#292929', margin: 'auto 0' }}>Informasi Penugasan</h5>
                                     </Col>
                                 </Row>
                                 <div style={{ gap: '20px', marginTop: '20px' }}>
@@ -187,6 +187,16 @@ const ExpertiseGroupAssignmentDetail = () => {
                                         <Col xl={12}>
                                             <h6>Jenis Penugasan</h6>
                                             <p>{assignmentData ? assignmentData.assignmentType : null}</p>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col xl={6}>
+                                            <h6>Periode</h6>
+                                            <p>{assignmentData ? assignmentData.assignmentPeriod : null}</p>
+                                        </Col>
+                                        <Col xl={6}>
+                                            <h6>Tahun Ajaran</h6>
+                                            <p>{assignmentData ? assignmentData.academicYear : null}</p>
                                         </Col>
                                     </Row>
                                     <Row>
@@ -252,7 +262,7 @@ const ExpertiseGroupAssignmentDetail = () => {
                                                     </p>
                                                 ) : (
                                                     <p style={{ color: '#989898', fontSize: '16px' }}>
-                                                        Penelitian Belum dilakukan
+                                                        Penilaian Belum dilakukan
                                                     </p>
                                                 )}
                                                 <Col xl={12} className="d-flex justify-content-end align-items-center mt-3">

@@ -2,7 +2,6 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { SnackbarProvider } from "notistack";
-import { ProSidebarProvider } from "react-pro-sidebar";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 

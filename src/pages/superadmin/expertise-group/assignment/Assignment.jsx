@@ -14,8 +14,9 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
 import SuperadminDashboardLayout from "../../../../layouts/dashboard/SuperadminDashboardLayout";
-import LogoImage from "../../../../assets/images/logo.png";
+import DropdownPeriod from "../../../../components/dropdown/DropdownPeriod";
 
+import LogoImage from "../../../../assets/images/logo.png";
 import ViewIcon from "../../../../assets/images/icons/eye.svg";
 import ExportIcon from "../../../../assets/images/icons/export.svg";
 
@@ -82,10 +83,16 @@ const ExpertiseGroupAssignment = () => {
 
     const [assignmentData, setAssignmentData] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
+    const [searchPeriodTerm, setSearchPeriodTerm] = useState('Ganjil 2024');
 
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
     };
+
+    const handleSearchPeriodChange = (selectedValue) => {
+        setSearchPeriodTerm(selectedValue);
+    };
+
 
     const getAssignmentData = async () => {
 
@@ -102,6 +109,8 @@ const ExpertiseGroupAssignment = () => {
                     },
                     params: {
                         assignmentName: searchTerm,
+                        assignmentPeriod: searchPeriodTerm.split(' ')[0],
+                        academicYear: searchPeriodTerm.split(' ')[1]
                     }
                 }
             );
@@ -121,7 +130,7 @@ const ExpertiseGroupAssignment = () => {
         getAssignmentData();
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [searchTerm, superadmin.id]);
+    }, [searchTerm, searchPeriodTerm, superadmin.id]);
 
     /* ================ End Get Devotion Data ================ */
 
@@ -143,10 +152,10 @@ const ExpertiseGroupAssignment = () => {
             const marginTop = 20;
 
             const imgData = LogoImage;
-            const imgWidth = 50; 
+            const imgWidth = 50;
             const imgHeight = 30;
             doc.addImage(imgData, 'PNG', 12, marginTop, imgWidth, imgHeight);
-            
+
             const textXPosition = 20 + imgWidth + 10;
 
             doc.setFont('Times-Bold');
@@ -176,7 +185,7 @@ const ExpertiseGroupAssignment = () => {
             const startY = 60;
 
             doc.autoTable({
-                head: tableData.slice(0, 1), 
+                head: tableData.slice(0, 1),
                 body: tableData.slice(1),
                 startY: startY,
                 margin: { top: startY + 15 },
@@ -228,101 +237,118 @@ const ExpertiseGroupAssignment = () => {
                         </Row>
                         <Row>
                             <Col xl={2} className="mt-4">
-                                <Button 
+                                <Button
                                     style={{ width: '120px', height: '100%', fontSize: '14px' }}
                                     onClick={exportAssignmentData}
                                 >
                                     Export <Image src={ExportIcon} style={{ marginLeft: '8px', width: '20px', }} />
                                 </Button>
                             </Col>
-                            <Col xl={{ span: 3, offset: 7 }} className="mt-4 d-flex justify-content-end">
-                                <Form>
-                                    <Form.Control
-                                        className="form-search"
-                                        placeholder="Search"
-                                        aria-label="Search"
-                                        aria-describedby="basic-addon1"
-                                        style={{ height: '45px', width: '250px' }}
-                                        onChange={handleSearchChange}
+                            <Col xl={10} className="mt-4 d-flex justify-content-end">
+                                <div className="d-flex gap-3">
+                                    <DropdownPeriod
+                                        onChange={handleSearchPeriodChange}
                                     />
-                                </Form>
+                                    <Form>
+                                        <Form.Control
+                                            className="form-search"
+                                            placeholder="Search"
+                                            aria-label="Search"
+                                            aria-describedby="basic-addon1"
+                                            style={{ height: '45px', width: '250px' }}
+                                            onChange={handleSearchChange}
+                                        />
+                                    </Form>
+                                </div>
                             </Col>
                         </Row>
                     </div>
-                    <div className="research-table-content">
-                        <Row className="table-head">
-                            <Col xl={1}>
-                                <h6>No</h6>
-                            </Col>
-                            <Col xl={4}>
-                                <h6>Judul Pengabdian</h6>
-                            </Col>
-                            <Col xl={2} className="text-center">
-                                <h6>Nama Dosen</h6>
-                            </Col>
-                            <Col xl={2} className="text-center">
-                                <h6>Email</h6>
-                            </Col>
-                            <Col xl={2} className="text-center">
-                                <h6>Skor</h6>
-                            </Col>
-                            <Col xl={1} className="text-center">
-                                <h6>Action</h6>
-                            </Col>
-                        </Row>
-                        <hr style={{ marginTop: '10px' }} />
-                        {currentItems.map((assignment, index) => {
-
-                            const displayIndex = (index + 1).toString().padStart(2, '0');
-
-                            return (
-                                <Row className="table-body" key={assignment.id} style={{padding: '12px'}}>
-                                    <div className="d-flex align-items-center" style={{ padding: '16px 20px', backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FAFAFA' }}>
-                                        <Col xl={1}>
-                                            <h6>{displayIndex}</h6>
-                                        </Col>
-                                        <Col xl={4}>
-                                            <h6>{assignment.assignmentName}</h6>
-                                        </Col>
-                                        <Col xl={2} className="text-center">
-                                            <h6>{assignment.Lecturer.name}</h6>
-                                        </Col>
-                                        <Col xl={2} className="text-center" style={{ marginLeft: '8px' }}>
-                                            <h6>{assignment.Lecturer.email}</h6>
-                                        </Col>
-                                        <Col xl={2} className="text-center" style={{ marginLeft: '5px' }}>
-                                            {assignment && assignment.assignmentValue ? (
-                                                <h6>{assignment.assignmentValue}</h6>
-                                            ) : (
-                                                <h6><span style={{ color: '#EA4D55' }}>*</span> Perlu dinilai</h6>
-                                            )}
-                                        </Col>
-                                        <Col xl={1} className="text-center" style={{ marginLeft: '4px' }}>
-                                            <Row style={{ display: 'flex', padding: '0', margin: '0' }}>
-                                                <Col xl={12} className="d-flex justify-content-center p-0">
-                                                    <span className="view" onClick={() => navigate(`/expertisegroup/assignment/detail/${assignment.id}`)}>
-                                                        <Image src={ViewIcon} />
-                                                    </span>
-                                                </Col>
-                                            </Row>
-                                        </Col>
-                                    </div>
+                    {currentItems && currentItems.length > 0 ? (
+                        <>
+                            <div className="research-table-content">
+                                <Row className="table-head">
+                                    <Col xl={1}>
+                                        <h6>No</h6>
+                                    </Col>
+                                    <Col xl={4}>
+                                        <h6>Judul Pengabdian</h6>
+                                    </Col>
+                                    <Col xl={2} className="text-center">
+                                        <h6>Nama Dosen</h6>
+                                    </Col>
+                                    <Col xl={2} className="text-center">
+                                        <h6>Email</h6>
+                                    </Col>
+                                    <Col xl={2} className="text-center">
+                                        <h6>Skor</h6>
+                                    </Col>
+                                    <Col xl={1} className="text-center">
+                                        <h6>Action</h6>
+                                    </Col>
                                 </Row>
-                            )
-                        })}
-                    </div>
-                    <Pagination style={{ marginTop: '2%' }}>
-                        {pageNumbers.map(number => (
-                            <Pagination.Item
-                                key={number}
-                                active={number === currentPage}
-                                onClick={() => handlePageChange(number)}
-                                linkStyle={{ backgroundColor: number === currentPage ? '#D62C35' : '#FEF2F3', border: number === currentPage ? '1px solid #D62C35' : '1px solid #FEF2F3' }}
-                            >
-                                {number}
-                            </Pagination.Item>
-                        ))}
-                    </Pagination>
+                                <hr style={{ marginTop: '10px' }} />
+                                {currentItems.map((assignment, index) => {
+
+                                    const displayIndex = (index + 1).toString().padStart(2, '0');
+
+                                    return (
+                                        <Row className="table-body" key={assignment.id} style={{ padding: '12px' }}>
+                                            <div className="d-flex align-items-center" style={{ padding: '16px 20px', backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FAFAFA' }}>
+                                                <Col xl={1}>
+                                                    <h6>{displayIndex}</h6>
+                                                </Col>
+                                                <Col xl={4}>
+                                                    <h6>{assignment.assignmentName}</h6>
+                                                </Col>
+                                                <Col xl={2} className="text-center">
+                                                    <h6>{assignment.Lecturer.name}</h6>
+                                                </Col>
+                                                <Col xl={2} className="text-center" style={{ marginLeft: '8px' }}>
+                                                    <h6>{assignment.Lecturer.email}</h6>
+                                                </Col>
+                                                <Col xl={2} className="text-center" style={{ marginLeft: '5px' }}>
+                                                    {assignment && assignment.assignmentValue ? (
+                                                        <h6>{assignment.assignmentValue}</h6>
+                                                    ) : (
+                                                        <h6><span style={{ color: '#EA4D55' }}>*</span> Perlu dinilai</h6>
+                                                    )}
+                                                </Col>
+                                                <Col xl={1} className="text-center" style={{ marginLeft: '4px' }}>
+                                                    <Row style={{ display: 'flex', padding: '0', margin: '0' }}>
+                                                        <Col xl={12} className="d-flex justify-content-center p-0">
+                                                            <span className="view" onClick={() => navigate(`/expertisegroup/assignment/detail/${assignment.id}`)}>
+                                                                <Image src={ViewIcon} />
+                                                            </span>
+                                                        </Col>
+                                                    </Row>
+                                                </Col>
+                                            </div>
+                                        </Row>
+                                    )
+                                })}
+                            </div>
+                            <Pagination style={{ marginTop: '2%' }}>
+                                {pageNumbers.map(number => (
+                                    <Pagination.Item
+                                        key={number}
+                                        active={number === currentPage}
+                                        onClick={() => handlePageChange(number)}
+                                        linkStyle={{ backgroundColor: number === currentPage ? '#D62C35' : '#FEF2F3', border: number === currentPage ? '1px solid #D62C35' : '1px solid #FEF2F3' }}
+                                    >
+                                        {number}
+                                    </Pagination.Item>
+                                ))}
+                            </Pagination>
+                        </>
+                    ) : (
+                        <div>
+                            <Row>
+                                <Col xl={12} className=" mt-4 d-flex justify-content-center">
+                                    <h1 style={{ fontSize: '16px', color: '#989898', marginTop: '220px' }}>Belum ada penugasan yang ditambahkan pada periode ini.</h1>
+                                </Col>
+                            </Row>
+                        </div>
+                    )}
                 </Container>
             </div>
         </SuperadminDashboardLayout>
