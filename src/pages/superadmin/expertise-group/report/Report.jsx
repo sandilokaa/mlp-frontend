@@ -9,9 +9,9 @@ import {
     Pagination
 } from "react-bootstrap";
 import axios from "axios";
+import { usePeriod } from "../../../../PeriodProvider";
 
 import SuperadminDashboardLayout from "../../../../layouts/dashboard/SuperadminDashboardLayout";
-import DropdownPeriod from "../../../../components/dropdown/DropdownPeriod";
 
 import ViewIcon from "../../../../assets/images/icons/eye.svg";
 import AddIcon from "../../../../assets/images/icons/add.svg";
@@ -77,11 +77,8 @@ const ExpertiseGroupReport = () => {
     /* ================ Get Report Data ================ */
 
     const [reportData, setReportData] = useState([]);
-    const [searchPeriodTerm, setSearchPeriodTerm] = useState('Ganjil 2024');
-
-    const handleSearchPeriodChange = (selectedValue) => {
-        setSearchPeriodTerm(selectedValue);
-    };
+    const { selectedPeriod } = usePeriod();
+    const [reportPeriod, academicYear] = selectedPeriod.split(' ');
 
     const getReportData = async () => {
 
@@ -97,8 +94,8 @@ const ExpertiseGroupReport = () => {
                         "Access-Control-Allo-Origin": "*"
                     },
                     params: {
-                        reportPeriod: searchPeriodTerm.split(' ')[0],
-                        academicYear: searchPeriodTerm.split(' ')[1]
+                        reportPeriod: reportPeriod,
+                        academicYear: academicYear
                     }
                 }
             );
@@ -120,7 +117,7 @@ const ExpertiseGroupReport = () => {
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [searchPeriodTerm, superadmin.id]);
+    }, [superadmin.id, selectedPeriod]);
 
     /* ================ End Get Report Data ================ */
 
@@ -164,11 +161,6 @@ const ExpertiseGroupReport = () => {
                                     Tambah Laporan
                                     <Image src={AddIcon} style={{ marginLeft: '20px' }} />
                                 </Button>
-                            </Col>
-                            <Col xl={8} className="mt-4 d-flex justify-content-end">
-                                <DropdownPeriod
-                                    onChange={handleSearchPeriodChange}
-                                />
                             </Col>
                         </Row>
                     </div>

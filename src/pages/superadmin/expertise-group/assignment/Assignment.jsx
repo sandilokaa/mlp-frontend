@@ -14,7 +14,7 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
 import SuperadminDashboardLayout from "../../../../layouts/dashboard/SuperadminDashboardLayout";
-import DropdownPeriod from "../../../../components/dropdown/DropdownPeriod";
+import { usePeriod } from "../../../../PeriodProvider";
 
 import LogoImage from "../../../../assets/images/logo.png";
 import ViewIcon from "../../../../assets/images/icons/eye.svg";
@@ -83,16 +83,12 @@ const ExpertiseGroupAssignment = () => {
 
     const [assignmentData, setAssignmentData] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
-    const [searchPeriodTerm, setSearchPeriodTerm] = useState('Ganjil 2024');
+    const { selectedPeriod } = usePeriod();
+    const [assignmentPeriod, academicYear] = selectedPeriod.split(' ');
 
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
     };
-
-    const handleSearchPeriodChange = (selectedValue) => {
-        setSearchPeriodTerm(selectedValue);
-    };
-
 
     const getAssignmentData = async () => {
 
@@ -109,8 +105,8 @@ const ExpertiseGroupAssignment = () => {
                     },
                     params: {
                         assignmentName: searchTerm,
-                        assignmentPeriod: searchPeriodTerm.split(' ')[0],
-                        academicYear: searchPeriodTerm.split(' ')[1]
+                        assignmentPeriod: assignmentPeriod,
+                        academicYear: academicYear
                     }
                 }
             );
@@ -130,7 +126,7 @@ const ExpertiseGroupAssignment = () => {
         getAssignmentData();
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [searchTerm, searchPeriodTerm, superadmin.id]);
+    }, [searchTerm, selectedPeriod, superadmin.id]);
 
     /* ================ End Get Devotion Data ================ */
 
@@ -245,21 +241,16 @@ const ExpertiseGroupAssignment = () => {
                                 </Button>
                             </Col>
                             <Col xl={10} className="mt-4 d-flex justify-content-end">
-                                <div className="d-flex gap-3">
-                                    <DropdownPeriod
-                                        onChange={handleSearchPeriodChange}
+                                <Form>
+                                    <Form.Control
+                                        className="form-search"
+                                        placeholder="Search"
+                                        aria-label="Search"
+                                        aria-describedby="basic-addon1"
+                                        style={{ height: '45px', width: '250px' }}
+                                        onChange={handleSearchChange}
                                     />
-                                    <Form>
-                                        <Form.Control
-                                            className="form-search"
-                                            placeholder="Search"
-                                            aria-label="Search"
-                                            aria-describedby="basic-addon1"
-                                            style={{ height: '45px', width: '250px' }}
-                                            onChange={handleSearchChange}
-                                        />
-                                    </Form>
-                                </div>
+                                </Form>
                             </Col>
                         </Row>
                     </div>

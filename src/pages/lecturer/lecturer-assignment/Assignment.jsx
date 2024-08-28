@@ -12,7 +12,7 @@ import {
 import axios from "axios";
 
 import LecturerDashboardLayout from "../../../layouts/dashboard/LecturerDashboardLayout";
-import DropdownPeriod from "../../../components/dropdown/DropdownPeriod";
+import { usePeriod } from "../../../PeriodProvider";
 
 import ViewIcon from "../../../assets/images/icons/eye.svg";
 import DeleteIcon from "../../../assets/images/icons/trash.svg";
@@ -35,11 +35,8 @@ const LecturerAssignment = () => {
     /* ================ Get Assignment Data ================ */
 
     const [assignmentData, setAssignmentData] = useState([]);
-    const [searchTerm, setSearchTerm] = useState('Ganjil 2024');
-
-    const handleSearchChange = (selectedValue) => {
-        setSearchTerm(selectedValue);
-    };
+    const { selectedPeriod } = usePeriod();
+    const [assignmentPeriod, academicYear] = selectedPeriod.split(' ');
 
     const getAssignmentData = async () => {
 
@@ -55,8 +52,8 @@ const LecturerAssignment = () => {
                         "Access-Control-Allo-Origin": "*"
                     },
                     params: {
-                        assignmentPeriod: searchTerm.split(' ')[0],
-                        academicYear: searchTerm.split(' ')[1]
+                        assignmentPeriod: assignmentPeriod,
+                        academicYear: academicYear
                     }
                 }
             );
@@ -76,7 +73,7 @@ const LecturerAssignment = () => {
         getAssignmentData();
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [searchTerm]);
+    }, [selectedPeriod]);
 
     /* ================ End Get Assignment Data ================ */
 
@@ -154,11 +151,6 @@ const LecturerAssignment = () => {
                                     Tambah Penugasan
                                     <Image src={AddIcon} style={{ marginLeft: '8px' }} />
                                 </Button>
-                            </Col>
-                            <Col xl={9} className="d-flex justify-content-end align-items-center">
-                                <DropdownPeriod
-                                    onChange={handleSearchChange}
-                                />
                             </Col>
                         </Row>
                     </div>

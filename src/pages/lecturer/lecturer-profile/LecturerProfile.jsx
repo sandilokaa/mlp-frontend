@@ -13,6 +13,7 @@ import LecturerDashboardLayout from "../../../layouts/dashboard/LecturerDashboar
 
 import ProfileImage from "../../../assets/images/profile.png";
 import EducationIcon from "../../../assets/images/icons/briefcase-2.svg";
+import { usePeriod } from "../../../PeriodProvider";
 
 import "../../../assets/css/style.css";
 
@@ -24,6 +25,9 @@ const LecturerProfile = () => {
 
     const [lecturerData, setLecturerData] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    const { selectedPeriod } = usePeriod();
+    const [period, academicYear] = selectedPeriod.split(' ');
 
     const lecturerDetailData = async () => {
 
@@ -37,11 +41,19 @@ const LecturerProfile = () => {
                     headers: {
                         Authorization: `Bearer ${token}`,
                         "Access-Control-Allo-Origin": "*"
+                    },
+                    params: {
+                        devotionPeriod: period,
+                        assignmentPeriod: period,
+                        academicYear: academicYear
                     }
                 }
             );
 
             const getDataResponse = await getDataRequest.data.data.getDetailLecture;
+
+            console.log(getDataResponse);
+
 
             setLecturerData(getDataResponse);
             setLoading(false);
@@ -57,7 +69,7 @@ const LecturerProfile = () => {
         lecturerDetailData();
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [selectedPeriod]);
 
     /* ================ End Get Lecturer Data ================ */
 
@@ -226,16 +238,16 @@ const LecturerProfile = () => {
                                             <Col xl={6}>
                                                 <h6 style={{ marginTop: '12px', fontSize: '10px', color: '#989898' }}>Predikat</h6>
                                                 {
-                                                    lecturerData && parseFloat(lecturerData.averageValue) > 0 ? (
+                                                    lecturerData && parseFloat(lecturerData.averageValue) > 0 && lecturerData && parseFloat(lecturerData.averageValue) < 5 ? (
                                                         <p style={{ fontSize: '14px', color: '#292929' }}>Cukup Baik</p>
-                                                    ) : lecturerData && parseFloat(lecturerData.averageValue) > 5 ? (
+                                                    ) : lecturerData && parseFloat(lecturerData.averageValue) > 5 && lecturerData && parseFloat(lecturerData.averageValue) < 8 ? (
                                                         <p style={{ fontSize: '14px', color: '#292929' }}>Baik</p>
                                                     ) :
                                                         lecturerData && parseFloat(lecturerData.averageValue) >= 8 ? (
-                                                            <p style={{ fontSize: '14px', color: '#292929' }}>Sangat Baik</p>
-                                                        ) : (
-                                                            <p style={{ fontSize: '14px', color: '#292929' }}><span style={{ color: '#EA4D55' }}>*</span> Belum dinilai</p>
-                                                        )
+                                                        <p style={{ fontSize: '14px', color: '#292929' }}>Sangat Baik</p>
+                                                    ) : (
+                                                        <p style={{ fontSize: '14px', color: '#292929' }}><span style={{ color: '#EA4D55' }}>*</span> Belum dinilai</p>
+                                                    )
                                                 }
                                             </Col>
                                         </Row>

@@ -6,7 +6,6 @@ import Lecturer from "../../components/navbar/LecturerNavbar";
 const DashboardLayout = ({ children }) => {
 
     return (
-
         <div style={{ display: 'flex' }}>
             <div>
                 <MySideBar />

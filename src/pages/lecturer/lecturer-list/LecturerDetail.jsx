@@ -9,6 +9,7 @@ import {
 import axios from "axios";
 
 import LecturerDashboardLayout from "../../../layouts/dashboard/LecturerDashboardLayout";
+import { usePeriod } from "../../../PeriodProvider";
 
 import ProfileImage from "../../../assets/images/profile.png";
 import ArrowLeft from "../../../assets/images/icons/arrow-left.svg";
@@ -28,6 +29,9 @@ const OtherLecturerDetail = () => {
 
     const id = (params.pathname).split('/')[4];
 
+    const { selectedPeriod } = usePeriod();
+    const [period, academicYear] = selectedPeriod.split(' ');
+
     const lecturerDetailData = async () => {
 
         try {
@@ -40,6 +44,11 @@ const OtherLecturerDetail = () => {
                     headers: {
                         Authorization: `Bearer ${token}`,
                         "Access-Control-Allo-Origin": "*"
+                    },
+                    params: {
+                        devotionPeriod: period,
+                        assignmentPeriod: period,
+                        academicYear: academicYear
                     }
                 }
             );
@@ -60,7 +69,7 @@ const OtherLecturerDetail = () => {
         lecturerDetailData();
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [id, selectedPeriod]);
 
     /* ================ End Get Lecturer Data ================ */
 

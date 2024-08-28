@@ -9,6 +9,7 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 import moment from "moment-timezone";
+import { usePeriod } from "../../../../PeriodProvider";
 
 import SuperadminDashboardLayout from "../../../../layouts/dashboard/SuperadminDashboardLayout";
 import DropdownPeriod from "../../../../components/dropdown/DropdownPeriod";
@@ -29,11 +30,8 @@ const DeanReport = () => {
     /* ================ Get Report Data ================ */
 
     const [reportData, setReportData] = useState([]);
-    const [searchPeriodTerm, setSearchPeriodTerm] = useState('Ganjil 2024');
-
-    const handleSearchPeriodChange = (selectedValue) => {
-        setSearchPeriodTerm(selectedValue);
-    };
+    const { selectedPeriod } = usePeriod();
+    const [reportPeriod, academicYear] = selectedPeriod.split(' ');
 
     const getReportData = async () => {
 
@@ -49,8 +47,8 @@ const DeanReport = () => {
                         "Access-Control-Allo-Origin": "*"
                     },
                     params: {
-                        reportPeriod: searchPeriodTerm.split(' ')[0],
-                        academicYear: searchPeriodTerm.split(' ')[1]
+                        reportPeriod: reportPeriod,
+                        academicYear: academicYear
                     }
                 }
             );
@@ -70,7 +68,7 @@ const DeanReport = () => {
         getReportData();
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [searchPeriodTerm]);
+    }, [selectedPeriod]);
 
     /* ================ End Get Report Data ================ */
 
@@ -112,13 +110,6 @@ const DeanReport = () => {
                         <Row>
                             <Col xl={12}>
                                 <h1 style={{ fontSize: '16px', fontWeight: '700' }}>Daftar Laporan</h1>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col xl={12} className="mt-4 d-flex justify-content-end">
-                                <DropdownPeriod
-                                    onChange={handleSearchPeriodChange}
-                                />
                             </Col>
                         </Row>
                     </div>

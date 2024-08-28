@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
+import { usePeriod } from "../../../PeriodProvider";
 import {
     Container,
     Row,
@@ -12,7 +13,6 @@ import {
 import axios from "axios";
 
 import LecturerDashboardLayout from "../../../layouts/dashboard/LecturerDashboardLayout";
-import DropdownPeriod from "../../../components/dropdown/DropdownPeriod";
 
 import ViewIcon from "../../../assets/images/icons/eye.svg";
 import DeleteIcon from "../../../assets/images/icons/trash.svg";
@@ -35,11 +35,8 @@ const LectureDevotion = () => {
     /* ================ Get Devotion Data ================ */
 
     const [devotionData, setDevotionData] = useState([]);
-    const [searchTerm, setSearchTerm] = useState('Ganjil 2024');
-
-    const handleSearchChange = (selectedValue) => {
-        setSearchTerm(selectedValue);
-    };
+    const { selectedPeriod } = usePeriod();
+    const [devotionPeriod, academicYear] = selectedPeriod.split(' ');
 
     const getDevotionData = async () => {
 
@@ -55,8 +52,8 @@ const LectureDevotion = () => {
                         "Access-Control-Allo-Origin": "*"
                     },
                     params: {
-                        devotionPeriod: searchTerm.split(' ')[0],
-                        academicYear: searchTerm.split(' ')[1]
+                        devotionPeriod: devotionPeriod,
+                        academicYear: academicYear
                     }
                 }
             );
@@ -76,7 +73,7 @@ const LectureDevotion = () => {
         getDevotionData();
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [searchTerm]);
+    }, [selectedPeriod]);
 
     /* ================ End Get Devotion Data ================ */
 
@@ -154,11 +151,6 @@ const LectureDevotion = () => {
                                     Tambah Pengabdian
                                     <Image src={AddIcon} style={{ marginLeft: '8px' }} />
                                 </Button>
-                            </Col>
-                            <Col xl={9} className="d-flex justify-content-end align-items-center">
-                                <DropdownPeriod
-                                    onChange={handleSearchChange}
-                                />
                             </Col>
                         </Row>
                     </div>

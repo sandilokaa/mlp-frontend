@@ -12,6 +12,7 @@ import axios from "axios";
 
 import LecturerDashboardLayout from "../../../layouts/dashboard/LecturerDashboardLayout";
 import CustomDropdown from "../../../components/dropdown/DropdownLecturer";
+import { usePeriod } from "../../../PeriodProvider";
 
 import ViewIcon from "../../../assets/images/icons/eye.svg";
 
@@ -32,11 +33,13 @@ const LectureListGroup = () => {
     const [lecturerData, setLecturerData] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [searchTermGroup, setSearchTermGroup] = useState('');
+    const { selectedPeriod } = usePeriod();
+    const [period, academicYear] = selectedPeriod.split(' ');
 
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
     };
-    
+
     const handleSearchGroupName = (option) => {
         setSearchTermGroup(option);
     };
@@ -56,7 +59,10 @@ const LectureListGroup = () => {
                     },
                     params: {
                         name: searchTerm,
-                        groupName: searchTermGroup
+                        groupName: searchTermGroup,
+                        devotionPeriod: period,
+                        assignmentPeriod: period,
+                        academicYear: academicYear
                     }
                 }
             );
@@ -76,7 +82,7 @@ const LectureListGroup = () => {
         getLecturerData();
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [searchTerm, searchTermGroup]);
+    }, [searchTerm, searchTermGroup, selectedPeriod]);
 
     /* ================ End Get Lecturer Data ================ */
 
@@ -112,12 +118,12 @@ const LectureListGroup = () => {
                             </Col>
                         </Row>
                         <Row>
-                            <Col xl={4} className="mt-4 d-flex align-items-center">
+                            <Col xl={9} className="mt-4 d-flex align-items-center">
                                 <CustomDropdown
                                     onChange={handleSearchGroupName}
                                 />
                             </Col>
-                            <Col xl={{ span: 3, offset: 5 }} className="mt-4 d-flex justify-content-end align-items-center">
+                            <Col xl={3} className="mt-4 d-flex justify-content-end align-items-center">
                                 <Form>
                                     <Form.Control
                                         className="form-search"
@@ -156,7 +162,7 @@ const LectureListGroup = () => {
                             const displayIndex = (index + 1).toString().padStart(2, '0');
 
                             return (
-                                <Row className="table-body" key={lecturer.id} style={{padding: '12px'}}>
+                                <Row className="table-body" key={lecturer.id} style={{ padding: '12px' }}>
                                     <div className="d-flex align-items-center" style={{ padding: '16px', backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FAFAFA' }}>
                                         <Col xl={1}>
                                             <h6>{displayIndex}</h6>

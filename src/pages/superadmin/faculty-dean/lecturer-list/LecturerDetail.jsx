@@ -223,12 +223,12 @@ const DeanLecturerDetail = () => {
                                             <Col xl={6}>
                                                 <h6 style={{ marginTop: '12px', fontSize: '10px', color: '#989898' }}>Predikat</h6>
                                                 {
-                                                    lecturerData && parseFloat(lecturerData.averageValue) > 0 ? (
+                                                    lecturerData && parseFloat(lecturerData.averageValue) > 0 && lecturerData && parseFloat(lecturerData.averageValue) < 5 ? (
                                                         <p style={{ fontSize: '14px', color: '#292929' }}>Cukup Baik</p>
-                                                    ) : lecturerData && parseFloat(lecturerData.averageValue) > 5 ? (
+                                                    ) : lecturerData && parseFloat(lecturerData.averageValue) > 5 && lecturerData && parseFloat(lecturerData.averageValue) < 8 ? (
                                                         <p style={{ fontSize: '14px', color: '#292929' }}>Baik</p>
-                                                    ) : 
-                                                    lecturerData && parseFloat(lecturerData.averageValue) >= 8 ? (
+                                                    ) :
+                                                        lecturerData && parseFloat(lecturerData.averageValue) >= 8 ? (
                                                         <p style={{ fontSize: '14px', color: '#292929' }}>Sangat Baik</p>
                                                     ) : (
                                                         <p style={{ fontSize: '14px', color: '#292929' }}><span style={{ color: '#EA4D55' }}>*</span> Belum dinilai</p>
