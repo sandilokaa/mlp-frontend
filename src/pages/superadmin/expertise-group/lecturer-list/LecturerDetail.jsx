@@ -68,7 +68,7 @@ const ExpertiseGroupLectureDetail = () => {
         lecturerDetailData();
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedPeriod]);
+    }, [selectedPeriod, id]);
 
     /* ================ End Get Lecturer Data ================ */
 
