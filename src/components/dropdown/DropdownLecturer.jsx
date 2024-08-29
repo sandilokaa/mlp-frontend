@@ -59,7 +59,7 @@ const CustomDropdown = ({ onChange }) => {
     const [selectedOption, setSelectedOption] = useState(lecturer.groupName)
     const [isOpen, setIsOpen] = useState(false);
 
-    const options = ["Production and Manufacturing System", "Cyber Minds", "Option 3"];
+    const options = ["Digital Enterprise System and Technology", "Manufacturing & Process Engineering", "Enterprise and Industrial Management System"]; 
 
     const handleDropdownClick = () => {
         setIsOpen(!isOpen);

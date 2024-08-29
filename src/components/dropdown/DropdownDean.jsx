@@ -14,7 +14,7 @@ const CustomDropdown = ({ onChange }) => {
     const [selectedOption, setSelectedOption] = useState()
     const [isOpen, setIsOpen] = useState(false);
 
-    const options = ["Production and Manufacturing System", "Cyber Minds", "Option 3"]; 
+    const options = ["Digital Enterprise System and Technology", "Manufacturing & Process Engineering", "Enterprise and Industrial Management System"]; 
 
     const handleDropdownClick = () => {
         setIsOpen(!isOpen);
@@ -37,7 +37,7 @@ const CustomDropdown = ({ onChange }) => {
             <button onClick={handleDropdownClick} className="dropdown-button" style={{ width: '305px' }}>
                 <Row>
                     <Col xl={11} className='d-flex justify-content-start align-items-center'>
-                        {selectedOption || "Production and Manufacturing System"}
+                        {selectedOption || "Digital Enterprise System and Technology"}
                     </Col>
                     <Col xl={1} className='d-flex justify-content-end align-items-center'>
                         <Image src={ArrowIcon} style={{ width: '14px' }} />
