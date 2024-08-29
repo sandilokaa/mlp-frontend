@@ -7,6 +7,7 @@ import {
     Image
 } from "react-bootstrap";
 import axios from "axios";
+import { usePeriod } from "../../../../PeriodProvider";
 
 import SuperadminDashboardLayout from "../../../../layouts/dashboard/SuperadminDashboardLayout";
 
@@ -25,6 +26,8 @@ const ExpertiseGroupLectureDetail = () => {
     const [lecturerData, setLecturerData] = useState([]);
     const [loading, setLoading] = useState(true);
     const params = useLocation();
+    const { selectedPeriod } = usePeriod();
+    const [period, academicYear] = selectedPeriod.split(' ');
 
     const id = (params.pathname).split('/')[4];
 
@@ -40,6 +43,11 @@ const ExpertiseGroupLectureDetail = () => {
                     headers: {
                         Authorization: `Bearer ${token}`,
                         "Access-Control-Allo-Origin": "*"
+                    },
+                    params: {
+                        devotionPeriod: period,
+                        assignmentPeriod: period,
+                        academicYear: academicYear
                     }
                 }
             );
@@ -60,7 +68,7 @@ const ExpertiseGroupLectureDetail = () => {
         lecturerDetailData();
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [selectedPeriod]);
 
     /* ================ End Get Lecturer Data ================ */
 

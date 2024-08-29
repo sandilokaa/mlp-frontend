@@ -9,6 +9,7 @@ import {
     Form
 } from "react-bootstrap";
 import axios from "axios";
+import { usePeriod } from "../../../../PeriodProvider";
 
 import SuperadminDashboardLayout from "../../../../layouts/dashboard/SuperadminDashboardLayout";
 import CustomDropdown from "../../../../components/dropdown/DropdownDean";
@@ -32,6 +33,8 @@ const DeanLecturerList = () => {
     const [lecturerData, setLecturerData] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [searchTermGroup, setSearchTermGroup] = useState("Production and Manufacturing System");
+    const { selectedPeriod } = usePeriod();
+    const [period, academicYear] = selectedPeriod.split(' ');
 
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
@@ -56,7 +59,10 @@ const DeanLecturerList = () => {
                     },
                     params: {
                         name: searchTerm,
-                        groupName: searchTermGroup
+                        groupName: searchTermGroup,
+                        devotionPeriod: period,
+                        assignmentPeriod: period,
+                        academicYear: academicYear
                     }
                 }
             );
@@ -76,7 +82,7 @@ const DeanLecturerList = () => {
         getLecturerData();
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [searchTerm, searchTermGroup]);
+    }, [searchTerm, searchTermGroup, selectedPeriod]);
 
     /* ================ End Get Lecturer Data ================ */
 

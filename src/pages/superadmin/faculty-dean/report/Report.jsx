@@ -12,7 +12,6 @@ import moment from "moment-timezone";
 import { usePeriod } from "../../../../PeriodProvider";
 
 import SuperadminDashboardLayout from "../../../../layouts/dashboard/SuperadminDashboardLayout";
-import DropdownPeriod from "../../../../components/dropdown/DropdownPeriod";
 
 import ViewIcon from "../../../../assets/images/icons/eye.svg";
 
