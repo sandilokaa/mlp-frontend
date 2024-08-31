@@ -32,7 +32,7 @@ const DeanLecturerList = () => {
 
     const [lecturerData, setLecturerData] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
-    const [searchTermGroup, setSearchTermGroup] = useState("Production and Manufacturing System");
+    const [searchTermGroup, setSearchTermGroup] = useState("Digital Enterprise System and Technology");
     const { selectedPeriod } = usePeriod();
     const [period, academicYear] = selectedPeriod.split(' ');
 

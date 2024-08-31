@@ -11,7 +11,7 @@ import { usePeriod } from "../../PeriodProvider";
 
 import ArrowDownBlack from "../../assets/images/icons/arrow-down-b.svg";
 
-import UserProfile from "../../assets/images/icons/profile.svg";
+import UserProfile from "../../assets/images/icons/profile-navbar.svg";
 
 import "../../assets/css/style.css";
 

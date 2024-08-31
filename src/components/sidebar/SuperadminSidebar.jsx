@@ -11,7 +11,13 @@ import {
 import axios from "axios";
 
 import LogoTelkom from "../../assets/images/logo.png";
+
 import { ReactComponent as LogoutIcon } from "../../assets/images/icons/logout.svg";
+import { ReactComponent as DevotionIcon } from "../../assets/images/icons/briefcase.svg";
+import { ReactComponent as AssignmentIcon } from "../../assets/images/icons/task-square.svg";
+import { ReactComponent as ListLecturerIcon } from "../../assets/images/icons/profile-2user.svg";
+import { ReactComponent as ProfileIcon } from "../../assets/images/icons/profile.svg";
+import { ReactComponent as ReportIcon } from "../../assets/images/icons/document-text.svg";
 
 import '../../assets/css/style.css';
 
@@ -129,7 +135,7 @@ const LeaderSideBar = () => {
                                         onClick={() => handleClick('superadmin-lecturer', '/expertisegroup/lecturer/list')}
                                     >
                                         <div className='d-flex align-items-center'>
-                                            <Image className='icon' />
+                                            <ListLecturerIcon className='sidebar-icon' />
                                             <span style={{ marginLeft: '6%' }}> Dosen </span>
                                         </div>
                                     </MenuItem>
@@ -138,7 +144,7 @@ const LeaderSideBar = () => {
                                         onClick={() => handleClick('superadmin-devotion', '/expertisegroup/devotion')}
                                     >
                                         <div className='d-flex align-items-center'>
-                                            <Image className='icon' />
+                                            <DevotionIcon className='sidebar-icon' />
                                             <span style={{ marginLeft: '6%' }}> Pengabdian </span>
                                         </div>
                                     </MenuItem>
@@ -147,17 +153,8 @@ const LeaderSideBar = () => {
                                         onClick={() => handleClick('superadmin-assignment', '/expertisegroup/assignment')}
                                     >
                                         <div className='d-flex align-items-center'>
-                                            <Image className='icon' />
+                                            <AssignmentIcon className='sidebar-icon' />
                                             <span style={{ marginLeft: '6%' }}> Penugasan </span>
-                                        </div>
-                                    </MenuItem>
-                                    <MenuItem
-                                        className={`superadmin-profile ${activeItem === 'superadmin-profile' ? 'active' : ''}`}
-                                        onClick={() => handleClick('superadmin-profile', '/expertisegroup/profile')}
-                                    >
-                                        <div className='d-flex align-items-center'>
-                                            <Image className='icon' />
-                                            <span style={{ marginLeft: '6%' }}> My profile </span>
                                         </div>
                                     </MenuItem>
                                     <MenuItem
@@ -165,8 +162,17 @@ const LeaderSideBar = () => {
                                         onClick={() => handleClick('superadmin-report', '/expertisegroup/report')}
                                     >
                                         <div className='d-flex align-items-center'>
-                                            <Image className='icon' />
+                                            <ReportIcon className='sidebar-icon' />
                                             <span style={{ marginLeft: '6%' }}> Laporan </span>
+                                        </div>
+                                    </MenuItem>
+                                    <MenuItem
+                                        className={`superadmin-profile ${activeItem === 'superadmin-profile' ? 'active' : ''}`}
+                                        onClick={() => handleClick('superadmin-profile', '/expertisegroup/profile')}
+                                    >
+                                        <div className='d-flex align-items-center'>
+                                            <ProfileIcon className='sidebar-icon' />
+                                            <span style={{ marginLeft: '6%' }}> My profile </span>
                                         </div>
                                     </MenuItem>
                                 </>
@@ -179,17 +185,8 @@ const LeaderSideBar = () => {
                                         onClick={() => handleClick('superadmin-lecturer', '/dean/lecturer/list')}
                                     >
                                         <div className='d-flex align-items-center'>
-                                            <Image className='icon' />
+                                            <ListLecturerIcon className='sidebar-icon' />
                                             <span style={{ marginLeft: '6%' }}> Daftar Dosen </span>
-                                        </div>
-                                    </MenuItem>
-                                    <MenuItem
-                                        className={`superadmin-profile ${activeItem === 'superadmin-profile' ? 'active' : ''}`}
-                                        onClick={() => handleClick('superadmin-profile', '/dean/profile')}
-                                    >
-                                        <div className='d-flex align-items-center'>
-                                            <Image className='icon' />
-                                            <span style={{ marginLeft: '6%' }}> My profile </span>
                                         </div>
                                     </MenuItem>
                                     <MenuItem
@@ -197,8 +194,17 @@ const LeaderSideBar = () => {
                                         onClick={() => handleClick('superadmin-report', '/dean/report')}
                                     >
                                         <div className='d-flex align-items-center'>
-                                            <Image className='icon' />
+                                            <ReportIcon className='sidebar-icon' />
                                             <span style={{ marginLeft: '6%' }}> Laporan </span>
+                                        </div>
+                                    </MenuItem>
+                                    <MenuItem
+                                        className={`superadmin-profile ${activeItem === 'superadmin-profile' ? 'active' : ''}`}
+                                        onClick={() => handleClick('superadmin-profile', '/dean/profile')}
+                                    >
+                                        <div className='d-flex align-items-center'>
+                                            <ProfileIcon className='sidebar-icon' />
+                                            <span style={{ marginLeft: '6%' }}> My profile </span>
                                         </div>
                                     </MenuItem>
                                 </>

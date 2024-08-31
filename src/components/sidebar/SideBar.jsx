@@ -11,7 +11,10 @@ import {
 
 import LogoTelkom from "../../assets/images/logo.png";
 import { ReactComponent as LogoutIcon } from "../../assets/images/icons/logout.svg";
-import { ReactComponent as ProfileIcon } from "../../assets/images/icons/briefcase.svg";
+import { ReactComponent as DevotionIcon } from "../../assets/images/icons/briefcase.svg";
+import { ReactComponent as AssignmentIcon } from "../../assets/images/icons/task-square.svg";
+import { ReactComponent as ListLecturerIcon } from "../../assets/images/icons/profile-2user.svg";
+import { ReactComponent as ProfileIcon } from "../../assets/images/icons/profile.svg";
 
 import '../../assets/css/style.css';
 
@@ -66,20 +69,11 @@ const MySideBar = () => {
                     <div>
                         <div className='side-bar-menu-item'>
                             <MenuItem
-                                className={`lecturer-profile ${activeItem === 'lecturer-profile' ? 'active' : ''}`}
-                                onClick={() => handleClick('lecturer-profile', '/lecturer/profile')}
-                            >
-                                <div className='d-flex align-items-center'>
-                                    <ProfileIcon className='sidebar-icon' />
-                                    <span style={{ marginLeft: '13px' }}> My Profile </span>
-                                </div>
-                            </MenuItem>
-                            <MenuItem
                                 className={`lecturer-devotion ${activeItem === 'lecturer-devotion' ? 'active' : ''}`}
                                 onClick={() => handleClick('lecturer-devotion', '/lecturer/devotion')}
                             >
                                 <div className='d-flex align-items-center'>
-                                    <ProfileIcon className='sidebar-icon' />
+                                    <DevotionIcon className='sidebar-icon' />
                                     <span style={{ marginLeft: '13px' }}> Pengabdian </span>
                                 </div>
                             </MenuItem>
@@ -88,7 +82,7 @@ const MySideBar = () => {
                                 onClick={() => handleClick('lecturer-assignment', '/lecturer/assignment')}
                             >
                                 <div className='d-flex align-items-center'>
-                                    <ProfileIcon className='sidebar-icon' />
+                                    <AssignmentIcon className='sidebar-icon' />
                                     <span style={{ marginLeft: '13px' }}> Penugasan </span>
                                 </div>
                             </MenuItem>
@@ -97,8 +91,17 @@ const MySideBar = () => {
                                 onClick={() => handleClick('lecturer-list', '/lecturer/list')}
                             >
                                 <div className='d-flex align-items-center'>
-                                    <ProfileIcon className='sidebar-icon' />
+                                    <ListLecturerIcon className='sidebar-icon' />
                                     <span style={{ marginLeft: '13px' }}> Daftar Dosen </span>
+                                </div>
+                            </MenuItem>
+                            <MenuItem
+                                className={`lecturer-profile ${activeItem === 'lecturer-profile' ? 'active' : ''}`}
+                                onClick={() => handleClick('lecturer-profile', '/lecturer/profile')}
+                            >
+                                <div className='d-flex align-items-center'>
+                                    <ProfileIcon className='sidebar-icon' />
+                                    <span style={{ marginLeft: '13px' }}> My Profile </span>
                                 </div>
                             </MenuItem>
                         </div>

@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { usePeriod } from "../../PeriodProvider";
 
-import UserProfile from "../../assets/images/icons/profile.svg";
+import UserProfile from "../../assets/images/icons/profile-navbar.svg";
 import ArrowDownBlack from "../../assets/images/icons/arrow-down-b.svg";
 
 import "../../assets/css/style.css";

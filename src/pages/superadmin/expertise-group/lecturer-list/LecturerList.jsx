@@ -170,22 +170,22 @@ const ExpertiseGroupLecturerList = () => {
                                     <Image src={AddIcon} style={{ marginLeft: '20px' }} />
                                 </Button>
                             </Col>
-                            <Col xl={{ span: 4, offset: 2 }} className="mt-4 d-flex justify-content-end align-items-center">
-                                <CustomDropdown
-                                    onChange={handleSearchGroupName}
-                                />
-                            </Col>
-                            <Col xl={3} className="mt-4 d-flex justify-content-end align-items-center">
-                                <Form>
-                                    <Form.Control
-                                        className="form-search"
-                                        placeholder="Search"
-                                        aria-label="Search"
-                                        aria-describedby="basic-addon1"
-                                        style={{ height: '45px', width: '250px' }}
-                                        onChange={handleSearchChange}
+                            <Col xl={9} className="mt-4 d-flex justify-content-end align-items-center">
+                                <div className="d-flex gap-3">
+                                    <CustomDropdown
+                                        onChange={handleSearchGroupName}
                                     />
-                                </Form>
+                                    <Form>
+                                        <Form.Control
+                                            className="form-search"
+                                            placeholder="Search"
+                                            aria-label="Search"
+                                            aria-describedby="basic-addon1"
+                                            style={{ height: '45px', width: '250px' }}
+                                            onChange={handleSearchChange}
+                                        />
+                                    </Form>
+                                </div>
                             </Col>
                         </Row>
                     </div>
@@ -217,7 +217,7 @@ const ExpertiseGroupLecturerList = () => {
                             const displayIndex = (index + 1).toString().padStart(2, '0');
 
                             return (
-                                <Row className="table-body" key={lecturer.id} style={{padding: '12px'}}>
+                                <Row className="table-body" key={lecturer.id} style={{ padding: '12px' }}>
                                     <div className="d-flex align-items-center" style={{ padding: '16px 18px', backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FAFAFA' }}>
                                         <Col xl={1}>
                                             <h6>{displayIndex}</h6>
