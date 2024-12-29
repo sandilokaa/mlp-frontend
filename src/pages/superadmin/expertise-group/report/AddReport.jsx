@@ -63,6 +63,7 @@ const ExpertiseGroupAddReport = () => {
     const reportNameField = useRef();
     const reportPeriodField = useRef();
     const academicYearField = useRef();
+    const reportTypeField = useRef();
 
     const onCreateReport = async () => {
 
@@ -74,6 +75,7 @@ const ExpertiseGroupAddReport = () => {
             reportPayload.append("reportName", reportNameField.current.value);
             reportPayload.append("reportPeriod", reportPeriodField.current.value);
             reportPayload.append("academicYear", academicYearField.current.value);
+            reportPayload.append("reportType", reportTypeField.current.value);
             files.forEach((file) => {
                 reportPayload.append(`reportFile`, file);
             });
@@ -129,7 +131,7 @@ const ExpertiseGroupAddReport = () => {
                                 <div className="form-research-input">
                                     <Form>
                                         <Row className="mt-3">
-                                            <Col xl={4}>
+                                            <Col xl={6}>
                                                 <div>
                                                     <Form.Group controlId="exampleForm.ControlInput2">
                                                         <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Judul Laporan <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
@@ -137,7 +139,17 @@ const ExpertiseGroupAddReport = () => {
                                                     </Form.Group>
                                                 </div>
                                             </Col>
-                                            <Col xl={4}>
+                                            <Col xl={6}>
+                                                <div>
+                                                    <Form.Group controlId="exampleForm.ControlInput2">
+                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Jenis Laporan<span style={{ color: '#EA4D55' }}>*</span></Form.Label>
+                                                        <Form.Control type="text" placeholder="Contoh: HAKI" autoComplete="off" style={{ fontSize: '14px' }} ref={reportTypeField} required />
+                                                    </Form.Group>
+                                                </div>
+                                            </Col>
+                                        </Row>
+                                        <Row className="mt-3">
+                                            <Col xl={6}>
                                                 <div>
                                                     <Form.Group controlId="exampleForm.ControlInput3">
                                                         <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Periode <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
@@ -145,7 +157,7 @@ const ExpertiseGroupAddReport = () => {
                                                     </Form.Group>
                                                 </div>
                                             </Col>
-                                            <Col xl={4}>
+                                            <Col xl={6}>
                                                 <div>
                                                     <Form.Group controlId="exampleForm.ControlInput4">
                                                         <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Tahun Ajaran <span style={{ color: '#EA4D55' }}>*</span></Form.Label>

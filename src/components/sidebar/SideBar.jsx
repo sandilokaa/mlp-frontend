@@ -15,6 +15,7 @@ import { ReactComponent as DevotionIcon } from "../../assets/images/icons/briefc
 import { ReactComponent as AssignmentIcon } from "../../assets/images/icons/task-square.svg";
 import { ReactComponent as ListLecturerIcon } from "../../assets/images/icons/profile-2user.svg";
 import { ReactComponent as ProfileIcon } from "../../assets/images/icons/profile.svg";
+import { ReactComponent as ClaimIcon } from "../../assets/images/icons/claim.svg";
 
 import '../../assets/css/style.css';
 
@@ -33,10 +34,16 @@ const MySideBar = () => {
             setActiveItem('lecturer-profile');
         } else if (path.includes('/lecturer/devotion')) {
             setActiveItem('lecturer-devotion');
-        } else if (path.includes('/lecturer/assignment')) {
-            setActiveItem('lecturer-assignment');
+        } else if (path.includes('/lecturer/research')) {
+            setActiveItem('lecturer-research');
+        } else if (path.includes('/lecturer/publication')) {
+            setActiveItem('lecturer-publication');
         } else if (path.includes('/lecturer/list')) {
             setActiveItem('lecturer-list');
+        } else if (path.includes('/lecturer/ipright')) {
+            setActiveItem('lecturer-ipright');
+        } else if (path.includes('/lecturer/patent')) {
+            setActiveItem('lecturer-patent');
         } else {
             setActiveItem(null);
         }
@@ -69,6 +76,33 @@ const MySideBar = () => {
                     <div>
                         <div className='side-bar-menu-item'>
                             <MenuItem
+                                className={`lecturer-list ${activeItem === 'lecturer-list' ? 'active' : ''}`}
+                                onClick={() => handleClick('lecturer-list', '/lecturer/list')}
+                            >
+                                <div className='d-flex align-items-center'>
+                                    <ListLecturerIcon className='sidebar-icon' />
+                                    <span style={{ marginLeft: '13px' }}> Daftar Dosen </span>
+                                </div>
+                            </MenuItem>
+                            <MenuItem
+                                className={`lecturer-research ${activeItem === 'lecturer-research' ? 'active' : ''}`}
+                                onClick={() => handleClick('lecturer-research', '/lecturer/research')}
+                            >
+                                <div className='d-flex align-items-center'>
+                                    <AssignmentIcon className='sidebar-icon' />
+                                    <span style={{ marginLeft: '13px' }}> Penelitian </span>
+                                </div>
+                            </MenuItem>
+                            <MenuItem
+                                className={`lecturer-publication ${activeItem === 'lecturer-publication' ? 'active' : ''}`}
+                                onClick={() => handleClick('lecturer-publication', '/lecturer/publication')}
+                            >
+                                <div className='d-flex align-items-center'>
+                                    <AssignmentIcon className='sidebar-icon' />
+                                    <span style={{ marginLeft: '13px' }}> Publikasi </span>
+                                </div>
+                            </MenuItem>
+                            <MenuItem
                                 className={`lecturer-devotion ${activeItem === 'lecturer-devotion' ? 'active' : ''}`}
                                 onClick={() => handleClick('lecturer-devotion', '/lecturer/devotion')}
                             >
@@ -78,21 +112,21 @@ const MySideBar = () => {
                                 </div>
                             </MenuItem>
                             <MenuItem
-                                className={`lecturer-assignment ${activeItem === 'lecturer-assignment' ? 'active' : ''}`}
-                                onClick={() => handleClick('lecturer-assignment', '/lecturer/assignment')}
+                                className={`lecturer-ipright ${activeItem === 'lecturer-ipright' ? 'active' : ''}`}
+                                onClick={() => handleClick('lecturer-ipright', '/lecturer/ipright')}
                             >
                                 <div className='d-flex align-items-center'>
-                                    <AssignmentIcon className='sidebar-icon' />
-                                    <span style={{ marginLeft: '13px' }}> Penugasan </span>
+                                    <ClaimIcon className='sidebar-icon' />
+                                    <span style={{ marginLeft: '13px' }}> HAKI </span>
                                 </div>
                             </MenuItem>
                             <MenuItem
-                                className={`lecturer-list ${activeItem === 'lecturer-list' ? 'active' : ''}`}
-                                onClick={() => handleClick('lecturer-list', '/lecturer/list')}
+                                className={`lecturer-patent ${activeItem === 'lecturer-patent' ? 'active' : ''}`}
+                                onClick={() => handleClick('lecturer-patent', '/lecturer/patent')}
                             >
                                 <div className='d-flex align-items-center'>
-                                    <ListLecturerIcon className='sidebar-icon' />
-                                    <span style={{ marginLeft: '13px' }}> Daftar Dosen </span>
+                                    <ClaimIcon className='sidebar-icon' />
+                                    <span style={{ marginLeft: '13px' }}> Hak Paten </span>
                                 </div>
                             </MenuItem>
                             <MenuItem

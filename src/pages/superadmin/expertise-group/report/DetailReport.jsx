@@ -162,21 +162,27 @@ const ExpertiseGroupDetailReport = () => {
                                 </Row>
                                 <div style={{ gap: '20px', marginTop: '20px' }}>
                                     <Row>
-                                        <Col xl={5}>
+                                        <Col xl={12}>
                                             <h6>Judul Laporan</h6>
                                             <p>{reportData ? reportData.reportName : null}</p>
                                         </Col>
-                                        <Col xl={2}>
-                                            <h6>Periode</h6>
-                                            <p>{reportData ? reportData.reportPeriod : null}</p>
-                                        </Col>
-                                        <Col xl={2}>
-                                            <h6>Tahun Ajaran</h6>
-                                            <p>{reportData ? reportData.academicYear : null}</p>
-                                        </Col>
+                                    </Row>
+                                    <Row>
                                         <Col xl={3}>
                                             <h6>Last Update</h6>
                                             <p>{formatDate(reportData ? reportData.updatedAt : null)}</p>
+                                        </Col>
+                                        <Col xl={3}>
+                                            <h6>Jenis Laporan</h6>
+                                            <p>{reportData ? reportData.reportType : null}</p>
+                                        </Col>
+                                        <Col xl={3}>
+                                            <h6>Periode</h6>
+                                            <p>{reportData ? reportData.reportPeriod : null}</p>
+                                        </Col>
+                                        <Col xl={3}>
+                                            <h6>Tahun Ajaran</h6>
+                                            <p>{reportData ? reportData.academicYear : null}</p>
                                         </Col>
                                     </Row>
                                     <Row style={{ marginTop: '20px' }}>

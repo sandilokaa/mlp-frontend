@@ -125,7 +125,7 @@ const ExpertiseGroupReport = () => {
     /* ================ Pagination ================ */
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(4);
+    const [itemsPerPage] = useState(5);
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -171,7 +171,7 @@ const ExpertiseGroupReport = () => {
                                     <Col xl={1}>
                                         <h6>No</h6>
                                     </Col>
-                                    <Col xl={4}>
+                                    <Col xl={3}>
                                         <h6>Judul Laporan</h6>
                                     </Col>
                                     <Col xl={2} className="text-center">
@@ -181,6 +181,9 @@ const ExpertiseGroupReport = () => {
                                         <h6>Tahun Ajaran</h6>
                                     </Col>
                                     <Col xl={2} className="text-center">
+                                        <h6>Jenis Laporan</h6>
+                                    </Col>
+                                    <Col xl={1} className="text-center">
                                         <h6>Status</h6>
                                     </Col>
                                     <Col xl={1} className="text-center">
@@ -198,16 +201,19 @@ const ExpertiseGroupReport = () => {
                                                 <Col xl={1}>
                                                     <h6>{displayIndex}</h6>
                                                 </Col>
-                                                <Col xl={4}>
+                                                <Col xl={3}>
                                                     <h6>{report.reportName}</h6>
                                                 </Col>
                                                 <Col xl={2} className="text-center">
                                                     <h6>{report.reportPeriod}</h6>
                                                 </Col>
-                                                <Col xl={2} className="text-center" style={{ marginLeft: '5px' }}>
+                                                <Col xl={2} className="text-center" style={{ marginLeft: '1px' }}>
                                                     <h6>{report.academicYear}</h6>
                                                 </Col>
-                                                <Col xl={2} className="text-center d-flex justify-content-center" style={{ marginLeft: '6px' }}>
+                                                <Col xl={2} className="text-center" style={{ marginLeft: '3px' }}>
+                                                    <h6>{report.reportType}</h6>
+                                                </Col>
+                                                <Col xl={1} className="text-center d-flex justify-content-center" style={{ marginLeft: '5px' }}>
                                                     {
                                                         report.reportStatus === "Selesai" ? (
                                                             <div style={{ backgroundColor: '#EEFBF2', padding: '10px' }}>
@@ -226,7 +232,7 @@ const ExpertiseGroupReport = () => {
                                                                     null
                                                     }
                                                 </Col>
-                                                <Col xl={1} className="text-center" style={{ marginLeft: '5px' }}>
+                                                <Col xl={1} className="text-center" style={{ marginLeft: '0px' }}>
                                                     <Row style={{ display: 'flex', padding: '0', margin: '0' }}>
                                                         <Col xl={12} className="d-flex justify-content-center p-0">
                                                             <span className="view" onClick={() => navigate(`/expertisegroup/report/detail/${report.id}`)}>
@@ -246,7 +252,7 @@ const ExpertiseGroupReport = () => {
                                         key={number}
                                         active={number === currentPage}
                                         onClick={() => handlePageChange(number)}
-                                        linkStyle={{ backgroundColor: number === currentPage ? '#D62C35' : '#FEF2F3', border: number === currentPage ? '1px solid #D62C35' : '1px solid #FEF2F3' }}
+                                        linkStyle={{ backgroundColor: number === currentPage ? '#D62C35' : '#FEF2F3', border: number === currentPage ? '1px solid #D62C35' : '1px solid #FEF2F3', color: '#FFFFFF' }}
                                     >
                                         {number}
                                     </Pagination.Item>

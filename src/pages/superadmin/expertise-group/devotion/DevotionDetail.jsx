@@ -9,15 +9,14 @@ import {
 import fileDownload from 'js-file-download';
 import axios from "axios";
 
-import LecturerDashboardLayout from "../../../layouts/dashboard/LecturerDashboardLayout";
-import ArrowLeft from "../../../assets/images/icons/arrow-left.svg";
-import EditIcon from "../../../assets/images/icons/edit.svg";
-import UploadIcon from "../../../assets/images/icons/document-upload-red.svg";
-import DownloadIcon from "../../../assets/images/icons/iconoir_download.svg";
+import SuperadminDashboardLayout from "../../../../layouts/dashboard/SuperadminDashboardLayout";
+import ArrowLeft from "../../../../assets/images/icons/arrow-left.svg";
+import UploadIcon from "../../../../assets/images/icons/document-upload-red.svg";
+import DownloadIcon from "../../../../assets/images/icons/iconoir_download.svg";
 
-import "../../../assets/css/style.css";
+import "../../../../assets/css/style.css";
 
-const AssignmentDetail = () => {
+const ExpertiseGroupDevotionDetail = () => {
 
 
     /* -------------------- Global Variable -------------------- */
@@ -26,9 +25,9 @@ const AssignmentDetail = () => {
 
     /* -------------------- End Global Variable -------------------- */
 
-    /* --------- Get Assignment By Id ---------*/
+    /* --------- Get Devotion By Id ---------*/
 
-    const [assignmentData, setAssignmentData] = useState();
+    const [devotionData, setDevotionData] = useState();
 
     const params = useLocation();
 
@@ -36,14 +35,14 @@ const AssignmentDetail = () => {
 
     useEffect(() => {
 
-        const onAssignmentById = async () => {
+        const onDevotionById = async () => {
 
             try {
 
                 const token = localStorage.getItem("token");
 
-                const getAssignmentRequest = await axios.get(
-                    `http://localhost:8080/api/v1/lecturer/assignment/${id}`,
+                const getDevotionRequest = await axios.get(
+                    `http://localhost:8080/api/v1/superadmin/devotion/${id}`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -52,9 +51,9 @@ const AssignmentDetail = () => {
                     }
                 );
 
-                const getAssignmentResponse = getAssignmentRequest.data;
+                const getDevotionResponse = getDevotionRequest.data;
 
-                setAssignmentData(getAssignmentResponse.data.getAssignment);
+                setDevotionData(getDevotionResponse.data.getDevotion);
 
             } catch (err) {
                 alert(err.message);
@@ -62,11 +61,11 @@ const AssignmentDetail = () => {
 
         };
 
-        onAssignmentById();
+        onDevotionById();
 
     }, [id]);
 
-    /* --------- End Get Research By Id ---------*/
+    /* --------- End Get Devotion By Id ---------*/
 
 
     /* ================ Download File ================ */
@@ -89,27 +88,23 @@ const AssignmentDetail = () => {
 
     /* ================ End Download File ================ */
 
-
     return (
 
-        <LecturerDashboardLayout>
+        <SuperadminDashboardLayout>
             <div id="detail-research-content">
                 <Container fluid style={{ padding: '0 32px' }}>
                     <Row className="detail-research-title">
                         <Col xl={12} className="d-flex align-items-center">
-                            <Image onClick={() => navigate('/lecturer/assignment')} src={ArrowLeft} style={{ marginRight: '16px', cursor: 'pointer' }} />
-                            <h1>Lihat Penugasan</h1>
+                            <Image onClick={() => navigate('/expertisegroup/devotion')} src={ArrowLeft} style={{ marginRight: '16px', cursor: 'pointer' }} />
+                            <h1>Lihat Pengabdian</h1>
                         </Col>
                     </Row>
                     <Row className="detail-research-wrapper">
                         <Col xl={9}>
                             <div style={{ padding: '16px', backgroundColor: '#FFFFFF', borderRadius: '8px', marginTop: '20px' }}>
                                 <Row>
-                                    <Col xl={10} className="d-flex justify-content-start align-items-center">
-                                        <h5 style={{ fontSize: '14px', fontWeight: '700', color: '#292929', margin: 'auto 0' }}>Informasi Penugasan</h5>
-                                    </Col>
-                                    <Col xl={2} className="d-flex justify-content-end align-items-center">
-                                        <Image src={EditIcon} style={{ width: '20px', cursor: 'pointer' }} onClick={() => navigate(`/lecturer/assignment/update/${id}`)}/>
+                                    <Col xl={12} className="d-flex justify-content-start align-items-center">
+                                        <h5 style={{ fontSize: '14px', fontWeight: '700', color: '#292929', margin: 'auto 0' }}>Informasi Pengabdian</h5>
                                     </Col>
                                 </Row>
                                 <div style={{ gap: '20px', marginTop: '20px' }}>
@@ -118,39 +113,37 @@ const AssignmentDetail = () => {
                                             <h6>Nama Dosen</h6>
                                         </Col>
                                         <Col xl={12}>
-                                            <p>{assignmentData ? assignmentData.Lecturer.name : null}</p>
+                                            <p>{devotionData ? devotionData.Lecturer.name : null}</p>
                                         </Col>
                                     </Row>
                                     <Row>
                                         <Col xl={12}>
-                                            <h6>Judul Penugasan</h6>
+                                            <h6>Judul Pengabdian</h6>
                                         </Col>
                                         <Col xl={12}>
-                                            <p>{assignmentData ? assignmentData.assignmentName : null}</p>
+                                            <p>{devotionData ? devotionData.devotionName : null}</p>
                                         </Col>
                                     </Row>
                                     <Row>
                                         <Col xl={12}>
-                                            <h6>Jenis Penugasan</h6>
-                                            <p>{assignmentData ? assignmentData.assignmentType : null}</p>
+                                            <h6>Peran Dalam Pengabdian</h6>
+                                            <p>{devotionData ? devotionData.devotionRole : null}</p>
                                         </Col>
                                     </Row>
                                     <Row>
                                         <Col xl={6}>
                                             <h6>Periode</h6>
-                                            <p>{assignmentData ? assignmentData.assignmentPeriod : null}</p>
+                                            <p>{devotionData ? devotionData.devotionPeriod : null}</p>
                                         </Col>
                                         <Col xl={6}>
                                             <h6>Tahun Ajaran</h6>
-                                            <p>{assignmentData ? assignmentData.academicYear : null}</p>
+                                            <p>{devotionData ? devotionData.academicYear : null}</p>
                                         </Col>
                                     </Row>
                                     <Row>
                                         <Col xl={12}>
-                                            <h6>Deskripsi Penugasan</h6>
-                                        </Col>
-                                        <Col xl={12}>
-                                            <p>{assignmentData ? assignmentData.assignmentDescription : null}</p>
+                                            <h6>Deskripsi Pengabdian</h6>
+                                            <p>{devotionData ? devotionData.devotionDescription : null}</p>
                                         </Col>
                                     </Row>
                                     <Row>
@@ -160,10 +153,10 @@ const AssignmentDetail = () => {
                                         <Col xl={6}>
                                             <div style={{ display: 'flex', gap: '10px', padding: '15px 10px', background: '#FEF2F3', borderRadius: '4px', zIndex: '999', width: 'fit-content' }}>
                                                 <Image src={UploadIcon} style={{ width: '15px' }} />
-                                                <p style={{ margin: 'auto 0', color: '#292929', fontSize: '14px' }}>{assignmentData ? assignmentData.assignmentFile : null}</p>
-                                                <Image 
+                                                <p style={{ margin: 'auto 0', color: '#292929', fontSize: '14px' }}>{devotionData ? devotionData.devotionFile : null}</p>
+                                                <Image
                                                     src={DownloadIcon} style={{ width: '16px', marginLeft: '40px', cursor: 'pointer' }}
-                                                    onClick={() => handleDownload(`http://localhost:8080/${assignmentData ? assignmentData.assignmentFile : null}`, assignmentData ? assignmentData.assignmentFile : null)}
+                                                    onClick={() => handleDownload(`http://localhost:8080/${devotionData ? devotionData.devotionFile : null}`, devotionData ? devotionData.devotionFile : null)}
                                                 />
                                             </div>
                                         </Col>
@@ -171,31 +164,13 @@ const AssignmentDetail = () => {
                                 </div>
                             </div>
                         </Col>
-                        <Col xl={3}>
-                            <div style={{ padding: '16px', backgroundColor: '#FFFFFF', borderRadius: '8px', marginTop: '20px' }}>
-                                <Row>
-                                    <Col xl={12} className="d-flex justify-content-start align-items-center">
-                                        <h5 style={{ fontSize: '14px', fontWeight: '700', color: '#292929', margin: 'auto 0' }}>Nilai Penelitian</h5>
-                                    </Col>
-                                </Row>
-                                <Row className="mt-4">
-                                    <Col xl={12} className="d-flex justify-content-start align-items-center">
-                                        {assignmentData && assignmentData.assignmentValue? (
-                                            <p style={{ color: '#292929', fontSize: '24px', fontWeight: '700' }}>{assignmentData.assignmentValue}</p>
-                                        ) : (
-                                            <p style={{ color: '#989898' }}>Penelitian Belum dilakukan</p>
-                                        )}
-                                    </Col>
-                                </Row>
-                            </div>
-                        </Col>
                     </Row>
                 </Container>
             </div>
-        </LecturerDashboardLayout>
+        </SuperadminDashboardLayout>
 
     );
 
 };
 
-export default AssignmentDetail;
+export default ExpertiseGroupDevotionDetail;

@@ -12,7 +12,6 @@ import {
 import axios from "axios";
 
 import LecturerDashboardLayout from "../../../layouts/dashboard/LecturerDashboardLayout";
-import { usePeriod } from "../../../PeriodProvider";
 
 import ViewIcon from "../../../assets/images/icons/eye.svg";
 import DeleteIcon from "../../../assets/images/icons/trash.svg";
@@ -21,7 +20,7 @@ import AddIcon from "../../../assets/images/icons/add.svg";
 
 import "../../../assets/css/style.css";
 
-const LecturerAssignment = () => {
+const LecturerPublication = () => {
 
 
     /* -------------------- Global Variable -------------------- */
@@ -32,35 +31,29 @@ const LecturerAssignment = () => {
     /* -------------------- End Global Variable -------------------- */
 
 
-    /* ================ Get Assignment Data ================ */
+    /* ================ Get Publication Data ================ */
 
-    const [assignmentData, setAssignmentData] = useState([]);
-    const { selectedPeriod } = usePeriod();
-    const [assignmentPeriod, academicYear] = selectedPeriod.split(' ');
+    const [publicationData, setPublicationData] = useState([]);
 
-    const getAssignmentData = async () => {
+    const getPublicationData = async () => {
 
         try {
 
             const token = localStorage.getItem("token");
 
             const getDataRequest = await axios.get(
-                `http://localhost:8080/api/v1/lecturer/assignment`,
+                `http://localhost:8080/api/v1/lecturer/publication`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
                         "Access-Control-Allo-Origin": "*"
-                    },
-                    params: {
-                        assignmentPeriod: assignmentPeriod,
-                        academicYear: academicYear
                     }
                 }
             );
 
-            const getDataResponse = await getDataRequest.data.data.getAssignment;
+            const getDataResponse = await getDataRequest.data.data.getPublication;
 
-            setAssignmentData(getDataResponse);
+            setPublicationData(getDataResponse);
 
         } catch (err) {
             console.log(err);
@@ -70,24 +63,24 @@ const LecturerAssignment = () => {
 
     useEffect(() => {
 
-        getAssignmentData();
+        getPublicationData();
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedPeriod]);
+    }, []);
 
-    /* ================ End Get Assignment Data ================ */
+    /* ================ End Get Publication Data ================ */
 
 
-    /* ================ Delete Assignment Data ================ */
+    /* ================ Delete Publication Data ================ */
 
-    const onDeleteAssignment = async (id) => {
+    const onDeletePublication = async (id) => {
 
         const token = localStorage.getItem("token");
 
         try {
 
-            const assignmentRequest = await axios.delete(
-                `http://localhost:8080/api/v1/lecturer/assignment/${id}`,
+            const publicationRequest = await axios.delete(
+                `http://localhost:8080/api/v1/lecturer/publication/${id}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -95,13 +88,13 @@ const LecturerAssignment = () => {
                 }
             );
 
-            const assignmentResponse = await assignmentRequest.data;
+            const publicationResponse = await publicationRequest.data;
 
-            enqueueSnackbar(assignmentResponse.message, { variant: 'success', anchorOrigin: { vertical: 'top', horizontal: 'center' }, autoHideDuration: 2000 });
+            enqueueSnackbar(publicationResponse.message, { variant: 'success', anchorOrigin: { vertical: 'top', horizontal: 'center' }, autoHideDuration: 2000 });
 
-            if (assignmentResponse.status) {
+            if (publicationResponse.status) {
 
-                window.location.reload("/lecturer/assignment")
+                window.location.reload("/lecturer/publication")
 
             }
 
@@ -113,22 +106,22 @@ const LecturerAssignment = () => {
 
     };
 
-    /* ================ End Delete Assignment Data ================ */
+    /* ================ End Delete Publication Data ================ */
 
 
     /* ================ Pagination ================ */
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(4);
+    const [itemsPerPage] = useState(5);
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = assignmentData.slice(indexOfFirstItem, indexOfLastItem);
+    const currentItems = publicationData.slice(indexOfFirstItem, indexOfLastItem);
 
     const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
     const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(assignmentData.length / itemsPerPage); i++) {
+    for (let i = 1; i <= Math.ceil(publicationData.length / itemsPerPage); i++) {
         pageNumbers.push(i);
     }
 
@@ -145,10 +138,10 @@ const LecturerAssignment = () => {
                         <Row>
                             <Col xl={3}>
                                 <Button
-                                    onClick={() => navigate('/lecturer/assignment/create')}
+                                    onClick={() => navigate('/lecturer/publication/create')}
                                     style={{ width: '227px' }}
                                 >
-                                    Tambah Penugasan
+                                    Tambah Publikasi
                                     <Image src={AddIcon} style={{ marginLeft: '8px' }} />
                                 </Button>
                             </Col>
@@ -162,20 +155,20 @@ const LecturerAssignment = () => {
                                         <h6>No</h6>
                                     </Col>
                                     <Col xl={5}>
-                                        <h6>Nama Penugasan</h6>
+                                        <h6>Judul Publikasi</h6>
                                     </Col>
                                     <Col xl={2} className="text-center">
-                                        <h6>Jenis Penugasan</h6>
+                                        <h6>Jenis Publikasi</h6>
                                     </Col>
                                     <Col xl={2} className="text-center">
-                                        <h6>Skor</h6>
+                                        <h6>URL Publikasi</h6>
                                     </Col>
                                     <Col xl={2} className="text-center">
                                         <h6>Action</h6>
                                     </Col>
                                 </Row>
                                 <hr style={{ marginTop: '10px' }} />
-                                {currentItems.map((assignment, index) => {
+                                {currentItems.map((publication, index) => {
 
                                     const colStyle = {
                                         backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FAFAFA',
@@ -189,39 +182,35 @@ const LecturerAssignment = () => {
                                     const displayIndex = (index + 1).toString().padStart(2, '0');
 
                                     return (
-                                        <Row className="table-body" key={assignment.id} style={{ padding: '12px' }}>
+                                        <Row className="table-body" key={publication.id} style={{ padding: '12px' }}>
                                             <div style={colStyle}>
                                                 <Col xl={1}>
                                                     <h6>{displayIndex}</h6>
                                                 </Col>
                                                 <Col xl={5}>
-                                                    <h6>{assignment.assignmentName}</h6>
+                                                    <h6>{publication.publicationTitle}</h6>
                                                 </Col>
                                                 <Col xl={2} className="text-center">
-                                                    <h6>{assignment.assignmentType}</h6>
+                                                    <h6>{publication.publicationType}</h6>
                                                 </Col>
                                                 <Col xl={2} className="text-center">
-                                                    {assignment && assignment.assignmentValue ? (
-                                                        <h6>{assignment.assignmentValue}</h6>
-                                                    ) : (
-                                                        <h6>?</h6>
-                                                    )}
+                                                    <h6 onClick={() => window.location.href = `${publication.urlPublication}`} style={{color:'#2181E8', textDecoration: 'underline', cursor: 'pointer'}}>Lihat</h6>
                                                 </Col>
                                                 <Col xl={2} className="text-center" style={{ marginLeft: '4px' }}>
                                                     <Row style={{ display: 'flex', padding: '0', margin: '0' }}>
                                                         <Col xl={4} className="d-flex justify-content-end p-0">
-                                                            <span className="view" onClick={() => navigate(`/lecturer/assignment/detail/${assignment.id}`)}>
+                                                            <span className="view" onClick={() => navigate(`/lecturer/publication/detail/${publication.id}`)}>
                                                                 <Image src={ViewIcon} />
                                                             </span>
                                                         </Col>
                                                         <Col xl={4} className="d-flex justify-content-center p-0">
-                                                            <span className="edit" onClick={() => navigate(`/lecturer/assignment/update/${assignment.id}`)}>
+                                                            <span className="edit" onClick={() => navigate(`/lecturer/publication/update/${publication.id}`)}>
                                                                 <Image src={EditIcon} />
                                                             </span>
                                                         </Col>
                                                         <Col xl={4} className="d-flex justify-content-start p-0">
                                                             <span className="delete">
-                                                                <Image src={DeleteIcon} onClick={() => onDeleteAssignment(assignment.id)} />
+                                                                <Image src={DeleteIcon} onClick={() => onDeletePublication(publication.id)} />
                                                             </span>
                                                         </Col>
                                                     </Row>
@@ -248,7 +237,7 @@ const LecturerAssignment = () => {
                         <div>
                             <Row>
                                 <Col xl={12} className=" mt-4 d-flex justify-content-center">
-                                    <h1 style={{ fontSize: '16px', color: '#989898',  marginTop: '220px'  }}>Belum ada penugasan yang ditambahkan pada periode ini.</h1>
+                                    <h1 style={{ fontSize: '16px', color: '#989898',  marginTop: '220px'  }}>Belum ada publikasi yang ditambahkan pada periode ini.</h1>
                                 </Col>
                             </Row>
                         </div>
@@ -261,4 +250,4 @@ const LecturerAssignment = () => {
 
 };
 
-export default LecturerAssignment;
+export default LecturerPublication;

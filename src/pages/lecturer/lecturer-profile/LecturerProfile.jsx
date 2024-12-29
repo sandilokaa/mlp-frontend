@@ -51,10 +51,7 @@ const LecturerProfile = () => {
             );
 
             const getDataResponse = await getDataRequest.data.data.getDetailLecture;
-
-            console.log(getDataResponse);
-
-
+            
             setLecturerData(getDataResponse);
             setLoading(false);
 
@@ -222,38 +219,6 @@ const LecturerProfile = () => {
                         <Col xl={6}>
                             <div>
                                 <Col xl={12} style={{ padding: '20px', background: '#FFFFFF', borderRadius: '8px', height: 'fit-content' }}>
-                                    <div>
-                                        <h1 style={{ fontSize: '14px', fontWeight: '700' }}>Penilaian Kerja</h1>
-                                    </div>
-                                    <div className="work-assessment">
-                                        <Row>
-                                            <Col xl={6}>
-                                                <h6 style={{ marginTop: '12px', fontSize: '10px', color: '#989898' }}>Nilai</h6>
-                                                {lecturerData && lecturerData.averageValue ? (
-                                                    <p style={{ fontSize: '14px', color: '#292929' }}>{lecturerData.averageValue}</p>
-                                                ) : (
-                                                    <p style={{ fontSize: '14px', color: '#292929' }}><span style={{ color: '#EA4D55' }}>*</span> Belum dinilai</p>
-                                                )}
-                                            </Col>
-                                            <Col xl={6}>
-                                                <h6 style={{ marginTop: '12px', fontSize: '10px', color: '#989898' }}>Predikat</h6>
-                                                {
-                                                    lecturerData && parseFloat(lecturerData.averageValue) > 0 && lecturerData && parseFloat(lecturerData.averageValue) < 5 ? (
-                                                        <p style={{ fontSize: '14px', color: '#292929' }}>Cukup Baik</p>
-                                                    ) : lecturerData && parseFloat(lecturerData.averageValue) > 5 && lecturerData && parseFloat(lecturerData.averageValue) < 8 ? (
-                                                        <p style={{ fontSize: '14px', color: '#292929' }}>Baik</p>
-                                                    ) :
-                                                        lecturerData && parseFloat(lecturerData.averageValue) >= 8 ? (
-                                                        <p style={{ fontSize: '14px', color: '#292929' }}>Sangat Baik</p>
-                                                    ) : (
-                                                        <p style={{ fontSize: '14px', color: '#292929' }}><span style={{ color: '#EA4D55' }}>*</span> Belum dinilai</p>
-                                                    )
-                                                }
-                                            </Col>
-                                        </Row>
-                                    </div>
-                                </Col>
-                                <Col xl={12} style={{ padding: '20px', background: '#FFFFFF', borderRadius: '8px', height: 'fit-content', marginTop: '20px' }}>
                                     <div>
                                         <h1 style={{ fontSize: '14px', fontWeight: '700' }}>Riwayat Pendidikan</h1>
                                     </div>

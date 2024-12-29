@@ -162,7 +162,7 @@ const DeanReportDetail = () => {
     const handleEditClick = () => {
         setIsEditing(true);
     };
-    
+
     const handleCancelClick = () => {
         setIsEditing(false);
     };
@@ -259,26 +259,32 @@ const DeanReportDetail = () => {
                                         <h5 style={{ fontSize: '14px', fontWeight: '700', color: '#292929', margin: 'auto 0' }}>Informasi Penelitian</h5>
                                     </Col>
                                 </Row>
-                                <div style={{ gap: '20px', marginTop: '20px' }}>
+                                <div style={{ marginTop: '20px' }}>
                                     <Row>
-                                        <Col xl={5}>
+                                        <Col xl={12}>
                                             <h6>Judul Laporan</h6>
                                             <p>{reportData ? reportData.reportName : null}</p>
                                         </Col>
-                                        <Col xl={2}>
-                                            <h6>Periode</h6>
-                                            <p>{reportData ? reportData.reportPeriod : null}</p>
-                                        </Col>
-                                        <Col xl={2}>
-                                            <h6>Tahun Ajaran</h6>
-                                            <p>{reportData ? reportData.academicYear : null}</p>
-                                        </Col>
+                                    </Row>
+                                    <Row>
                                         <Col xl={3}>
                                             <h6>Last Update</h6>
                                             <p>{formatDate(reportData ? reportData.updatedAt : null)}</p>
                                         </Col>
+                                        <Col xl={3}>
+                                            <h6>Jenis Laporan</h6>
+                                            <p>{reportData ? reportData.reportType : null}</p>
+                                        </Col>
+                                        <Col xl={3}>
+                                            <h6>Periode</h6>
+                                            <p>{reportData ? reportData.reportPeriod : null}</p>
+                                        </Col>
+                                        <Col xl={3}>
+                                            <h6>Tahun Ajaran</h6>
+                                            <p>{reportData ? reportData.academicYear : null}</p>
+                                        </Col>
                                     </Row>
-                                    <Row style={{ marginTop: '20px' }}>
+                                    <Row style={{ marginTop: '10px' }}>
                                         <Col xl={12}>
                                             <h6>Dokumen Pendukung</h6>
                                         </Col>
@@ -374,18 +380,20 @@ const DeanReportDetail = () => {
                                     </Row>
                                 ) : (
                                     <div className="mt-4 d-flex justify-content-center gap-1">
-                                            <Button
-                                                onClick={() => onDoneReportUpdate()}
-                                                style={{ backgroundColor: '#D62C35', border: '1px solid #D62C35' }}
-                                            >
-                                                Tandai Selesai
-                                            </Button>
-                                            <Button
-                                                onClick={handleEditClick}
-                                                style={{ backgroundColor: 'transparent', border: '1px solid #D62C35', color: '#D62C35' }}
-                                            >
-                                                Tambahkan Catatan
-                                            </Button>
+                                            <>
+                                                <Button
+                                                    onClick={() => onDoneReportUpdate()}
+                                                    style={{ backgroundColor: '#D62C35', border: '1px solid #D62C35' }}
+                                                >
+                                                    Tandai Selesai
+                                                </Button>
+                                                <Button
+                                                    onClick={handleEditClick}
+                                                    style={{ backgroundColor: 'transparent', border: '1px solid #D62C35', color: '#D62C35' }}
+                                                >
+                                                    Tambahkan Catatan
+                                                </Button>
+                                            </>
                                     </div>
                                 )}
                             </div>

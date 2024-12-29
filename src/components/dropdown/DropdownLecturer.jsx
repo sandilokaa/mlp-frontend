@@ -89,7 +89,7 @@ const CustomDropdown = ({ onChange }) => {
 
     return (
         <div className="dropdown">
-            <button onClick={handleDropdownClick} className="dropdown-button" style={{ width: '305px' }}>
+            <button onClick={handleDropdownClick} className="dropdown-button" style={{ width: '100%' }}>
                 <Row>
                     <Col xl={11} className='d-flex justify-content-start align-items-center'>
                         {selectedOption || lecturer.groupName}

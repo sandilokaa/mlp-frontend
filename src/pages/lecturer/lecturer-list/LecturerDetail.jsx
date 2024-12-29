@@ -221,38 +221,6 @@ const OtherLecturerDetail = () => {
                             <div>
                                 <Col xl={12} style={{ padding: '20px', background: '#FFFFFF', borderRadius: '8px', height: 'fit-content' }}>
                                     <div>
-                                        <h1 style={{ fontSize: '14px', fontWeight: '700' }}>Penilaian Kerja</h1>
-                                    </div>
-                                    <div className="work-assessment">
-                                        <Row>
-                                            <Col xl={6}>
-                                                <h6 style={{ marginTop: '12px', fontSize: '10px', color: '#989898' }}>Nilai</h6>
-                                                {lecturerData && lecturerData.averageValue ? (
-                                                    <p style={{ fontSize: '14px', color: '#292929' }}>{lecturerData.averageValue}</p>
-                                                ) : (
-                                                    <p style={{ fontSize: '14px', color: '#292929' }}><span style={{ color: '#EA4D55' }}>*</span> Belum dinilai</p>
-                                                )}
-                                            </Col>
-                                            <Col xl={6}>
-                                                <h6 style={{ marginTop: '12px', fontSize: '10px', color: '#989898' }}>Predikat</h6>
-                                                {
-                                                    lecturerData && parseFloat(lecturerData.averageValue) > 0 ? (
-                                                        <p style={{ fontSize: '14px', color: '#292929' }}>Cukup Baik</p>
-                                                    ) : lecturerData && parseFloat(lecturerData.averageValue) > 5 ? (
-                                                        <p style={{ fontSize: '14px', color: '#292929' }}>Baik</p>
-                                                    ) :
-                                                        lecturerData && parseFloat(lecturerData.averageValue) >= 8 ? (
-                                                            <p style={{ fontSize: '14px', color: '#292929' }}>Sangat Baik</p>
-                                                        ) : (
-                                                            <p style={{ fontSize: '14px', color: '#292929' }}><span style={{ color: '#EA4D55' }}>*</span> Belum dinilai</p>
-                                                        )
-                                                }
-                                            </Col>
-                                        </Row>
-                                    </div>
-                                </Col>
-                                <Col xl={12} style={{ padding: '20px', background: '#FFFFFF', borderRadius: '8px', height: 'fit-content', marginTop: '20px' }}>
-                                    <div>
                                         <h1 style={{ fontSize: '14px', fontWeight: '700' }}>Riwayat Pengabdian</h1>
                                     </div>
                                     <div className="history-table-head">
@@ -260,11 +228,8 @@ const OtherLecturerDetail = () => {
                                             <Col xl={1}>
                                                 <h1>No</h1>
                                             </Col>
-                                            <Col xl={9}>
+                                            <Col xl={11}>
                                                 <h1>Judul Pengabdian</h1>
-                                            </Col>
-                                            <Col xl={2} className="text-center">
-                                                <h1>Skor</h1>
                                             </Col>
                                         </Row>
                                     </div>
@@ -280,11 +245,8 @@ const OtherLecturerDetail = () => {
                                                             <Col xl={1}>
                                                                 <p>{displayIndex}</p>
                                                             </Col>
-                                                            <Col xl={9}>
+                                                            <Col xl={11}>
                                                                 <p>{devotion.devotionName}</p>
-                                                            </Col>
-                                                            <Col xl={2} className="text-center">
-                                                                <p>{devotion.devotionValue}</p>
                                                             </Col>
                                                         </Row>
                                                     </div>
@@ -304,11 +266,8 @@ const OtherLecturerDetail = () => {
                                             <Col xl={1}>
                                                 <h1>No</h1>
                                             </Col>
-                                            <Col xl={9}>
+                                            <Col xl={11}>
                                                 <h1>Judul Penugasan</h1>
-                                            </Col>
-                                            <Col xl={2} className="text-center">
-                                                <h1>Skor</h1>
                                             </Col>
                                         </Row>
                                     </div>
@@ -324,11 +283,8 @@ const OtherLecturerDetail = () => {
                                                             <Col xl={1}>
                                                                 <p>{displayIndex}</p>
                                                             </Col>
-                                                            <Col xl={9}>
+                                                            <Col xl={11}>
                                                                 <p>{assignment.assignmentName}</p>
-                                                            </Col>
-                                                            <Col xl={2} className="text-center">
-                                                                <p>{assignment.assignmentValue}</p>
                                                             </Col>
                                                         </Row>
                                                     </div>

@@ -145,11 +145,8 @@ const LectureListGroup = () => {
                             <Col xl={5}>
                                 <h6>Nama Dosen</h6>
                             </Col>
-                            <Col xl={3} className="text-center">
+                            <Col xl={5} className="text-center">
                                 <h6>Kelompok Keahlian</h6>
-                            </Col>
-                            <Col xl={2} className="text-center">
-                                <h6>Skor</h6>
                             </Col>
                             <Col xl={1} className="text-center">
                                 <h6>Action</h6>
@@ -170,17 +167,10 @@ const LectureListGroup = () => {
                                         <Col xl={5} style={{ marginLeft: '1px' }}>
                                             <h6>{lecturer.Lecturer.name}</h6>
                                         </Col>
-                                        <Col xl={3} className="text-center" style={{ marginLeft: '5px' }}>
+                                        <Col xl={5} className="text-center" style={{ marginLeft: '5px' }}>
                                             <h6>{lecturer.Lecturer.groupName}</h6>
                                         </Col>
-                                        <Col xl={2} className="text-center" style={{ marginLeft: '3px' }}>
-                                            {lecturer && lecturer.averageValue ? (
-                                                <h6>{lecturer.averageValue}</h6>
-                                            ) : (
-                                                <h6><span style={{ color: '#EA4D55' }}>*</span> Belum dinilai</h6>
-                                            )}
-                                        </Col>
-                                        <Col xl={1} className="text-center" style={{ marginLeft: '3px' }}>
+                                        <Col xl={1} className="text-center" style={{ marginLeft: '4px' }}>
                                             <Row style={{ display: 'flex', padding: '0', margin: '0' }}>
                                                 <Col xl={12} className="d-flex justify-content-center p-0">
                                                     <span className="view" onClick={() => navigate(`/lecturer/list/detail/${lecturer.id}`)}>

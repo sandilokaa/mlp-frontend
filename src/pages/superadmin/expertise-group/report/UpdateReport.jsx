@@ -106,6 +106,7 @@ const ExpertiseGroupUpdateReport = () => {
     const reportNameField = useRef();
     const reportPeriodField = useRef();
     const academicYearField = useRef();
+    const reportTypeField = useRef();
 
     const onUpdateReport = async () => {
 
@@ -117,6 +118,7 @@ const ExpertiseGroupUpdateReport = () => {
             reportPayload.append("reportName", reportNameField.current.value);
             reportPayload.append("reportPeriod", reportPeriodField.current.value);
             reportPayload.append("academicYear", academicYearField.current.value);
+            reportPayload.append("reportType", reportTypeField.current.value);
             files.forEach((file) => {
                 reportPayload.append(`reportFile`, file);
             });
@@ -132,7 +134,7 @@ const ExpertiseGroupUpdateReport = () => {
                     },
                 }
             );
-            
+
 
             const updateReportResponse = updateReportRequest.data;
 
@@ -143,15 +145,15 @@ const ExpertiseGroupUpdateReport = () => {
                 navigate("/expertisegroup/report");
 
             }
-            
+
         } catch (err) {
-            
+
             enqueueSnackbar(err.message, { variant: 'error', anchorOrigin: { vertical: 'top', horizontal: 'center' }, autoHideDuration: 2000 });
 
         }
 
     };
-    
+
     /* -------------------- End Update Report -------------------- */
 
     return (
@@ -172,27 +174,37 @@ const ExpertiseGroupUpdateReport = () => {
                                 <div className="form-research-input">
                                     <Form>
                                         <Row className="mt-3">
-                                            <Col xl={4}>
+                                            <Col xl={6}>
                                                 <div>
                                                     <Form.Group controlId="exampleForm.ControlInput2">
                                                         <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Judul Laporan <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
-                                                        <Form.Control type="text" placeholder="Contoh: Perbandingan Metode X terhadap Y" autoComplete="off" style={{ fontSize: '14px' }} defaultValue={reportData ? reportData.reportName : null} ref={reportNameField}/>
+                                                        <Form.Control type="text" placeholder="Contoh: Perbandingan Metode X terhadap Y" autoComplete="off" style={{ fontSize: '14px' }} defaultValue={reportData ? reportData.reportName : null} ref={reportNameField} />
                                                     </Form.Group>
                                                 </div>
                                             </Col>
-                                            <Col xl={4}>
+                                            <Col xl={6}>
+                                                <div>
+                                                    <Form.Group controlId="exampleForm.ControlInput2">
+                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Jenis Laporan <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
+                                                        <Form.Control type="text" placeholder="Contoh: HAKI" autoComplete="off" style={{ fontSize: '14px' }} defaultValue={reportData ? reportData.reportType : null} ref={reportTypeField} />
+                                                    </Form.Group>
+                                                </div>
+                                            </Col>
+                                        </Row>
+                                        <Row className="mt-3">
+                                            <Col xl={6}>
                                                 <div>
                                                     <Form.Group controlId="exampleForm.ControlInput3">
                                                         <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Periode <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
-                                                        <Form.Control type="email" placeholder="Contoh: Genap" autoComplete="off" style={{ fontSize: '14px' }} defaultValue={reportData ? reportData.reportPeriod : null} ref={reportPeriodField}/>
+                                                        <Form.Control type="email" placeholder="Contoh: Genap" autoComplete="off" style={{ fontSize: '14px' }} defaultValue={reportData ? reportData.reportPeriod : null} ref={reportPeriodField} />
                                                     </Form.Group>
                                                 </div>
                                             </Col>
-                                            <Col xl={4}>
+                                            <Col xl={6}>
                                                 <div>
                                                     <Form.Group controlId="exampleForm.ControlInput4">
                                                         <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Tahun Ajaran <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
-                                                        <Form.Control type="text" placeholder="Contoh: 2024" autoComplete="off" style={{ fontSize: '14px' }} defaultValue={reportData ? reportData.academicYear : null} ref={academicYearField}/>
+                                                        <Form.Control type="text" placeholder="Contoh: 2024" autoComplete="off" style={{ fontSize: '14px' }} defaultValue={reportData ? reportData.academicYear : null} ref={academicYearField} />
                                                     </Form.Group>
                                                 </div>
                                             </Col>
@@ -216,7 +228,7 @@ const ExpertiseGroupUpdateReport = () => {
                                                                 style={{ display: 'none' }}
                                                             />
                                                             <Row>
-                                                            {
+                                                                {
                                                                     files.length > 0 ? (
                                                                         <Col xl={12} className="d-flex justify-content-start">
                                                                             <div style={{ display: 'flex', gap: '10px', padding: '5px 10px', background: '#FAFAFA', borderRadius: '4px', zIndex: '999' }}>

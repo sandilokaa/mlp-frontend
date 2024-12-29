@@ -197,14 +197,11 @@ const ExpertiseGroupLecturerList = () => {
                             <Col xl={3}>
                                 <h6>Nama Dosen</h6>
                             </Col>
-                            <Col xl={3} className="text-center">
+                            <Col xl={4} className="text-center">
                                 <h6>Kelompok Keahlian</h6>
                             </Col>
                             <Col xl={2} className="text-center">
                                 <h6>Email</h6>
-                            </Col>
-                            <Col xl={1} className="text-center">
-                                <h6>Skor</h6>
                             </Col>
                             <Col xl={2} className="text-center">
                                 <h6>Action</h6>
@@ -225,18 +222,11 @@ const ExpertiseGroupLecturerList = () => {
                                         <Col xl={3}>
                                             <h6>{lecturer.Lecturer.name}</h6>
                                         </Col>
-                                        <Col xl={3} className="text-center" style={{ marginLeft: '5px' }}>
+                                        <Col xl={4} className="text-center" style={{ marginLeft: '5px' }}>
                                             <h6>{lecturer.Lecturer.groupName}</h6>
                                         </Col>
                                         <Col xl={2} className="text-center" style={{ marginLeft: '5px' }}>
                                             <h6>{lecturer.Lecturer.email}</h6>
-                                        </Col>
-                                        <Col xl={1} className="text-center">
-                                            {lecturer && lecturer.averageValue ? (
-                                                <h6>{lecturer.averageValue}</h6>
-                                            ) : (
-                                                <h6><span style={{ color: '#EA4D55' }}>*</span> Belum dinilai</h6>
-                                            )}
                                         </Col>
                                         <Col xl={2} className="text-center" style={{ marginLeft: '2px' }}>
                                             <Row style={{ display: 'flex', padding: '0', margin: '0' }}>

@@ -19,7 +19,7 @@ import CloseIcon from "../../../assets/images/icons/Close.svg";
 
 import "../../../assets/css/style.css";
 
-const AddAssignment = () => {
+const AddPublication = () => {
 
     /* -------------------- Global Variable -------------------- */
 
@@ -58,33 +58,31 @@ const AddAssignment = () => {
     /* --------- End Upload File ---------*/
 
 
-    /* -------------------- Handle Create Assignment -------------------- */
+    /* -------------------- Handle Create Publication -------------------- */
 
-    const assignmentNameField = useRef();
-    const assignmentTypeField = useRef();
-    const assignmentDescriptionField = useRef();
-    const assignmentPeriodField = useRef();
-    const academicYearField = useRef();
+    const publicationTitleField = useRef();
+    const publicationTypeField = useRef();
+    const publicationJournalNameField = useRef();
+    const publicationURLPublicationField = useRef();
 
-    const onCreateAssignment = async () => {
+    const onCreatePublication = async () => {
 
         try {
 
             const token = localStorage.getItem("token");
 
-            const assignmentPayload = new FormData();
-            assignmentPayload.append("assignmentName", assignmentNameField.current.value);
-            assignmentPayload.append("assignmentType", assignmentTypeField.current.value);
-            assignmentPayload.append("assignmentDescription", assignmentDescriptionField.current.value);
-            assignmentPayload.append("assignmentPeriod", assignmentPeriodField.current.value);
-            assignmentPayload.append("academicYear", academicYearField.current.value);
+            const publicationPayload = new FormData();
+            publicationPayload.append("publicationTitle", publicationTitleField.current.value);
+            publicationPayload.append("publicationType", publicationTypeField.current.value);
+            publicationPayload.append("journalName", publicationJournalNameField.current.value);
+            publicationPayload.append("urlPublication", publicationURLPublicationField.current.value);
             files.forEach((file) => {
-                assignmentPayload.append(`assignmentFile`, file);
+                publicationPayload.append(`publicationFile`, file);
             });
 
-            const assignmentPayloadRequest = await axios.post(
-                `http://localhost:8080/api/v1/lecturer/assignment`,
-                assignmentPayload,
+            const publicationPayloadRequest = await axios.post(
+                `http://localhost:8080/api/v1/lecturer/publication`,
+                publicationPayload,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -94,13 +92,13 @@ const AddAssignment = () => {
                 }
             );
 
-            const assignmentPayloadResponse = assignmentPayloadRequest.data;
+            const publicationPayloadResponse = publicationPayloadRequest.data;
 
-            enqueueSnackbar(assignmentPayloadResponse.message, { variant: 'success', anchorOrigin: { vertical: 'top', horizontal: 'center' }, autoHideDuration: 2000 });
+            enqueueSnackbar(publicationPayloadResponse.message, { variant: 'success', anchorOrigin: { vertical: 'top', horizontal: 'center' }, autoHideDuration: 2000 });
 
-            if (assignmentPayloadResponse.status) {
+            if (publicationPayloadResponse.status) {
 
-                navigate("/lecturer/assignment");
+                navigate("/lecturer/publication");
 
             }
 
@@ -112,7 +110,7 @@ const AddAssignment = () => {
 
     };
 
-    /* -------------------- End Handle Create Assignment -------------------- */
+    /* -------------------- End Handle Create Publication -------------------- */
 
 
     return (
@@ -122,68 +120,57 @@ const AddAssignment = () => {
                 <Container fluid style={{ padding: '0 32px' }}>
                     <Row className="add-research-title">
                         <Col xl={12} className="d-flex align-items-center">
-                            <Image onClick={() => navigate('/lecturer/assignment')} src={ArrowLeft} style={{ marginRight: '16px', cursor: 'pointer' }} />
-                            <h1>Tambah Penugasan</h1>
+                            <Image onClick={() => navigate('/lecturer/publication')} src={ArrowLeft} style={{ marginRight: '16px', cursor: 'pointer' }} />
+                            <h1>Tambah Publikasi</h1>
                         </Col>
                     </Row>
                     <Row className="form-research">
                         <Col xl={12}>
                             <div style={{ background: '#FFFFFF', padding: '16px', borderRadius: '8px' }}>
-                                <h1>Formulir Penugasan</h1>
+                                <h1>Formulir Publikasi</h1>
                                 <div className="form-research-input">
                                     <Form>
                                         <Row>
-                                            <Col xl={6}>
-                                                <div>
-                                                    <Form.Group controlId="exampleForm.ControlInput1">
-                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Nama penugasan <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
-                                                        <Form.Control type="text" placeholder="Masukan nama penugasan" autoComplete="off" style={{ fontSize: '14px' }} ref={assignmentNameField} />
-                                                    </Form.Group>
-                                                </div>
-                                            </Col>
-                                            <Col xl={6}>
-                                                <div>
-                                                    <Form.Group controlId="exampleForm.ControlInput2">
-                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Jenis penugasan <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
-                                                        <Form.Control type="text" placeholder="Masukan jenis" autoComplete="off" style={{ fontSize: '14px' }} ref={assignmentTypeField} />
-                                                    </Form.Group>
-                                                </div>
-                                            </Col>
-                                        </Row>
-                                        <Row className="mt-3">
-                                            <Col xl={3}>
-                                                <div>
-                                                    <Form.Group controlId="exampleForm.ControlInput3">
-                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Periode pengabdian <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
-                                                        <Form.Control type="text" placeholder="Masukan periode" autoComplete="off" style={{ fontSize: '14px' }} ref={assignmentPeriodField} />
-                                                    </Form.Group>
-                                                </div>
-                                            </Col>
-                                            <Col xl={3}>
-                                                <div>
-                                                    <Form.Group controlId="exampleForm.ControlInput4">
-                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Tahun ajaran <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
-                                                        <Form.Control type="text" placeholder="Masukan tahun ajaran" autoComplete="off" style={{ fontSize: '14px' }} ref={academicYearField} />
-                                                    </Form.Group>
-                                                </div>
-                                            </Col>
-                                        </Row>
-                                        <Row className="mt-3">
                                             <Col xl={12}>
                                                 <div>
-                                                    <Form.Group controlId="exampleForm.ControlInput2">
-                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Deskripsi penugasan <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
-                                                        <Form.Control type="text" placeholder="Masukan deskripsi" autoComplete="off" style={{ fontSize: '14px' }} ref={assignmentDescriptionField} />
+                                                    <Form.Group controlId="exampleForm.ControlInput1">
+                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Judul Publikasi <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
+                                                        <Form.Control type="text" placeholder="Masukan judul publikasi" autoComplete="off" style={{ fontSize: '14px' }} ref={publicationTitleField} />
                                                     </Form.Group>
                                                 </div>
                                             </Col>
                                         </Row>
-
+                                        <Row className="mt-3">
+                                            <Col xl={4}>
+                                                <div>
+                                                    <Form.Group controlId="exampleForm.ControlInput2">
+                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Jenis publikasi <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
+                                                        <Form.Control type="text" placeholder="Masukan jenis publikasi" autoComplete="off" style={{ fontSize: '14px' }} ref={publicationTypeField} />
+                                                    </Form.Group>
+                                                </div>
+                                            </Col>
+                                            <Col xl={4}>
+                                                <div>
+                                                    <Form.Group controlId="exampleForm.ControlInput3">
+                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Nama Jurnal <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
+                                                        <Form.Control type="text" placeholder="Masukan nama jurnal" autoComplete="off" style={{ fontSize: '14px' }} ref={publicationJournalNameField} />
+                                                    </Form.Group>
+                                                </div>
+                                            </Col>
+                                            <Col xl={4}>
+                                                <div>
+                                                    <Form.Group controlId="exampleForm.ControlInput4">
+                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>URL Publikasi <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
+                                                        <Form.Control type="text" placeholder="Masukan url publikasi" autoComplete="off" style={{ fontSize: '14px' }} ref={publicationURLPublicationField} />
+                                                    </Form.Group>
+                                                </div>
+                                            </Col>
+                                        </Row>
                                         <Row className="mt-3">
                                             <Col xl={12}>
                                                 <div>
                                                     <Form.Group>
-                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Upload lampiran penugasan <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
+                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Upload Lampiran Publikasi <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
                                                         <div
                                                             className="form-upload"
                                                             style={{ padding: '30px', border: '1px solid #EFEFEF', borderRadius: '8px', cursor: 'pointer' }}
@@ -227,7 +214,7 @@ const AddAssignment = () => {
                                         </Row>
                                         <Row className="mt-4">
                                             <Col xl={12} className="d-flex justify-content-end">
-                                                <Button onClick={onCreateAssignment} style={{ background: '#D62C35', border: 'none', fontSize: '16px' }}> Tambah Penugasan </Button>
+                                                <Button onClick={onCreatePublication} style={{ background: '#D62C35', border: 'none', fontSize: '16px' }}> Tambah Publikasi </Button>
                                             </Col>
                                         </Row>
                                     </Form>
@@ -243,4 +230,4 @@ const AddAssignment = () => {
 
 };
 
-export default AddAssignment;
+export default AddPublication;

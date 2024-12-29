@@ -119,7 +119,7 @@ const LectureDevotion = () => {
     /* ================ Pagination ================ */
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(4);
+    const [itemsPerPage] = useState(5);
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -164,11 +164,8 @@ const LectureDevotion = () => {
                                     <Col xl={5}>
                                         <h6>Judul Pengabdian</h6>
                                     </Col>
-                                    <Col xl={2} className="text-center">
+                                    <Col xl={4} className="text-center">
                                         <h6>Role</h6>
-                                    </Col>
-                                    <Col xl={2} className="text-center">
-                                        <h6>Skor</h6>
                                     </Col>
                                     <Col xl={2} className="text-center">
                                         <h6>Action</h6>
@@ -197,15 +194,8 @@ const LectureDevotion = () => {
                                                 <Col xl={5}>
                                                     <h6>{devotion.devotionName}</h6>
                                                 </Col>
-                                                <Col xl={2} className="text-center">
+                                                <Col xl={4} className="text-center">
                                                     <h6>{devotion.devotionRole}</h6>
-                                                </Col>
-                                                <Col xl={2} className="text-center">
-                                                    {devotion && devotion.devotionValue ? (
-                                                        <h6>{devotion.devotionValue}</h6>
-                                                    ) : (
-                                                        <h6>?</h6>
-                                                    )}
                                                 </Col>
                                                 <Col xl={2} className="text-center" style={{ marginLeft: '4px' }}>
                                                     <Row style={{ display: 'flex', padding: '0', margin: '0' }}>

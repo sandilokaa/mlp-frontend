@@ -169,24 +169,6 @@ const DevotionDetail = () => {
                                 </div>
                             </div>
                         </Col>
-                        <Col xl={3}>
-                            <div style={{ padding: '16px', backgroundColor: '#FFFFFF', borderRadius: '8px', marginTop: '20px' }}>
-                                <Row>
-                                    <Col xl={12} className="d-flex justify-content-start align-items-center">
-                                        <h5 style={{ fontSize: '14px', fontWeight: '700', color: '#292929', margin: 'auto 0' }}>Nilai Penelitian</h5>
-                                    </Col>
-                                </Row>
-                                <Row className="mt-4">
-                                    <Col xl={12} className="d-flex justify-content-start align-items-center">
-                                        {devotionData && devotionData.devotionValue? (
-                                            <p style={{ color: '#292929', fontSize: '24px', fontWeight: '700' }}>{devotionData.devotionValue}</p>
-                                        ) : (
-                                            <p style={{ color: '#989898' }}>Pengabdian Belum Dinilai</p>
-                                        )}
-                                    </Col>
-                                </Row>
-                            </div>
-                        </Col>
                     </Row>
                 </Container>
             </div>

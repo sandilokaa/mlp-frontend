@@ -206,7 +206,7 @@ const ExpertiseGroupDevotion = () => {
     /* ================ Pagination ================ */
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(4);
+    const [itemsPerPage] = useState(5);
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -262,7 +262,7 @@ const ExpertiseGroupDevotion = () => {
                                     <Col xl={1}>
                                         <h6>No</h6>
                                     </Col>
-                                    <Col xl={4}>
+                                    <Col xl={6}>
                                         <h6>Judul Pengabdian</h6>
                                     </Col>
                                     <Col xl={2} className="text-center">
@@ -270,9 +270,6 @@ const ExpertiseGroupDevotion = () => {
                                     </Col>
                                     <Col xl={2} className="text-center">
                                         <h6>Email</h6>
-                                    </Col>
-                                    <Col xl={2} className="text-center">
-                                        <h6>Skor</h6>
                                     </Col>
                                     <Col xl={1} className="text-center">
                                         <h6>Action</h6>
@@ -289,23 +286,16 @@ const ExpertiseGroupDevotion = () => {
                                                 <Col xl={1}>
                                                     <h6>{displayIndex}</h6>
                                                 </Col>
-                                                <Col xl={4}>
+                                                <Col xl={6}>
                                                     <h6>{devotion.devotionName}</h6>
                                                 </Col>
-                                                <Col xl={2} className="text-center">
+                                                <Col xl={2} className="text-center" style={{ marginLeft: '8px' }}>
                                                     <h6>{devotion.Lecturer.name}</h6>
                                                 </Col>
-                                                <Col xl={2} className="text-center" style={{ marginLeft: '8px' }}>
+                                                <Col xl={2} className="text-center" style={{ marginLeft: '6px' }}>
                                                     <h6>{devotion.Lecturer.email}</h6>
                                                 </Col>
-                                                <Col xl={2} className="text-center" style={{ marginLeft: '5px' }}>
-                                                    {devotion && devotion.devotionValue ? (
-                                                        <h6>{devotion.devotionValue}</h6>
-                                                    ) : (
-                                                        <h6><span style={{ color: '#EA4D55' }}>*</span> Perlu dinilai</h6>
-                                                    )}
-                                                </Col>
-                                                <Col xl={1} className="text-center" style={{ marginLeft: '4px' }}>
+                                                <Col xl={1} className="text-center" style={{ marginLeft: '1px' }}>
                                                     <Row style={{ display: 'flex', padding: '0', margin: '0' }}>
                                                         <Col xl={12} className="d-flex justify-content-center p-0">
                                                             <span className="view" onClick={() => navigate(`/expertisegroup/devotion/detail/${devotion.id}`)}>

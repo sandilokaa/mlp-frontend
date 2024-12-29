@@ -75,7 +75,7 @@ const DeanReport = () => {
     /* ================ Pagination ================ */
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(4);
+    const [itemsPerPage] = useState(5);
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -119,11 +119,14 @@ const DeanReport = () => {
                                     <Col xl={1}>
                                         <h6>No</h6>
                                     </Col>
-                                    <Col xl={5}>
+                                    <Col xl={4}>
                                         <h6>Judul Laporan</h6>
                                     </Col>
-                                    <Col xl={3} className="text-center">
+                                    <Col xl={2} className="text-center">
                                         <h6>Kelompok Keahlian</h6>
+                                    </Col>
+                                    <Col xl={2} className="text-center">
+                                        <h6>Jenis Laporan</h6>
                                     </Col>
                                     <Col xl={2} className="text-center">
                                         <h6>Last Updated</h6>
@@ -143,13 +146,16 @@ const DeanReport = () => {
                                                 <Col xl={1}>
                                                     <h6>{displayIndex}</h6>
                                                 </Col>
-                                                <Col xl={5}>
+                                                <Col xl={4}>
                                                     <h6>{report.reportName}</h6>
                                                 </Col>
-                                                <Col xl={3} className="text-center" style={{ marginLeft: '5px' }}>
+                                                <Col xl={2} className="text-center" style={{ marginLeft: '2px' }}>
                                                     <h6>{report.SuperAdmin.groupName}</h6>
                                                 </Col>
-                                                <Col xl={2} className="text-center" style={{ marginLeft: '5px' }}>
+                                                <Col xl={2} className="text-center" style={{ marginLeft: '2px' }}>
+                                                    <h6>{report.reportType}</h6>
+                                                </Col>
+                                                <Col xl={2} className="text-center" style={{ marginLeft: '7px' }}>
                                                     <h6>{formatDate(report.updatedAt)}</h6>
                                                 </Col>
                                                 <Col xl={1} className="text-center" style={{ marginLeft: '3px' }}>
@@ -172,7 +178,7 @@ const DeanReport = () => {
                                         key={number}
                                         active={number === currentPage}
                                         onClick={() => handlePageChange(number)}
-                                        linkStyle={{ backgroundColor: number === currentPage ? '#D62C35' : '#FEF2F3', border: number === currentPage ? '1px solid #D62C35' : '1px solid #FEF2F3' }}
+                                        linkStyle={{ backgroundColor: number === currentPage ? '#D62C35' : '#FEF2F3', border: number === currentPage ? '1px solid #D62C35' : '1px solid #FEF2F3', color: '#FFFFFF' }}
                                     >
                                         {number}
                                     </Pagination.Item>

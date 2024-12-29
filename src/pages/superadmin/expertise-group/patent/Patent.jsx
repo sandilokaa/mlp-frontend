@@ -14,7 +14,7 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
 import SuperadminDashboardLayout from "../../../../layouts/dashboard/SuperadminDashboardLayout";
-import { usePeriod } from "../../../../PeriodProvider";
+import { formatDate } from "../../../../helper/formatDate";
 
 import LogoImage from "../../../../assets/images/logo.png";
 import ViewIcon from "../../../../assets/images/icons/eye.svg";
@@ -22,7 +22,7 @@ import ExportIcon from "../../../../assets/images/icons/export.svg";
 
 import "../../../../assets/css/style.css";
 
-const ExpertiseGroupAssignment = () => {
+const ExpertiseGroupPatent = () => {
 
 
     /* -------------------- Global Variable -------------------- */
@@ -30,7 +30,6 @@ const ExpertiseGroupAssignment = () => {
     const navigate = useNavigate();
 
     /* -------------------- End Global Variable -------------------- */
-
 
     /* ================ Get Current User ================ */
 
@@ -79,41 +78,37 @@ const ExpertiseGroupAssignment = () => {
     /* ================ Get Current User ================ */
 
 
-    /* ================ Get Assignment Data ================ */
+    /* ================ Get Patent Data ================ */
 
-    const [assignmentData, setAssignmentData] = useState([]);
+    const [patentData, setPatentData] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
-    const { selectedPeriod } = usePeriod();
-    const [assignmentPeriod, academicYear] = selectedPeriod.split(' ');
 
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
     };
 
-    const getAssignmentData = async () => {
+    const getPatentData = async () => {
 
         try {
 
             const token = localStorage.getItem("token");
 
             const getDataRequest = await axios.get(
-                `http://localhost:8080/api/v1/superadmin/${superadmin.id}/assignment`,
+                `http://localhost:8080/api/v1/superadmin/${superadmin.id}/patent`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
                         "Access-Control-Allo-Origin": "*"
                     },
                     params: {
-                        assignmentName: searchTerm,
-                        assignmentPeriod: assignmentPeriod,
-                        academicYear: academicYear
+                        patentTitle: searchTerm
                     }
                 }
             );
 
-            const getDataResponse = await getDataRequest.data.data.getAssignment;
+            const getDataResponse = await getDataRequest.data.data.getPatent;
 
-            setAssignmentData(getDataResponse);
+            setPatentData(getDataResponse);
 
         } catch (err) {
             console.log(err);
@@ -123,23 +118,23 @@ const ExpertiseGroupAssignment = () => {
 
     useEffect(() => {
 
-        getAssignmentData();
+        getPatentData();
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [searchTerm, selectedPeriod, superadmin.id]);
+    }, [searchTerm]);
 
-    /* ================ End Get Devotion Data ================ */
+    /* ================ End Get Patent Data ================ */
 
 
-    /* ================ Export Assignment Data ================ */
+    /* ================ Export Patent Data ================ */
 
-    const exportAssignmentData = async () => {
+    const exportPatentData = async () => {
 
         const today = new Date();
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         const formattedDate = today.toLocaleDateString('id-ID', options);
 
-        if (assignmentData) {
+        if (patentData) {
 
             const doc = new jsPDF();
 
@@ -156,7 +151,7 @@ const ExpertiseGroupAssignment = () => {
 
             doc.setFont('Times-Bold');
             doc.setFontSize(16);
-            doc.text('Laporan Penugasan Dosen', textXPosition, marginTop + 10);
+            doc.text('Laporan Paten Dosen', textXPosition, marginTop + 10);
 
             doc.setFont('Times-Roman');
             doc.setFontSize(12);
@@ -172,10 +167,10 @@ const ExpertiseGroupAssignment = () => {
 
             const tableData = []
 
-            tableData.push(['No', 'Judul Pengabdian', 'Nama Dosen', 'Email', 'Skor']);
+            tableData.push(['No', 'Judul Paten', 'Nama Dosen', 'Email']);
 
-            assignmentData.map((item, index) => {
-                return tableData.push([index + 1, item.assignmentName, item.Lecturer.name, item.Lecturer.email, item.assignmentValue]);
+            patentData.map((item, index) => {
+                return tableData.push([index + 1, item.patentTitle, item.Lecturer.name, item.Lecturer.email]);
             });
 
             const startY = 60;
@@ -194,31 +189,32 @@ const ExpertiseGroupAssignment = () => {
 
             /* ------ Unduh dokumen PDF ------ */
 
-            doc.save('data-penugasan.pdf', { autoDownload: false });
+            doc.save('data-paten.pdf', { autoDownload: false });
 
         }
     };
 
-    /* ================ End Export Devotion Data ================ */
+    /* ================ End Export Patent Data ================ */
 
 
     /* ================ Pagination ================ */
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(4);
+    const [itemsPerPage] = useState(5);
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = assignmentData.slice(indexOfFirstItem, indexOfLastItem);
+    const currentItems = patentData.slice(indexOfFirstItem, indexOfLastItem);
 
     const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
     const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(assignmentData.length / itemsPerPage); i++) {
+    for (let i = 1; i <= Math.ceil(patentData.length / itemsPerPage); i++) {
         pageNumbers.push(i);
     }
 
     /* ================ End Pagination ================ */
+
 
     return (
 
@@ -228,14 +224,14 @@ const ExpertiseGroupAssignment = () => {
                     <div className="add-research-content">
                         <Row>
                             <Col xl={12}>
-                                <h1 style={{ fontSize: '16px', fontWeight: '700' }}>Daftar Penugasan</h1>
+                                <h1 style={{ fontSize: '16px', fontWeight: '700' }}>Daftar Paten</h1>
                             </Col>
                         </Row>
                         <Row>
                             <Col xl={2} className="mt-4">
                                 <Button
                                     style={{ width: '120px', height: '100%', fontSize: '14px' }}
-                                    onClick={exportAssignmentData}
+                                    onClick={exportPatentData}
                                 >
                                     Export <Image src={ExportIcon} style={{ marginLeft: '8px', width: '20px', }} />
                                 </Button>
@@ -262,52 +258,57 @@ const ExpertiseGroupAssignment = () => {
                                         <h6>No</h6>
                                     </Col>
                                     <Col xl={4}>
-                                        <h6>Judul Pengabdian</h6>
+                                        <h6>Judul Paten</h6>
                                     </Col>
                                     <Col xl={2} className="text-center">
                                         <h6>Nama Dosen</h6>
                                     </Col>
                                     <Col xl={2} className="text-center">
-                                        <h6>Email</h6>
+                                        <h6>Nomor Pencatatan</h6>
                                     </Col>
                                     <Col xl={2} className="text-center">
-                                        <h6>Skor</h6>
+                                        <h6>Jenis Ciptaan</h6>
                                     </Col>
                                     <Col xl={1} className="text-center">
                                         <h6>Action</h6>
                                     </Col>
                                 </Row>
                                 <hr style={{ marginTop: '10px' }} />
-                                {currentItems.map((assignment, index) => {
+                                {currentItems.map((patent, index) => {
+
+                                    const colStyle = {
+                                        backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FAFAFA',
+                                        padding: '16px 12px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        borderRadius: '8px',
+                                        marginLeft: '5px'
+                                    };
 
                                     const displayIndex = (index + 1).toString().padStart(2, '0');
 
                                     return (
-                                        <Row className="table-body" key={assignment.id} style={{ padding: '12px' }}>
-                                            <div className="d-flex align-items-center" style={{ padding: '16px 20px', backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FAFAFA' }}>
+                                        <Row className="table-body" key={patent.id} style={{ padding: '12px' }}>
+                                            <div style={colStyle}>
                                                 <Col xl={1}>
                                                     <h6>{displayIndex}</h6>
                                                 </Col>
                                                 <Col xl={4}>
-                                                    <h6>{assignment.assignmentName}</h6>
+                                                    <h6>{patent.patentTitle}</h6>
+                                                </Col>
+                                                <Col xl={2} className="text-center" style={{marginLeft: '-2px'}}>
+                                                    <h6>{patent.Lecturer.name}</h6>
                                                 </Col>
                                                 <Col xl={2} className="text-center">
-                                                    <h6>{assignment.Lecturer.name}</h6>
+                                                    <h6>{patent.registrationNumber}</h6>
                                                 </Col>
-                                                <Col xl={2} className="text-center" style={{ marginLeft: '8px' }}>
-                                                    <h6>{assignment.Lecturer.email}</h6>
+                                                <Col xl={2} className="text-center">
+                                                    <h6>{formatDate(patent.patentDate)}</h6>
                                                 </Col>
-                                                <Col xl={2} className="text-center" style={{ marginLeft: '5px' }}>
-                                                    {assignment && assignment.assignmentValue ? (
-                                                        <h6>{assignment.assignmentValue}</h6>
-                                                    ) : (
-                                                        <h6><span style={{ color: '#EA4D55' }}>*</span> Perlu dinilai</h6>
-                                                    )}
-                                                </Col>
-                                                <Col xl={1} className="text-center" style={{ marginLeft: '4px' }}>
+                                                <Col xl={1} className="text-center" style={{ marginLeft: '1px' }}>
                                                     <Row style={{ display: 'flex', padding: '0', margin: '0' }}>
                                                         <Col xl={12} className="d-flex justify-content-center p-0">
-                                                            <span className="view" onClick={() => navigate(`/expertisegroup/assignment/detail/${assignment.id}`)}>
+                                                            <span className="view" onClick={() => navigate(`/expertisegroup/patent/detail/${patent.id}`)}>
                                                                 <Image src={ViewIcon} />
                                                             </span>
                                                         </Col>
@@ -315,7 +316,7 @@ const ExpertiseGroupAssignment = () => {
                                                 </Col>
                                             </div>
                                         </Row>
-                                    )
+                                    );
                                 })}
                             </div>
                             <Pagination style={{ marginTop: '2%' }}>
@@ -335,7 +336,7 @@ const ExpertiseGroupAssignment = () => {
                         <div>
                             <Row>
                                 <Col xl={12} className=" mt-4 d-flex justify-content-center">
-                                    <h1 style={{ fontSize: '16px', color: '#989898', marginTop: '220px' }}>Belum ada penugasan yang ditambahkan pada periode ini.</h1>
+                                    <h1 style={{ fontSize: '16px', color: '#989898', marginTop: '220px' }}>Belum ada hak paten yang ditambahkan pada periode ini.</h1>
                                 </Col>
                             </Row>
                         </div>
@@ -348,4 +349,4 @@ const ExpertiseGroupAssignment = () => {
 
 };
 
-export default ExpertiseGroupAssignment;
+export default ExpertiseGroupPatent;

@@ -19,7 +19,7 @@ import CloseIcon from "../../../assets/images/icons/Close.svg";
 
 import "../../../assets/css/style.css";
 
-const UpdateAssignment = () => {
+const UpdatePublication = () => {
 
     /* -------------------- Global Variable -------------------- */
 
@@ -57,9 +57,9 @@ const UpdateAssignment = () => {
     /* --------- End Upload File ---------*/
 
 
-    /* --------- Get Assignment By Id ---------*/
+    /* --------- Get Publication By Id ---------*/
 
-    const [assignmentData, setAssignmentData] = useState();
+    const [publicationData, setPublicationData] = useState();
 
     const params = useLocation();
 
@@ -67,14 +67,14 @@ const UpdateAssignment = () => {
 
     useEffect(() => {
 
-        const onAssignmentById = async () => {
+        const onPublicationById = async () => {
 
             try {
 
                 const token = localStorage.getItem("token");
 
-                const getAssignmentRequest = await axios.get(
-                    `http://localhost:8080/api/v1/lecturer/assignment/${id}`,
+                const getPublicationRequest = await axios.get(
+                    `http://localhost:8080/api/v1/lecturer/publication/${id}`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -83,9 +83,9 @@ const UpdateAssignment = () => {
                     }
                 );
 
-                const getAssignmentResponse = getAssignmentRequest.data;
+                const getPublicationResponse = getPublicationRequest.data;
 
-                setAssignmentData(getAssignmentResponse.data.getAssignment);
+                setPublicationData(getPublicationResponse.data.getPublication);
 
             } catch (err) {
                 alert(err.message);
@@ -93,41 +93,39 @@ const UpdateAssignment = () => {
 
         };
 
-        onAssignmentById();
+        onPublicationById();
 
     }, [id]);
 
-    /* --------- End Get Devotion By Id ---------*/
+    /* --------- End Get Publication By Id ---------*/
 
 
-    /* -------------------- Handle Update Assignment -------------------- */
+    /* -------------------- Handle Update Publication -------------------- */
 
-    const assignmentNameField = useRef();
-    const assignmentTypeField = useRef();
-    const assignmentDescriptionField = useRef();
-    const assignmentPeriodField = useRef();
-    const academicYearField = useRef();
+    const publicationTitleField = useRef();
+    const publicationTypeField = useRef();
+    const journalNameField = useRef();
+    const urlPublicationField = useRef();
 
-    const onUpdateAssignment = async () => {
+    const onUpdatePublication = async () => {
 
         try {
 
             const token = localStorage.getItem("token");
 
-            const assignmentPayload = new FormData();
-            assignmentPayload.append("assignmentName", assignmentNameField.current.value);
-            assignmentPayload.append("assignmentType", assignmentTypeField.current.value);
-            assignmentPayload.append("assignmentDescription", assignmentDescriptionField.current.value);
-            assignmentPayload.append("assignmentPeriod", assignmentPeriodField.current.value);
-            assignmentPayload.append("academicYear", academicYearField.current.value);
+            const publicationPayload = new FormData();
+            publicationPayload.append("publicationTitle", publicationTitleField.current.value);
+            publicationPayload.append("publicationType", publicationTypeField.current.value);
+            publicationPayload.append("journalName", journalNameField.current.value);
+            publicationPayload.append("urlPublication", urlPublicationField.current.value);
             files.forEach((file) => {
-                assignmentPayload.append(`assignmentFile`, file);
+                publicationPayload.append(`publicationFile`, file);
             });
-            
 
-            const assignmentPayloadRequest = await axios.put(
-                `http://localhost:8080/api/v1/lecturer/assignment/${id}`,
-                assignmentPayload,
+
+            const publicationPayloadRequest = await axios.put(
+                `http://localhost:8080/api/v1/lecturer/publication/${id}`,
+                publicationPayload,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -138,13 +136,13 @@ const UpdateAssignment = () => {
             );
 
 
-            const assignmentPayloadResponse = assignmentPayloadRequest.data;
+            const publicationPayloadResponse = publicationPayloadRequest.data;
 
-            enqueueSnackbar(assignmentPayloadResponse.message, { variant: 'success', anchorOrigin: { vertical: 'top', horizontal: 'center' }, autoHideDuration: 2000 });
+            enqueueSnackbar(publicationPayloadResponse.message, { variant: 'success', anchorOrigin: { vertical: 'top', horizontal: 'center' }, autoHideDuration: 2000 });
 
-            if (assignmentPayloadResponse.status) {
+            if (publicationPayloadResponse.status) {
 
-                navigate("/lecturer/assignment");
+                navigate("/lecturer/publication");
 
             }
 
@@ -156,7 +154,7 @@ const UpdateAssignment = () => {
 
     };
 
-    /* -------------------- End Handle Update Assignment -------------------- */
+    /* -------------------- End Handle Update Publication -------------------- */
 
 
     return (
@@ -166,58 +164,48 @@ const UpdateAssignment = () => {
                 <Container fluid style={{ padding: '0 32px' }}>
                     <Row className="update-research-title">
                         <Col xl={12} className="d-flex align-items-center">
-                            <Image onClick={() => navigate('/lecturer/assignment')} src={ArrowLeft} style={{ marginRight: '16px', cursor: 'pointer' }} />
-                            <h1>Edit Penugasan</h1>
+                            <Image onClick={() => navigate('/lecturer/publication')} src={ArrowLeft} style={{ marginRight: '16px', cursor: 'pointer' }} />
+                            <h1>Edit Publikasi</h1>
                         </Col>
                     </Row>
                     <Row className="form-research">
                         <Col xl={12}>
                             <div style={{ background: '#FFFFFF', padding: '16px', borderRadius: '8px' }}>
-                                <h1>Formulir Penugasan</h1>
+                                <h1>Formulir Publikasi</h1>
                                 <div className="form-research-input">
                                     <Form>
                                         <Row>
-                                            <Col xl={6}>
-                                                <div>
-                                                    <Form.Group controlId="exampleForm.ControlInput1">
-                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Nama Penugasan <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
-                                                        <Form.Control type="text" placeholder="Masukan Nama Penugasan" autoComplete="off" style={{ fontSize: '14px' }} defaultValue={assignmentData ? assignmentData.assignmentName : null} ref={assignmentNameField}/>
-                                                    </Form.Group>
-                                                </div>
-                                            </Col>
-                                            <Col xl={6}>
-                                                <div>
-                                                    <Form.Group controlId="exampleForm.ControlInput1">
-                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Jenis Penugasan <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
-                                                        <Form.Control type="text" placeholder="Masukan Jenis Penugasan" autoComplete="off" style={{ fontSize: '14px' }} defaultValue={assignmentData ? assignmentData.assignmentType : null} ref={assignmentTypeField}/>
-                                                    </Form.Group>
-                                                </div>
-                                            </Col>
-                                        </Row>
-                                        <Row className="mt-3">
-                                            <Col xl={3}>
-                                                <div>
-                                                    <Form.Group controlId="exampleForm.ControlInput3">
-                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Periode pengabdian <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
-                                                        <Form.Control type="text" placeholder="Masukan periode" autoComplete="off" style={{ fontSize: '14px' }} ref={assignmentPeriodField} />
-                                                    </Form.Group>
-                                                </div>
-                                            </Col>
-                                            <Col xl={3}>
-                                                <div>
-                                                    <Form.Group controlId="exampleForm.ControlInput4">
-                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Tahun ajaran <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
-                                                        <Form.Control type="text" placeholder="Masukan tahun ajaran" autoComplete="off" style={{ fontSize: '14px' }} ref={academicYearField} />
-                                                    </Form.Group>
-                                                </div>
-                                            </Col>
-                                        </Row>
-                                        <Row className="mt-3">
                                             <Col xl={12}>
                                                 <div>
                                                     <Form.Group controlId="exampleForm.ControlInput1">
-                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Deskripsi Penugasan <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
-                                                        <Form.Control type="text" placeholder="Masukan Deskripsi" autoComplete="off" style={{ fontSize: '14px' }} defaultValue={assignmentData ? assignmentData.assignmentDescription : null} ref={assignmentDescriptionField}/>
+                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Judul Publikasi <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
+                                                        <Form.Control type="text" placeholder="Masukan Judul Publikasi" autoComplete="off" style={{ fontSize: '14px' }} defaultValue={publicationData ? publicationData.publicationTitle : null} ref={publicationTitleField} />
+                                                    </Form.Group>
+                                                </div>
+                                            </Col>
+                                        </Row>
+                                        <Row className="mt-3">
+                                            <Col xl={4}>
+                                                <div>
+                                                    <Form.Group controlId="exampleForm.ControlInput1">
+                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Jenis Publikasi <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
+                                                        <Form.Control type="text" placeholder="Masukan Jenis Publikasi" autoComplete="off" style={{ fontSize: '14px' }} defaultValue={publicationData ? publicationData.publicationType : null} ref={publicationTypeField} />
+                                                    </Form.Group>
+                                                </div>
+                                            </Col>
+                                            <Col xl={4}>
+                                                <div>
+                                                    <Form.Group controlId="exampleForm.ControlInput3">
+                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Nama Jurnal <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
+                                                        <Form.Control type="text" placeholder="Masukan Nama Jurnal" autoComplete="off" style={{ fontSize: '14px' }} defaultValue={publicationData ? publicationData.journalName : null} ref={journalNameField} />
+                                                    </Form.Group>
+                                                </div>
+                                            </Col>
+                                            <Col xl={4}>
+                                                <div>
+                                                    <Form.Group controlId="exampleForm.ControlInput4">
+                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>URL Publikasi <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
+                                                        <Form.Control type="text" placeholder="Masukan URL Publikasi" autoComplete="off" style={{ fontSize: '14px' }} defaultValue={publicationData ? publicationData.urlPublication : null} ref={urlPublicationField} />
                                                     </Form.Group>
                                                 </div>
                                             </Col>
@@ -226,7 +214,7 @@ const UpdateAssignment = () => {
                                             <Col xl={12}>
                                                 <div>
                                                     <Form.Group>
-                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Upload Dokumen Penugasan <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
+                                                        <Form.Label style={{ fontSize: '14px', color: '#292929' }}>Upload Dokumen Publikasi <span style={{ color: '#EA4D55' }}>*</span></Form.Label>
                                                         <div
                                                             className="form-upload"
                                                             style={{ padding: '30px', border: '1px solid #EFEFEF', borderRadius: '8px', cursor: 'pointer' }}
@@ -240,7 +228,7 @@ const UpdateAssignment = () => {
                                                                 multiple
                                                                 onChange={handleFileChange}
                                                                 style={{ display: 'none' }}
-                                                                defaultValue={assignmentData ? assignmentData.assignmentFile : null}
+                                                                defaultValue={publicationData ? publicationData.researchFile : null}
                                                             />
                                                             <Row>
                                                                 {
@@ -254,13 +242,13 @@ const UpdateAssignment = () => {
                                                                         </Col>
                                                                     ) : (
                                                                         <>
-                                                                            {assignmentData ? (
+                                                                            {publicationData ? (
                                                                                 <Col xl={12} className="d-flex justify-content-start">
                                                                                     <div style={{ display: 'flex', gap: '10px', padding: '5px 10px', background: '#FAFAFA', borderRadius: '4px', zIndex: '999' }}>
                                                                                         <Image src={UploadIcon} style={{ width: '15px' }} />
                                                                                         <p style={{ margin: 'auto 0', color: '#292929' }}>
-                                                                                            {assignmentData
-                                                                                                ? assignmentData.assignmentFile
+                                                                                            {publicationData
+                                                                                                ? publicationData.publicationFile
                                                                                                 : files.map(file => file.name).join(', ')
                                                                                             }
                                                                                         </p>
@@ -288,7 +276,7 @@ const UpdateAssignment = () => {
                                         </Row>
                                         <Row className="mt-4">
                                             <Col xl={12} className="d-flex justify-content-end">
-                                                <Button onClick={onUpdateAssignment} style={{ background: '#D62C35', border: 'none', fontSize: '16px' }}> Simpan Perubahan </Button>
+                                                <Button onClick={onUpdatePublication} style={{ background: '#D62C35', border: 'none', fontSize: '16px' }}> Simpan Perubahan </Button>
                                             </Col>
                                         </Row>
                                     </Form>
@@ -304,4 +292,4 @@ const UpdateAssignment = () => {
 
 };
 
-export default UpdateAssignment;
+export default UpdatePublication;

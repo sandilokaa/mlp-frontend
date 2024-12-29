@@ -7,15 +7,15 @@ const SuperadminDashboardLayout = ({ children }) => {
 
     return (
 
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex', minHeight: '100vh' }}>
             <div>
                 <SuperadminSidebar />
             </div>
-            <div style={{ width: '100%', backgroundColor: '#FAFAFA' }}>
+            <div className="d-flex" style={{ width: '100%', backgroundColor: '#FAFAFA', flexDirection: 'column' }}>
                 <div style={{ backgroundColor: '#FFFFFF' }}>
                     <SuperadminNavbar />
                 </div>
-                <div>
+                <div style={{ flexGrow: 1, overflow: 'auto' }}>
                     {children}
                 </div>
             </div>
