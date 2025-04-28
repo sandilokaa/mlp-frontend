@@ -44,7 +44,6 @@ const DeanLecturerDetail = () => {
                     },
                     params: {
                         devotionPeriod: period,
-                        assignmentPeriod: period,
                         academicYear: academicYear
                     }
                 }
@@ -255,50 +254,6 @@ const DeanLecturerDetail = () => {
                                             })
                                         ) : (
                                             <p style={{fontSize: '14px'}}><span style={{ color: '#EA4D55' }}>*</span> Belum ada pengabdian.</p>
-                                        )
-                                    }
-                                </Col>
-                                <Col xl={12} style={{ padding: '20px', background: '#FFFFFF', borderRadius: '8px', height: 'fit-content', marginTop: '20px' }}>
-                                    <div>
-                                        <h1 style={{ fontSize: '14px', fontWeight: '700' }}>Riwayat Penugasan</h1>
-                                    </div>
-                                    <div className="history-table-head">
-                                        <Row>
-                                            <Col xl={1}>
-                                                <h1>No</h1>
-                                            </Col>
-                                            <Col xl={9}>
-                                                <h1>Judul Penugasan</h1>
-                                            </Col>
-                                            <Col xl={2} className="text-center">
-                                                <h1>Skor</h1>
-                                            </Col>
-                                        </Row>
-                                    </div>
-                                    <hr />
-                                    {
-                                        lecturerData?.Assignments?.length > 0 ? (
-                                            lecturerData.Assignments.map((assignment, index) => {
-                                                const displayIndex = (index + 1).toString().padStart(2, '0');
-
-                                                return (
-                                                    <div className="history-table-body" key={assignment.id}>
-                                                        <Row>
-                                                            <Col xl={1}>
-                                                                <p>{displayIndex}</p>
-                                                            </Col>
-                                                            <Col xl={9}>
-                                                                <p>{assignment.assignmentName}</p>
-                                                            </Col>
-                                                            <Col xl={2} className="text-center">
-                                                                <p>{assignment.assignmentValue}</p>
-                                                            </Col>
-                                                        </Row>
-                                                    </div>
-                                                )
-                                            })
-                                        ) : (
-                                            <p style={{fontSize: '14px'}}><span style={{ color: '#EA4D55' }}>*</span> Belum ada penugasan.</p>
                                         )
                                     }
                                 </Col>

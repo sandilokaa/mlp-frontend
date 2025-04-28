@@ -11,7 +11,7 @@ import { usePeriod } from "../../../../PeriodProvider";
 
 import SuperadminDashboardLayout from "../../../../layouts/dashboard/SuperadminDashboardLayout";
 
-import ProfileImage from "../../../../assets/images/profile.png";
+import ProfileImage from "../../../../assets/images/profile.svg";
 import ArrowLeft from "../../../../assets/images/icons/arrow-left.svg";
 
 import "../../../../assets/css/style.css";
@@ -46,7 +46,6 @@ const ExpertiseGroupLectureDetail = () => {
                     },
                     params: {
                         devotionPeriod: period,
-                        assignmentPeriod: period,
                         academicYear: academicYear
                     }
                 }
@@ -117,7 +116,7 @@ const ExpertiseGroupLectureDetail = () => {
                             <div className="profile-personal">
                                 <Row>
                                     <Col xl={3}>
-                                        <div className="photo-wrapper" style={{ height: '150px', width: '100%', background: '#989898' }}>
+                                        <div className="photo-wrapper" style={{ height: 'auto', width: '100%' }}>
                                             <Image src={ProfileImage} style={{ width: '100%', height: '100%' }} />
                                         </div>
                                     </Col>
@@ -253,44 +252,6 @@ const ExpertiseGroupLectureDetail = () => {
                                             })
                                         ) : (
                                             <p style={{ fontSize: '14px' }}><span style={{ color: '#EA4D55' }}>*</span> Belum ada pengabdian.</p>
-                                        )
-                                    }
-                                </Col>
-                                <Col xl={12} style={{ padding: '20px', background: '#FFFFFF', borderRadius: '8px', height: 'fit-content', marginTop: '20px' }}>
-                                    <div>
-                                        <h1 style={{ fontSize: '14px', fontWeight: '700' }}>Riwayat Penugasan</h1>
-                                    </div>
-                                    <div className="history-table-head">
-                                        <Row>
-                                            <Col xl={1}>
-                                                <h1>No</h1>
-                                            </Col>
-                                            <Col xl={11}>
-                                                <h1>Judul Penugasan</h1>
-                                            </Col>
-                                        </Row>
-                                    </div>
-                                    <hr />
-                                    {
-                                        lecturerData?.Assignments?.length > 0 ? (
-                                            lecturerData.Assignments.map((assignment, index) => {
-                                                const displayIndex = (index + 1).toString().padStart(2, '0');
-
-                                                return (
-                                                    <div className="history-table-body" key={assignment.id}>
-                                                        <Row>
-                                                            <Col xl={1}>
-                                                                <p>{displayIndex}</p>
-                                                            </Col>
-                                                            <Col xl={11}>
-                                                                <p>{assignment.assignmentName}</p>
-                                                            </Col>
-                                                        </Row>
-                                                    </div>
-                                                )
-                                            })
-                                        ) : (
-                                            <p style={{ fontSize: '14px' }}><span style={{ color: '#EA4D55' }}>*</span> Belum ada penugasan.</p>
                                         )
                                     }
                                 </Col>

@@ -7,7 +7,7 @@ const CardDashboard = ({title, children}) => {
             <div className="mt-3">
                 {children}
             </div>
-            <div className="d-flex justify-content-center mt-2 gap-2" style={{fontSize: '10px', padding: '0 0 0 45px'}}>
+            <div className="d-flex justify-content-center mt-2 gap-2" style={{fontSize: '8px', padding: '0 0 0 45px'}}>
                 <div className="d-flex align-items-center gap-2">
                     <span style={{ backgroundColor: "#2181E8", height: '16px', width: '20px', borderRadius: '4px' }}></span>
                     <span>Digital Enterprise System and Technology</span>

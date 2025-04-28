@@ -10,7 +10,7 @@ import {
 import axios from "axios";
 
 import SuperadminDashboardLayout from "../../../../layouts/dashboard/SuperadminDashboardLayout";
-import ProfileImage from "../../../../assets/images/profile.png";
+import ProfileImage from "../../../../assets/images/profile.svg";
 
 import EducationIcon from "../../../../assets/images/icons/briefcase-2.svg";
 

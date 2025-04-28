@@ -11,7 +11,7 @@ import axios from "axios";
 
 import SuperadminDashboardLayout from "../../../../layouts/dashboard/SuperadminDashboardLayout";
 
-import ProfileImage from "../../../../assets/images/profile.png";
+import ProfileImage from "../../../../assets/images/profile.svg";
 import EducationIcon from "../../../../assets/images/icons/briefcase-2.svg";
 
 import "../../../../assets/css/style.css";
@@ -101,13 +101,13 @@ const ExpertiseGroupProfile = () => {
                             <div className="profile-personal">
                                 <Row>
                                     <Col xl={3}>
-                                        <div className="photo-wrapper" style={{ height: '150px', width: '100%', background: '#989898' }}>
+                                        <div className="photo-wrapper" style={{ height: 'auto', width: '100%' }}>
                                             <Image src={ProfileImage} style={{ width: '100%', height: '100%' }} />
                                         </div>
-                                        <div className="mt-3" style={{ marginLeft: '4px', marginRight: '4px' }}>
+                                        <div className="mt-2" style={{ marginLeft: '4px', marginRight: '4px' }}>
                                             <Button
                                                 onClick={() => navigate(`/expertisegroup/profile/update/${superadminData ? superadminData.superAdminId : null}`)}
-                                                style={{ fontSize: '14px', border: 'none', backgroundColor: '#D62C35', width: '100%' }}
+                                                style={{ fontSize: '12px', border: 'none', backgroundColor: '#D62C35', width: '100%' }}
                                             >
                                                 Edit Profile
                                             </Button>
